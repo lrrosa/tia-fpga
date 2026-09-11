@@ -4,62 +4,72 @@
 // SPDX-License-Identifier: CERN-OHL-S-2.0
 // Source location: https://github.com/lrrosa/tia-fpga
 //
-// ============================================================================
-// THIS FILE IS DELIBERATELY INCOMPLETE.
-// ============================================================================
+// Pin numbers verified against BOTH revisions of the official Sipeed board
+// schematic — Tang_Nano_9k_3672 and Tang_nano_9K_3674 — which agree exactly.
+// Signal names match the net labels in tia-fpga.kicad_sch (FPGA side).
 //
-// Every IO_LOC below says TODO. The package pin behind each header pin has to be
-// read off the official Sipeed pinout for your board revision:
+// Still check these against the silkscreen on your own board before powering up
+// with a 5 V 6507 on the other side of the bus.
 //
-//   https://dl.sipeed.com/shareURL/TANG/Nano%209K/
-//   https://wiki.sipeed.com/hardware/en/tang/Tang-Nano-9K/Nano-9K.html
+// ===========================================================================
+// HEADER MAP  (Sipeed J5 / J6, 24 pins each)
+// ===========================================================================
+// J5  hdr  FPGA  IO name  board function      J6  hdr  FPGA  IO name  function
+//      1    38   IOB31B   TF_CS                    1    63   IOR5A    RGBINIT
+//      2    37   IOB31A   TF_MOSI                  2    86   IOT8A    1.8 V !
+//      3    36   IOB29B   TF_SCLK                  3    85   IOT8B    1.8 V !
+//      4    39   IOB33A   TF_MISO                  4    84   IOT10A   1.8 V !
+//      5    25   IOB8A    free                     5    83   IOT10B   1.8 V !
+//      6    26   IOB8B    free                     6    82   IOT11A   1.8 V !
+//      7    27   IOB11A   free                     7    81   IOT11B   1.8 V !
+//      8    28   IOB11B   free                     8    80   IOT12A   1.8 V !
+//      9    29   IOB13A   free                     9    79   IOT12B   1.8 V !
+//     10    30   IOB13B   free                    10    77   IOT37A   SPILCD_MO
+//     11    33   IOB23A   RGB_DE                  11    76   IOT37B   SPILCD_MCLK
+//     12    34   IOB23B   RGB_VS                  12-17  --   --      HDMI pairs
+//     13    40   IOB33B   RGB_HS                  18    --   --       +5V
+//     14    35   IOB29A   RGB_CK                  19    48   IOR24B   SPILCD_CS
+//     15    41   IOB41A   RGB_B7                  20    49   IOR24A   SPILCD_RS
+//     16    42   IOB41B   RGB_B6                  21    31   IOB15A   RGBINIT
+//     17    51   IOR17B   RGB_B5                  22    32   IOB15B   RGBINIT
+//     18    53   IOR15B   RGB_B4                  23    --   --       GND
+//     19    54   IOR15A   RGB_B3                  24    --   --       +3V3
+//     20    55   IOR14B   RGB_G7
+//     21    56   IOR14A   RGB_G6
+//     22    57   IOR13A   RGB_G5
+//     23,24  --   --      HDMI_CK_N / HDMI_CK_P
 //
-// Do not copy numbers from anywhere assuming they are right — fill them in from
-// the Sipeed diagram and cross-check against the silkscreen on your own board.
-// Getting this wrong with a 5 V 6507 on the other side of the bus can damage the
-// FPGA.
+// USABLE 3.3 V GPIO: 22 (J5/1-22) + 7 (J6/1,10,11,19,20,21,22) = 29.
+// J6/2-9 are BANK3 at 1.8 V and CANNOT carry 3.3 V signalling.
+// "shared" functions are free to reuse as long as you do not fit the SD card,
+// the RGB LCD or the SPI LCD. HDMI pins are differential pairs, not GPIO.
 //
-// Signal names match the net labels in tia-fpga.kicad_sch exactly (FPGA side).
-//
-// ----------------------------------------------------------------------------
-// Package pins that are ALREADY TAKEN on the Tang Nano 9K
-// ----------------------------------------------------------------------------
-// Extracted from the official board schematic (Tang_nano_9K_3674_schematics.pdf).
-// Do not assign these to TIA signals:
-//
-//   3   BUTTON S1            4   JTAG_SEL / S2
-//   10  LED1                 11  LED2           13  LED3
-//   14  LED4                 15  LED5           16  LED6
-//   17  FPGA_TX              18  FPGA_RX
-//   36  TF_SCLK              37  TF_MOSI        38  TF_CS      39  TF_MISO
-//   47  SPILCD_EN            48  SPILCD_CS      49  SPILCD_RS
-//   52  XTAL_IN (27 MHz)
-//   59  MCLK                 60  MCS            61  MOSI       62  MISO  (flash)
-//   68-75  HDMI differential pairs
-//   76  SPILCD_MCLK          77  SPILCD_MO
-//
-// JTAG (do not touch): IOL11A/TMS, IOL11B/TCK, IOL12B/TDI, IOL13A/TDO.
-//
-// Good candidates for general I/O: 19, 20, 25-35, 40-42, 51, 53-57, 63.
-// Verify each one against the Sipeed pinout before committing to it.
+// Rev A uses all 29 with nothing spare. Chroma (F_COL) and the paddles do not
+// fit — see the README for the three ways to recover pins.
+// ===========================================================================
 
 // ---------------------------------------------------------------- clock
 // 3.579545 MHz from the 2600's crystal, via U4 (74LVC541A).
-// Do NOT use the board's 27 MHz oscillator for this: 27 MHz cannot produce
-// exactly 3.579545 MHz, and the NTSC subcarrier has to be exact.
-IO_LOC  "F_OSC" TODO;
+// Do NOT use the board's 27 MHz oscillator: 27 MHz cannot produce exactly
+// 3.579545 MHz, and the NTSC subcarrier has to be exact.
+//
+// Caveat: pin 56 is a general I/O, not a dedicated clock pin — the only
+// dedicated one (PIN52, XTAL_IN) is not brought out to the headers. Gowin EDA
+// will route this onto a global clock network; if timing closure complains,
+// instantiate a clock buffer primitive or bring it in through the PLL.
+IO_LOC  "F_OSC" 56;
 IO_PORT "F_OSC" IO_TYPE=LVCMOS33;
 
 // ---------------------------------------------------------------- data bus
-// Bidirectional through U2 (74LVC245A).
-IO_LOC  "F_D0" TODO;
-IO_LOC  "F_D1" TODO;
-IO_LOC  "F_D2" TODO;
-IO_LOC  "F_D3" TODO;
-IO_LOC  "F_D4" TODO;
-IO_LOC  "F_D5" TODO;
-IO_LOC  "F_D6" TODO;
-IO_LOC  "F_D7" TODO;
+// Bidirectional through U2 (74LVC245A), A side = FPGA.
+IO_LOC  "F_D0" 25;
+IO_LOC  "F_D1" 26;
+IO_LOC  "F_D2" 27;
+IO_LOC  "F_D3" 28;
+IO_LOC  "F_D4" 29;
+IO_LOC  "F_D5" 30;
+IO_LOC  "F_D6" 38;
+IO_LOC  "F_D7" 37;
 IO_PORT "F_D0" IO_TYPE=LVCMOS33;
 IO_PORT "F_D1" IO_TYPE=LVCMOS33;
 IO_PORT "F_D2" IO_TYPE=LVCMOS33;
@@ -69,21 +79,19 @@ IO_PORT "F_D5" IO_TYPE=LVCMOS33;
 IO_PORT "F_D6" IO_TYPE=LVCMOS33;
 IO_PORT "F_D7" IO_TYPE=LVCMOS33;
 
-// 245 control. DIR=1 => A(TIA) to B(FPGA), i.e. a CPU write.
-IO_LOC  "F_DBUS_DIR" TODO;
-IO_LOC  "F_DBUS_OE_N" TODO;
-IO_PORT "F_DBUS_DIR" IO_TYPE=LVCMOS33;
-IO_PORT "F_DBUS_OE_N" IO_TYPE=LVCMOS33;
+// The 245's DIR and /OE are NOT driven by the FPGA: DIR comes straight from the
+// buffered R/W, and /OE from U5 (/CS0 OR /CS3). That is what freed the one pin
+// the header budget was short by.
 
 // ---------------------------------------------------------------- address and select
-IO_LOC  "F_A0" TODO;
-IO_LOC  "F_A1" TODO;
-IO_LOC  "F_A2" TODO;
-IO_LOC  "F_A3" TODO;
-IO_LOC  "F_A4" TODO;
-IO_LOC  "F_A5" TODO;
-IO_LOC  "F_CS0_N" TODO;   // <- A12 on the 2600
-IO_LOC  "F_CS3_N" TODO;   // <- A7 on the 2600
+IO_LOC  "F_A0" 33;
+IO_LOC  "F_A1" 34;
+IO_LOC  "F_A2" 40;
+IO_LOC  "F_A3" 35;
+IO_LOC  "F_A4" 41;
+IO_LOC  "F_A5" 42;
+IO_LOC  "F_CS0_N" 53;     // <- A12 on the 2600
+IO_LOC  "F_CS3_N" 54;     // <- A7 on the 2600
 IO_PORT "F_A0" IO_TYPE=LVCMOS33;
 IO_PORT "F_A1" IO_TYPE=LVCMOS33;
 IO_PORT "F_A2" IO_TYPE=LVCMOS33;
@@ -96,44 +104,45 @@ IO_PORT "F_CS3_N" IO_TYPE=LVCMOS33;
 // ---------------------------------------------------------------- 6507 handshake
 // F_PHI0 leaves through U1 (74AHCT125 at 5 V) — it is the CPU clock, OSC/3.
 // F_RDY also goes through U1; this is what WSYNC uses to stall the CPU.
-IO_LOC  "F_PHI0" TODO;
-IO_LOC  "F_PHI2" TODO;
-IO_LOC  "F_RW" TODO;
-IO_LOC  "F_RDY" TODO;
+IO_LOC  "F_PHI0" 57;
+IO_LOC  "F_PHI2" 55;
+IO_LOC  "F_RW" 51;
+IO_LOC  "F_RDY" 63;
 IO_PORT "F_PHI0" IO_TYPE=LVCMOS33 DRIVE=8;
 IO_PORT "F_PHI2" IO_TYPE=LVCMOS33;
 IO_PORT "F_RW" IO_TYPE=LVCMOS33;
 IO_PORT "F_RDY" IO_TYPE=LVCMOS33 DRIVE=8;
 
 // ---------------------------------------------------------------- video
-// These go straight from the FPGA to the socket pins with no translator: they
-// feed the luma resistor network, not logic inputs. 4:2:1 weighting.
-IO_LOC  "F_CSYNC" TODO;
-IO_LOC  "F_LUM0" TODO;
-IO_LOC  "F_LUM1" TODO;
-IO_LOC  "F_LUM2" TODO;
-IO_LOC  "F_COL" TODO;     // phase 6 — chroma
+// Straight from the FPGA to the socket pins with no translator: they feed the
+// luma resistor network, not logic inputs. 4:2:1 weighting.
+IO_LOC  "F_CSYNC" 76;
+IO_LOC  "F_LUM0" 48;
+IO_LOC  "F_LUM1" 49;
+IO_LOC  "F_LUM2" 31;
 IO_PORT "F_CSYNC" IO_TYPE=LVCMOS33;
 IO_PORT "F_LUM0" IO_TYPE=LVCMOS33;
 IO_PORT "F_LUM1" IO_TYPE=LVCMOS33;
 IO_PORT "F_LUM2" IO_TYPE=LVCMOS33;
-IO_PORT "F_COL" IO_TYPE=LVCMOS33;
+
+// F_COL (chroma, phase 6) has no pin left on a Tang Nano 9K.
+// IO_LOC "F_COL" <no pin available>;
 
 // ---------------------------------------------------------------- audio
-IO_LOC  "F_AU0" TODO;
-IO_LOC  "F_AU1" TODO;
+IO_LOC  "F_AU0" 32;
+IO_LOC  "F_AU1" 36;
 IO_PORT "F_AU0" IO_TYPE=LVCMOS33;
 IO_PORT "F_AU1" IO_TYPE=LVCMOS33;
 
 // ---------------------------------------------------------------- controllers
-// Triggers, via U4. Pulled up, as on the 2600.
-IO_LOC  "F_I4" TODO;
-IO_LOC  "F_I5" TODO;
+// Joystick triggers, via U4. Pulled up, as on the 2600.
+IO_LOC  "F_I4" 39;
+IO_LOC  "F_I5" 77;
 IO_PORT "F_I4" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_PORT "F_I5" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-// Paddles: phase 5. These need an external comparator plus a discharge switch —
+// Paddles (TIA pins 37-40) need an external comparator plus a discharge switch:
 // the TIA grounds the capacitor when VBLANK bit 7 is set, then detects the
-// threshold crossing. Rev A of the board has no circuit for this.
-// IO_LOC  "F_PADDLE_DUMP" TODO;
-// IO_LOC  "F_PADDLE_CMP"  TODO;
+// threshold crossing. No pins left for them on this board either.
+// IO_LOC "F_PADDLE_DUMP" <no pin available>;
+// IO_LOC "F_PADDLE_CMP"  <no pin available>;

@@ -33,33 +33,73 @@ This revision solves (2) and leaves (1) for later.
 
 | Ref | Part | Function |
 |-----|------|----------|
-| J1, J4 | 1x20 headers | Sipeed Tang Nano 9K module (GW1NR-LV9QN88PC6/I5) |
+| J1, J4 | 1x24 headers | Sipeed Tang Nano 9K module (GW1NR-LV9QN88PC6/I5) |
 | J2, J3 | 1x20 SIP strips | Plug into the DIP-40 socket in place of the C010444 |
 | **U1** | **74AHCT125** | **Φ0 and RDY buffer, powered from +5 V.** The critical part |
-| U2 | 74LVC245A | D0–D7 bidirectional bus; `DIR` and `/OE` driven by the FPGA |
+| U2 | 74LVC245A | D0–D7 bidirectional bus. A side = FPGA, B side = TIA |
 | U3 | 74LVC541A | A0–A5, R/W and Φ2 into the FPGA |
 | U4 | 74LVC541A | /CS0, /CS3, triggers I4/I5 and the 3.579545 MHz crystal clock |
-| R1–R9 | — | CX-2600A luma resistor network (4:2:1). **Not populated in rev A** |
+| U5 | 74LVC1G32 | `/OE` for the 245: `/CS0 OR /CS3` |
+| R1–R8 | — | CX-2600A luma resistor network (4:2:1). **Not populated in rev A** |
 
-Video and audio signals (`F_CSYNC`, `F_LUM0..2`, `F_COL`, `F_AU0`, `F_AU1`) run
-straight from the FPGA to the socket pins — no level translator in the path,
-because they feed resistor networks rather than logic inputs.
+Video and audio signals (`F_CSYNC`, `F_LUM0..2`, `F_AU0`, `F_AU1`) run straight
+from the FPGA to the socket pins — no level translator in the path, because they
+feed resistor networks rather than logic inputs.
 
 Pin 6 (`BLK`) is not connected on the CX-2600A. Pin 10 (`DEL`) is the colour
 trim pot, which has no function in a replacement. Both are marked no-connect.
 
+Neither of the 245's control lines comes from the FPGA. The A side faces the
+FPGA, so `DIR` can be driven straight from the buffered R/W (`DIR`=1, a read,
+sends FPGA → TIA), and `/OE` comes from U5. That is deliberate — see the pin
+budget below.
+
+## The pin budget, and why it constrains everything
+
+The Tang Nano 9K's headers are 2×24, but **only 29 of those 48 pins are usable
+3.3 V GPIO**:
+
+| | Count | |
+|---|---|---|
+| J5 pins 1–22 | 22 | banks 1/2 at 3.3 V — all usable |
+| J6 pins 1, 10, 11, 19–22 | 7 | 3.3 V — usable |
+| J6 pins 2–9 | 8 | **BANK3 at 1.8 V — not usable at 3.3 V** |
+| J5 23–24, J6 12–17 | 8 | HDMI differential pairs — not GPIO |
+| J6 18, 23, 24 | 3 | +5V, GND, +3V3 |
+
+Verified against both revisions of the official Sipeed board schematic (3672 and
+3674), which agree exactly. Many of the 29 are shared with onboard peripherals
+(SD card, RGB LCD, SPI LCD); they are free to reuse as long as you do not fit
+those.
+
+**Rev A uses all 29 with nothing spare.** A fully featured TIA needs about 36.
+What did not fit:
+
+- `F_COL` — the chroma output (phase 6)
+- The four paddle inputs plus their dump/compare control (phase 5)
+
+Three ways to get the pins back, in increasing order of effort:
+
+1. **Recover J6/2–9** (8 pins) with a local 1.8 V LDO and a fourth buffer powered
+   at 1.8 V. LVC parts run down to 1.65 V and their inputs stay 5 V tolerant, so
+   this works — it just adds a rail. This is the intended rev B fix.
+2. **Drop Φ2.** The FPGA generates Φ0 itself, so it can time the bus off its own
+   clock rather than the 6507's output. Costs a little timing fidelity, frees
+   one pin.
+3. **Use a board with more I/O** if you want chroma and paddles without any of
+   the above.
+
+This is the single most important thing to know before ordering parts: the Tang
+Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*.
+
 ## Status
 
-- [x] Rev A schematic — passes KiCad 10 ERC
-- [ ] FPGA pin assignment (`fpga/tia_fpga.cst` still has TODOs)
+- [x] Rev A schematic — passes KiCad 10 ERC with 0 violations
+- [x] FPGA pin assignment (`fpga/tia_fpga.cst`)
 - [ ] PCB layout
 - [ ] TIA RTL
-- [ ] Paddle circuit (phase 5)
-- [ ] Composite video (phase 6)
-
-**ERC:** 6 `isolated_pin_label` warnings, all expected. They are the paddle
-circuit pins (`TIA_I0`–`TIA_I3`, `F_PADDLE_DUMP`, `F_PADDLE_CMP`), brought out to
-the connectors but with no circuit between them in this revision.
+- [ ] Paddle circuit (phase 5 — needs pins, see above)
+- [ ] Composite video (phase 6 — needs pins, see above)
 
 ## Opening the project
 
