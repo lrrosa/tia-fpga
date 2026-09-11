@@ -1,0 +1,19 @@
+# KiCad
+*-backups/
+*.kicad_prl
+*.kicad_sch-bak
+*.kicad_pcb-bak
+fp-info-cache
+~*
+
+# Generated output
+erc*.rpt
+*.net
+
+# Gowin
+impl/
+*.gprj.user
+
+# Rendered schematic: the PDF in docs/ is the shareable artefact.
+# The SVG is 76k lines and makes every regeneration a huge diff.
+*.svg

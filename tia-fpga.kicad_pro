@@ -1,0 +1,25 @@
+{
+  "board": {},
+  "boards": [],
+  "cvpcb": {
+    "equivalence_files": []
+  },
+  "libraries": {
+    "pinned_footprint_libs": [],
+    "pinned_symbol_libs": []
+  },
+  "meta": {
+    "filename": "tia-fpga.kicad_pro",
+    "version": 3
+  },
+  "net_settings": {},
+  "pcbnew": {},
+  "schematic": {},
+  "sheets": [
+    [
+      "a6cabc8b-1acd-4ba5-9921-37a44b8a84e4",
+      "Root"
+    ]
+  ],
+  "text_variables": {}
+}
