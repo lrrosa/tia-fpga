@@ -17,3 +17,6 @@ impl/
 # Rendered schematic: the PDF in docs/ is the shareable artefact.
 # The SVG is 76k lines and makes every regeneration a huge diff.
 *.svg
+
+# KiCad 10's own local-history store: a nested git repo, not ours to publish.
+.history/

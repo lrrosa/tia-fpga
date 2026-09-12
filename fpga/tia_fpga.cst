@@ -1,6 +1,6 @@
 // tia-fpga — pin constraints for the Sipeed Tang Nano 9K (GW1NR-LV9QN88PC6/I5)
 //
-// Copyright 2026 lrrosa
+// Copyright 2026 Leonardo Roman da Rosa
 // SPDX-License-Identifier: CERN-OHL-S-2.0
 // Source location: https://github.com/lrrosa/tia-fpga
 //

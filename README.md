@@ -165,7 +165,7 @@ on. They are what separates "runs Combat" from "runs Pitfall II":
 
 ## Licence
 
-Copyright 2026 lrrosa
+Copyright 2026 Leonardo Roman da Rosa
 
 ```
 SPDX-License-Identifier: CERN-OHL-S-2.0
