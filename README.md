@@ -94,46 +94,70 @@ Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*.
 
 ## The board
 
-Rev A is a 2-layer, 72 × 100 mm sandwich: Tang Nano sockets at the top, the
-TIA's DIP-40 pins at the bottom, logic in between.
+Rev A is a 2-layer, **70 × 32 mm** board — roughly the Tang Nano's own
+footprint. In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart,
+ringed by resistor networks and the cartridge slot, so the board cannot spread
+sideways. All four connector rows are therefore **concentric**, stacked rather
+than laid out flat:
+
+| y (mm) | Row | Faces |
+|---|---|---|
+| 5.84 | J1 — Tang Nano row A | socket, **up** |
+| 8.38 | J2 — TIA pins 1–20 | pin header, **down** into the socket |
+| 23.62 | J3 — TIA pins 21–40 | pin header, **down** |
+| 26.16 | J4 — Tang Nano row B | socket, **up** |
+
+The two pitches coexist because everything lands on the 2.54 mm grid. Logic
+lives in the 15.24 mm channel between the DIP rows; passives go in the outer
+margins.
 
 | | |
 |---|---|
-| Size | 72 × 100 mm, 2 layers |
+| Size | 70 × 32 mm, 2 layers |
 | Components | 23 — SOIC/SOT-23 logic, 0805 passives, through-hole connectors |
-| Routing | 736 track segments, 61 vias, 3.72 m of copper |
-| Track / clearance | 0.25 mm signal, 0.6 mm power, 0.15 mm clearance |
-| **DRC** | **0 violations, 0 unconnected items** |
+| Routing | 738 segments, 49 vias, 2.04 m of copper |
+| Track / clearance | 0.20 mm / 0.15 mm |
+| **DRC** | **0 clearance, 0 unconnected, 0 shorts** |
 
-Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4:
-109 connections, all routed in 19 s over 6 passes, final score 991.53.
+Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4.
+The first attempt stalled at 2 connections (`/F_A5`, `/TIA_CS3_N`) with the score
+oscillating for 19 passes — the channel leaves only 1.10 mm between the header
+pads and the SOIC pads, and at 0.20 mm clearance a track needs 0.55 mm of that.
+Dropping clearance to 0.15 mm routed all 109 connections in 17.9 s.
 
-Files: `tia-fpga.kicad_pcb`, plus fabrication output in `gerbers/` (Gerber X2 +
-Excellon drill, regenerate whenever the board changes).
+Files: `tia-fpga.kicad_pcb`, fabrication output in `gerbers/`.
 
 ### ⚠ Verify before ordering a board
 
 **The Tang Nano 9K header row spacing is an assumption.** Sipeed documents the
-module as 70.0 × 26.0 mm with 2.54 mm pitch, but does not publish the distance
+module as 70.0 × 26.0 mm with 2.54 mm pitch but does not publish the distance
 between the two 24-pin rows. This layout uses **20.32 mm** (8 × 2.54), the only
 value that leaves sensible pad-to-edge clearance on a 26 mm wide board — but it
-is deduced, not measured. **Put a caliper on your own module before sending this
-to a fab.** If it is wrong, every other dimension is still fine; only J1 and J4
-move.
+is deduced, not measured. **Put a caliper on your own module first.** If it is
+wrong, only J1 and J4 move.
 
 The DIP-40 row spacing (15.24 mm) is fixed by the package and is not a guess.
 
-### Known limitations of this routing
+**The board needs tall pins.** It overhangs the neighbouring 6507 and RIOT, which
+sit in their own sockets a few millimetres proud of the 2600's PCB. Standard
+DIP header pins would put this board straight into them; a socket extender or
+machined long pins are required. Measure the vertical clearance in your console
+before committing — the Tang Nano's HDMI connector adds roughly 5 mm on top.
 
-- **No ground pour.** GND is routed as 0.6 mm track. That is adequate at
-  3.58 MHz, but a pour on B.Cu would be better for return paths and is the
-  obvious rev B improvement. It was left out deliberately: Freerouting treats a
-  pour as an obstacle and effectively goes single-layer, abandoning nets.
-- **Placement is functional, not optimised.** The IC pin order does not follow
-  the connector pin order, so the data and address buses cross the board
-  diagonally. Reordering the buffers to match the header sequence would cut the
-  copper length substantially. This is the first thing to improve.
-- The board outline is a plain rectangle with no mounting holes.
+### Known limitations
+
+- **9 courtyard overlaps in DRC, all verified benign.** KiCad's SOIC-20W
+  courtyard is 11.95 mm tall against 11.61 mm of clear channel, so it trips the
+  rule. The parts themselves do not touch: **1.10 mm copper to copper, 2.60 mm
+  body to body.** The courtyard is assembly margin, not a clash.
+- 6 cosmetic silkscreen violations (overlap, one over copper, one over the
+  edge). A production revision needs the reference designators placed by hand.
+- **No ground pour.** GND is 0.2 mm track. A pour on B.Cu is the obvious rev B
+  improvement; it was left out because Freerouting treats a pour as an obstacle
+  and effectively goes single-layer.
+- Placement does not follow connector pin order, so some buses cross the
+  channel diagonally. Reordering U2/U3/U4 would shorten them.
+- Plain rectangular outline, no mounting holes.
 
 ## Status
 
