@@ -105,11 +105,9 @@ IO_PORT "F_CS3_N" IO_TYPE=LVCMOS33;
 // F_PHI0 leaves through U1 (74AHCT125 at 5 V) — it is the CPU clock, OSC/3.
 // F_RDY also goes through U1; this is what WSYNC uses to stall the CPU.
 IO_LOC  "F_PHI0" 57;
-IO_LOC  "F_PHI2" 55;
 IO_LOC  "F_RW" 51;
 IO_LOC  "F_RDY" 63;
 IO_PORT "F_PHI0" IO_TYPE=LVCMOS33 DRIVE=8;
-IO_PORT "F_PHI2" IO_TYPE=LVCMOS33;
 IO_PORT "F_RW" IO_TYPE=LVCMOS33;
 IO_PORT "F_RDY" IO_TYPE=LVCMOS33 DRIVE=8;
 
@@ -125,8 +123,17 @@ IO_PORT "F_LUM0" IO_TYPE=LVCMOS33;
 IO_PORT "F_LUM1" IO_TYPE=LVCMOS33;
 IO_PORT "F_LUM2" IO_TYPE=LVCMOS33;
 
-// F_COL (chroma, phase 6) has no pin left on a Tang Nano 9K.
-// IO_LOC "F_COL" <no pin available>;
+// Chroma. This pin used to be PHI2. The trade is deliberate: the FPGA generates
+// PHI0 itself, so it knows where it is in the bus cycle and can time accesses
+// from its own clock instead of the 6507's output. That costs a little timing
+// fidelity and buys back the pin that makes RF and composite video work - which
+// is what you want if you are reviving a console with a dead TIA and keeping
+// its original video path.
+//
+// PHI2 is still buffered by U3 and its output is brought to an unconnected pad,
+// so a rev B that recovers pins from the 1.8 V bank can wire it back.
+IO_LOC  "F_COL" 55;
+IO_PORT "F_COL" IO_TYPE=LVCMOS33;
 
 // ---------------------------------------------------------------- audio
 IO_LOC  "F_AU0" 32;

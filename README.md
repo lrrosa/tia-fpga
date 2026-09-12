@@ -73,10 +73,17 @@ Verified against both revisions of the official Sipeed board schematic (3672 and
 those.
 
 **Rev A uses all 29 with nothing spare.** A fully featured TIA needs about 36.
-What did not fit:
 
-- `F_COL` — the chroma output (phase 6)
-- The four paddle inputs plus their dump/compare control (phase 5)
+**Chroma is fitted.** `F_COL` took the pin that used to carry Φ2, and that trade
+is deliberate rather than grudging: the FPGA generates Φ0 itself, so it knows
+where it is in the bus cycle and can time accesses off its own clock instead of
+the 6507's output. It costs a little timing fidelity and buys back colour on the
+composite and RF path — which is the difference between a board that only works
+with an HDMI monitor and one that revives a console with a dead TIA while
+keeping its original video. Φ2 is still buffered by U3, brought out to an
+unconnected pad for a future revision.
+
+What still does not fit: the four paddle inputs plus their dump/compare control.
 
 Three ways to get the pins back, in increasing order of effort:
 
@@ -94,38 +101,39 @@ Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*.
 
 ## The board
 
-Rev A is a 2-layer, **70 × 32 mm** board — roughly the Tang Nano's own
-footprint. In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart,
-ringed by resistor networks and the cartridge slot, so the board cannot spread
-sideways. All four connector rows are therefore **concentric**, stacked rather
-than laid out flat:
+Rev A is a 2-layer, **76 × 36 mm** board — roughly the Tang Nano's own footprint.
+In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart, ringed by
+resistor networks and the cartridge slot, so the board cannot spread sideways.
+All four connector rows are **concentric**, and the two sets face opposite ways:
 
-| y (mm) | Row | Faces |
-|---|---|---|
-| 5.84 | J1 — Tang Nano row A | socket, **up** |
-| 8.38 | J2 — TIA pins 1–20 | pin header, **down** into the socket |
-| 23.62 | J3 — TIA pins 21–40 | pin header, **down** |
-| 26.16 | J4 — Tang Nano row B | socket, **up** |
+| y (mm) | Row | Side | Faces |
+|---|---|---|---|
+| 7.84 | J1 — Tang Nano row A | F.Cu | socket, **up** |
+| 10.38 | J2 — TIA pins 1–20 | **B.Cu** | pins, **down** into the socket |
+| 25.62 | J3 — TIA pins 21–40 | **B.Cu** | pins, **down** |
+| 28.16 | J4 — Tang Nano row B | F.Cu | socket, **up** |
 
-The two pitches coexist because everything lands on the 2.54 mm grid. Logic
-lives in the 15.24 mm channel between the DIP rows; passives go in the outer
-margins.
+The two pitches coexist because everything lands on the 2.54 mm grid. SMD logic
+sits on the front in the 15.24 mm channel between the DIP rows; passives go in
+the outer margins; four M2 mounting holes in the corners.
 
 | | |
 |---|---|
-| Size | 70 × 32 mm, 2 layers |
-| Components | 23 — SOIC/SOT-23 logic, 0805 passives, through-hole connectors |
-| Routing | 738 segments, 49 vias, 2.04 m of copper |
-| Track / clearance | 0.20 mm / 0.15 mm |
-| **DRC** | **0 clearance, 0 unconnected, 0 shorts** |
+| Size | 76 × 36 mm, 2 layers, 4 × M2 holes |
+| Components | 24 — SOIC/SOT-23 logic, 0805 passives, through-hole connectors |
+| Routing | 758 segments, 47 vias, 2.19 m of copper |
+| Ground | **B.Cu pour, 1418 mm² filled** |
+| Track / clearance | 0.20 mm / 0.13 mm |
+| **DRC** | **0 clearance, 0 unconnected, 0 shorts, 0 courtyard** |
 
 Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4.
-The first attempt stalled at 2 connections (`/F_A5`, `/TIA_CS3_N`) with the score
-oscillating for 19 passes — the channel leaves only 1.10 mm between the header
-pads and the SOIC pads, and at 0.20 mm clearance a track needs 0.55 mm of that.
-Dropping clearance to 0.15 mm routed all 109 connections in 17.9 s.
+The channel leaves only ~1.1 mm between the header pads and the SOIC pads, so
+clearance is what decides whether it routes at all: 0.20 mm stalled with two
+connections left, 0.15 mm left one, 0.13 mm routed all 111 in 22.6 s. The ground
+pour is added **after** routing — Freerouting reads a pour as an obstacle and
+goes effectively single-layer if it is present.
 
-Files: `tia-fpga.kicad_pcb`, fabrication output in `gerbers/`.
+Files: `tia-fpga.kicad_pcb`, renders in `docs/`, fabrication output in `gerbers/`.
 
 ### ⚠ Verify before ordering a board
 
@@ -139,34 +147,47 @@ wrong, only J1 and J4 move.
 The DIP-40 row spacing (15.24 mm) is fixed by the package and is not a guess.
 
 **The board needs tall pins.** It overhangs the neighbouring 6507 and RIOT, which
-sit in their own sockets a few millimetres proud of the 2600's PCB. Standard
-DIP header pins would put this board straight into them; a socket extender or
-machined long pins are required. Measure the vertical clearance in your console
-before committing — the Tang Nano's HDMI connector adds roughly 5 mm on top.
+sit proud of the 2600's PCB in their own sockets. Standard DIP header pins would
+put this board straight into them; a socket extender or long machined pins are
+required. Measure the vertical clearance in your console — the Tang Nano's HDMI
+connector adds roughly 5 mm on top.
+
+**Do not populate R1–R9 when the board goes into a real 2600.** That resistor
+network is a copy of the console's own luma/chroma ladder, for standalone and
+breadboard use. A second one in parallel with the console's would shift every
+level. In a real machine the board just drives the socket pins and the 2600's
+existing video path does the rest.
 
 ### Known limitations
 
-- **9 courtyard overlaps in DRC, all verified benign.** KiCad's SOIC-20W
-  courtyard is 11.95 mm tall against 11.61 mm of clear channel, so it trips the
-  rule. The parts themselves do not touch: **1.10 mm copper to copper, 2.60 mm
-  body to body.** The courtyard is assembly margin, not a clash.
-- 6 cosmetic silkscreen violations (overlap, one over copper, one over the
-  edge). A production revision needs the reference designators placed by hand.
-- **No ground pour.** GND is 0.2 mm track. A pour on B.Cu is the obvious rev B
-  improvement; it was left out because Freerouting treats a pour as an obstacle
-  and effectively goes single-layer.
+- 2 cosmetic silkscreen overlaps. A production revision wants the reference
+  designators placed by hand.
+- The four paddle inputs still do not fit — see the pin budget above.
 - Placement does not follow connector pin order, so some buses cross the
   channel diagonally. Reordering U2/U3/U4 would shorten them.
-- Plain rectangular outline, no mounting holes.
+
+## Two ways to use this
+
+**Reviving a dead console.** Pull the failed TIA, drop this in its socket, and
+keep the 2600's own RF modulator or composite mod. Chroma, luma, sync and audio
+all come out of the socket pins exactly as the original chip drove them, so the
+console's video path is untouched. Leave R1–R9 unpopulated.
+
+**As a development target.** Plug it into a breadboard next to a real 6507 and
+take colour video out of the Tang Nano's HDMI connector instead — that costs no
+header pins, because the HDMI pins are dedicated differential pairs on the
+module. Useful while the RTL is still being brought up against the composite
+output.
 
 ## Status
 
 - [x] Rev A schematic — passes KiCad 10 ERC with 0 violations
 - [x] FPGA pin assignment (`fpga/tia_fpga.cst`)
-- [x] PCB layout — rev A routed, DRC clean
+- [x] PCB layout — rev A routed, ground pour, mounting holes, DRC clean
 - [ ] TIA RTL
-- [ ] Paddle circuit (phase 5 — needs pins, see above)
-- [ ] Composite video (phase 6 — needs pins, see above)
+- [ ] Paddle circuit (still needs pins, see above)
+- [x] Composite video path wired (chroma pin fitted; the RTL still has to
+      synthesise the 15 subcarrier phases)
 
 ## Opening the project
 
