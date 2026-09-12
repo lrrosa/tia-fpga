@@ -37,14 +37,14 @@ This revision solves (2) and leaves (1) for later.
 | J2, J3 | 1x20 SIP strips | Plug into the DIP-40 socket in place of the C010444 |
 | **U1** | **74AHCT125** | **Φ0 and RDY buffer, powered from +5 V.** The critical part |
 | U2 | 74LVC245A | D0–D7 bidirectional bus. A side = FPGA, B side = TIA |
-| U3 | 74LVC541A | A0–A5, R/W and Φ2 into the FPGA |
+| U3 | 74LVC541A | A0–A5 and R/W into the FPGA; Φ2 buffered to a spare pad |
 | U4 | 74LVC541A | /CS0, /CS3, triggers I4/I5 and the 3.579545 MHz crystal clock |
 | U5 | 74LVC1G32 | `/OE` for the 245: `/CS0 OR /CS3` |
-| R1–R8 | — | CX-2600A luma resistor network (4:2:1). **Not populated in rev A** |
+| R1–R9 | — | CX-2600A luma + chroma network. **Leave unpopulated in a real 2600** |
 
-Video and audio signals (`F_CSYNC`, `F_LUM0..2`, `F_AU0`, `F_AU1`) run straight
-from the FPGA to the socket pins — no level translator in the path, because they
-feed resistor networks rather than logic inputs.
+Video and audio signals (`F_CSYNC`, `F_LUM0..2`, `F_COL`, `F_AU0`, `F_AU1`) run
+straight from the FPGA to the socket pins — no level translator in the path,
+because they feed resistor networks rather than logic inputs.
 
 Pin 6 (`BLK`) is not connected on the CX-2600A. Pin 10 (`DEL`) is the colour
 trim pot, which has no function in a replacement. Both are marked no-connect.
@@ -85,19 +85,21 @@ unconnected pad for a future revision.
 
 What still does not fit: the four paddle inputs plus their dump/compare control.
 
-Three ways to get the pins back, in increasing order of effort:
+Two ways to get the remaining pins back:
 
 1. **Recover J6/2–9** (8 pins) with a local 1.8 V LDO and a fourth buffer powered
    at 1.8 V. LVC parts run down to 1.65 V and their inputs stay 5 V tolerant, so
-   this works — it just adds a rail. This is the intended rev B fix.
-2. **Drop Φ2.** The FPGA generates Φ0 itself, so it can time the bus off its own
-   clock rather than the 6507's output. Costs a little timing fidelity, frees
-   one pin.
-3. **Use a board with more I/O** if you want chroma and paddles without any of
-   the above.
+   this works — it just adds a rail. This is the cheapest rev B fix.
+2. **Drop the module and put a bare FPGA on the board.** A part in a TQFP-100
+   gives ~78 I/O against the module's 29, which ends the pin shortage outright,
+   removes U5, brings Φ2 back and makes the paddles possible — and collapses a
+   ~20 mm tall stack into a 1 mm chip, which matters if this has to live inside
+   a closed console. It costs fine-pitch soldering and your own configuration
+   and power plumbing. See `docs/bare-fpga.md`.
 
 This is the single most important thing to know before ordering parts: the Tang
-Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*.
+Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*. Every
+compromise in this design traces back to that.
 
 ## The board
 
@@ -155,6 +157,26 @@ added **after** routing — Freerouting reads a pour as an obstacle and goes
 effectively single-layer if one is present.
 
 Files: `tia-fpga.kicad_pcb`, renders in `docs/`, fabrication output in `gerbers/`.
+
+### Ordering a board
+
+`tia-fpga-rev-a-gerbers.zip` is ready to upload to any PCB house as-is — Gerber
+X2 plus Excellon drill, files at the root of the archive, with
+`FABRICATION-NOTES.txt` alongside them. Nothing in it needs more than standard
+low-cost capability:
+
+| | |
+|---|---|
+| Size / layers | 70 × 32 mm, 2 layers, 1.6 mm FR4 |
+| Min track / clearance | 0.18 mm / 0.13 mm |
+| Drills | 0.30 mm (vias), 1.00 mm (connectors) |
+
+`docs/bom-production.csv` is the parts list with suggested orderable numbers.
+Two assembly points that are easy to get wrong:
+
+- **J2/J3 mount on the BACK, pins facing DOWN**, and want **round machined
+  pins** — square header pins damage a DIP socket.
+- **Leave R1–R9 unpopulated** in a real 2600.
 
 ### ⚠ Verify before ordering a board
 

@@ -21,3 +21,6 @@ impl/
 
 # KiCad 10's own local-history store: a nested git repo, not ours to publish.
 .history/
+
+# Fabrication archive is attached to releases, not tracked
+*-gerbers.zip

@@ -50,8 +50,8 @@
 // "shared" functions are free to reuse as long as you do not fit the SD card,
 // the RGB LCD or the SPI LCD. HDMI pins are differential pairs, not GPIO.
 //
-// Rev A uses all 29 with nothing spare. Chroma (F_COL) and the paddles do not
-// fit — see the README for the three ways to recover pins.
+// Rev A uses all 29 with nothing spare. Chroma IS fitted — F_COL took the pin
+// that used to carry PHI2. The four paddles still do not fit; see the README.
 // ===========================================================================
 
 // ---------------------------------------------------------------- clock
