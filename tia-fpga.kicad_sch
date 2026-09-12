@@ -2,7 +2,7 @@
 	(version 20250610)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "3b635726-b7b9-42f2-b0e7-41170b4e11b6")
+	(uuid "5f598ce8-ca6a-4129-874a-bfed97976bf2")
 	(paper "A3")
 	(title_block
 		(title "TIA-FPGA - digital interface")
@@ -3983,7 +3983,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e977b39a-c2bf-4ef3-99de-c07edbd171d3")
+		(uuid "2e205e13-04e1-4592-9602-79697b67877a")
 	)
 	(text "Rev A - digital interface only. Chroma and paddles do not fit the pin budget; see the notes."
 		(exclude_from_sim no)
@@ -3994,7 +3994,7 @@
 			)
 			(justify left)
 		)
-		(uuid "67a409d6-b64c-430f-9da6-fc055430897f")
+		(uuid "92a0954c-14c4-4192-bcb4-333ad4f398de")
 	)
 	(text "FPGA MODULE - Sipeed Tang Nano 9K (GW1NR-LV9QN88PC6/I5)"
 		(exclude_from_sim no)
@@ -4006,7 +4006,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7d5ad525-fd5e-4ce2-b7a1-7f46d0c93dd9")
+		(uuid "c668f1b5-4899-486b-8e9d-1be6fa893ba9")
 	)
 	(text "Pin map verified against both Sipeed board revisions (3672 and 3674), which agree."
 		(exclude_from_sim no)
@@ -4017,7 +4017,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f4de52e2-55e1-4139-a42b-4b73a39b40c8")
+		(uuid "0e33f086-670c-4cd0-b12b-ea507face2e9")
 	)
 	(text "Of the 48 header pins only 29 are usable 3.3 V GPIO: 8 are BANK3 at 1.8 V,"
 		(exclude_from_sim no)
@@ -4028,7 +4028,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f6051fb1-81c1-450b-a7a7-cc607eb810f3")
+		(uuid "14a9167a-2a34-4838-a4b8-04d8f952b9ba")
 	)
 	(text "8 are HDMI differential pairs, 3 are power. Rev A uses all 29, with none spare."
 		(exclude_from_sim no)
@@ -4039,7 +4039,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7995b431-5400-4e43-b745-178f35a4803d")
+		(uuid "2c06206d-72b3-474e-8ead-e46cfaa33140")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x24")
@@ -4049,7 +4049,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "2396400e-50a7-4707-855b-b4d50ddc9478")
+		(uuid "6f4a61ab-92a3-4d3e-a46f-c7674fd8ba04")
 		(property "Reference" "J1"
 			(at 43.18 66.88 0)
 			(effects
@@ -4068,7 +4068,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x24_P2.54mm_Vertical"
 			(at 44.45 100.33 0)
 			(hide yes)
 			(effects
@@ -4089,80 +4089,80 @@
 			)
 		)
 		(pin "1"
-			(uuid "2a26dd7c-a669-427c-b2b9-300d756b108f")
+			(uuid "01d675ce-d5bf-46dc-964f-87dd91d69971")
 		)
 		(pin "2"
-			(uuid "61580d6b-7875-42f8-bb29-b3aba5b61a02")
+			(uuid "7912fe02-c490-4d1a-bbfd-e1342a20fccb")
 		)
 		(pin "3"
-			(uuid "cd47c535-6e5f-4f42-bbd5-da2557bcb586")
+			(uuid "ee54dc89-aada-43cf-b094-3874daf93777")
 		)
 		(pin "4"
-			(uuid "5f8a6469-b13c-4b54-b7cd-e389f41f5ae4")
+			(uuid "c41452eb-6457-4586-8257-2773b872ec53")
 		)
 		(pin "5"
-			(uuid "415085c2-6c76-4dbd-b183-a7803a149eb4")
+			(uuid "98a8cf49-dfda-449e-ad04-cd3a1c7fba55")
 		)
 		(pin "6"
-			(uuid "6b7ec8c7-79b9-4b33-bf08-4996d80482a3")
+			(uuid "54357920-31e6-4e1a-be63-02e0705c6589")
 		)
 		(pin "7"
-			(uuid "b92b688a-9e41-43dd-98d0-ef45e1e89b67")
+			(uuid "b715d68b-1318-4b26-a946-5041eb09afec")
 		)
 		(pin "8"
-			(uuid "8b41d8a3-12b4-492c-a260-cf534d57a8a2")
+			(uuid "93ea7619-4290-4568-ae60-18f4c2cde185")
 		)
 		(pin "9"
-			(uuid "bf5732bb-6926-4798-ab8d-a9eacf7a3536")
+			(uuid "1f530e9b-1ba6-4853-8646-1bb858ef28c5")
 		)
 		(pin "10"
-			(uuid "8c06b117-ac66-48ba-89c3-0bf4cceb7cec")
+			(uuid "faa6bd57-a438-41af-915a-1208e50c5584")
 		)
 		(pin "11"
-			(uuid "fea6e614-7422-4ae1-96a4-381989182e7b")
+			(uuid "8496a456-cafb-45d6-b97c-d2dd1afaebc8")
 		)
 		(pin "12"
-			(uuid "3e6fbdb1-3c8d-42a2-ac30-ade3fb373d93")
+			(uuid "9c911147-6a3e-48a5-a1c7-52ac871e37b7")
 		)
 		(pin "13"
-			(uuid "44e47c5d-634b-479d-a8f9-91dbbaf39885")
+			(uuid "154b0391-cbb6-4e10-85fb-ad611bdf2dd4")
 		)
 		(pin "14"
-			(uuid "112c42f1-a1e2-4955-a2b5-957c61d92882")
+			(uuid "702d6145-e140-4ae7-b15f-52bde088a5ae")
 		)
 		(pin "15"
-			(uuid "d52b9e2e-952b-4c0a-bebf-8a5677efbdb1")
+			(uuid "f57bf5b4-a70d-4c0c-a1d5-0008ac48857a")
 		)
 		(pin "16"
-			(uuid "df4b22a4-852e-4c60-a3cb-ae8814a0a25d")
+			(uuid "80a086c3-5651-4156-80b4-19328aaf6d9b")
 		)
 		(pin "17"
-			(uuid "a1a307fc-859d-4720-9760-e905a741fdf4")
+			(uuid "f9342174-4732-4d90-90ca-03ad7da94bb6")
 		)
 		(pin "18"
-			(uuid "c97b6a52-7790-4541-9187-afe7e5c8e506")
+			(uuid "03c29029-82b1-4130-82c5-67257a387037")
 		)
 		(pin "19"
-			(uuid "fbbff19d-1c05-4271-a3d5-5bc20b763a8b")
+			(uuid "c0aaf00a-4be0-4831-a9df-0d609729da83")
 		)
 		(pin "20"
-			(uuid "d15f6f94-07eb-433a-899d-b9668d194b1c")
+			(uuid "c533c869-8455-4f0a-9a96-d9cabc27a0f6")
 		)
 		(pin "21"
-			(uuid "dd347d30-cac2-4db5-9968-c01be11fbde4")
+			(uuid "1f3e9e37-f82b-48e8-a20e-8a5c02a4f9fa")
 		)
 		(pin "22"
-			(uuid "5e0bf5a8-0226-4a44-8109-cbb6480143bd")
+			(uuid "b9cc3ff0-6486-442e-9236-158dbb4841da")
 		)
 		(pin "23"
-			(uuid "7061bdb5-99c6-465f-8240-9982d6a7f827")
+			(uuid "e4c71c2c-763f-46ca-81e9-f304db213f25")
 		)
 		(pin "24"
-			(uuid "0dc1ebb9-ac60-4fa9-b329-de9e9fc6fe1c")
+			(uuid "9261ce2e-6a29-4115-8c29-d6dbbbae4e61")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "J1")
 					(unit 1)
 				)
@@ -4177,7 +4177,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "00f015c0-c29a-4277-8c63-7229641b4463")
+		(uuid "ed4fe1fd-3ccf-4dbc-a90a-39c1ed81ee57")
 	)
 	(label "F_D6"
 		(at 36.83 72.39 0)
@@ -4187,7 +4187,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d58789af-251f-4d5c-a7c4-c1867b128c66")
+		(uuid "7e60791f-c63e-476b-b364-2152db8b821a")
 	)
 	(wire
 		(pts
@@ -4197,7 +4197,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0e0fac8b-c1ec-4e18-8995-1a92c1efcd85")
+		(uuid "f8f8e729-faa7-4a88-8cd5-784e74cebb7f")
 	)
 	(label "F_D7"
 		(at 36.83 74.93 0)
@@ -4207,7 +4207,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1fa55e3c-916a-4259-a659-d9f614a54d4f")
+		(uuid "1e1c280c-20fb-41ca-a152-113a163271c7")
 	)
 	(wire
 		(pts
@@ -4217,7 +4217,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f5fb68aa-3730-4f56-bdd2-a9216e5a48bc")
+		(uuid "f938e488-2d28-41b6-b3eb-0a59eee3b9a3")
 	)
 	(label "F_AU1"
 		(at 36.83 77.47 0)
@@ -4227,7 +4227,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d79d9932-b99d-4299-9fa5-82901db3e100")
+		(uuid "86e805c0-56aa-4c44-87fa-edc64dbcdf5f")
 	)
 	(wire
 		(pts
@@ -4237,7 +4237,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b82f85f8-151f-430c-b436-e44cf2c90699")
+		(uuid "aa6460fa-8cbf-48d8-9553-887edc8fc8a5")
 	)
 	(label "F_I4"
 		(at 36.83 80.01 0)
@@ -4247,7 +4247,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "fa58ab4f-88f7-4159-b9f6-f17e5d34abc3")
+		(uuid "54c9dc69-e4ff-4ac2-b0a1-8b5bf24e44eb")
 	)
 	(wire
 		(pts
@@ -4257,7 +4257,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "179e31c8-b8e5-4a84-b04b-1be4e59637bc")
+		(uuid "3cff8640-d11f-4572-b9e1-5bb9a2130839")
 	)
 	(label "F_D0"
 		(at 36.83 82.55 0)
@@ -4267,7 +4267,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9fde745f-447b-43d9-a8b1-92869fc8956c")
+		(uuid "a4e979f2-131e-42c8-962f-afe134ccbdd1")
 	)
 	(wire
 		(pts
@@ -4277,7 +4277,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4e33aa2b-bf67-4f59-9ab6-753a47a2c840")
+		(uuid "d2a2b551-493b-4f2a-aafb-0814399a4db8")
 	)
 	(label "F_D1"
 		(at 36.83 85.09 0)
@@ -4287,7 +4287,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "58bdb24f-68b6-49fc-be69-31fa115234e4")
+		(uuid "4d9859bc-96b1-4c17-a284-4737b4b11c8c")
 	)
 	(wire
 		(pts
@@ -4297,7 +4297,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "51009ee8-a31e-44bd-a55d-84f2ac2f8580")
+		(uuid "f23c2c0e-f329-4eb7-b67d-0f21c912a271")
 	)
 	(label "F_D2"
 		(at 36.83 87.63 0)
@@ -4307,7 +4307,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c2facdde-e5d3-41cb-b10c-8a0b6cf65aa2")
+		(uuid "ae9fd383-3082-43bf-839a-00bf31d9e4fa")
 	)
 	(wire
 		(pts
@@ -4317,7 +4317,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6c891d03-2842-4b18-bfbc-bd8b6d1222bf")
+		(uuid "721278a1-905b-472b-958f-c90c4b18ef2f")
 	)
 	(label "F_D3"
 		(at 36.83 90.17 0)
@@ -4327,7 +4327,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a3378042-8aee-4f85-a987-af145c1e3b91")
+		(uuid "27466a1e-0c58-4e1f-b5bc-9fb98285e903")
 	)
 	(wire
 		(pts
@@ -4337,7 +4337,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f365f83e-d557-47e7-8692-cf171619f066")
+		(uuid "8795c8d6-d835-4516-9541-fbfc080e5d0d")
 	)
 	(label "F_D4"
 		(at 36.83 92.71 0)
@@ -4347,7 +4347,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "8157dc5d-88fc-44f0-a7c4-3ea8c5411920")
+		(uuid "df5b729f-a6b2-40cb-a890-0e498e15e1bf")
 	)
 	(wire
 		(pts
@@ -4357,7 +4357,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "22dc8d63-ace8-47af-9333-2311478e5d4c")
+		(uuid "33a289f9-694f-4f6d-bfa1-23c545b7f735")
 	)
 	(label "F_D5"
 		(at 36.83 95.25 0)
@@ -4367,7 +4367,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "cac4df52-629b-4931-9c09-5aef64026fbe")
+		(uuid "77ba03fb-db1b-4370-8d7d-ee04d1639f14")
 	)
 	(wire
 		(pts
@@ -4377,7 +4377,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b2ffffbb-747c-4f9e-89dd-7f988691d6ec")
+		(uuid "155fd20b-15b1-4ac8-aecb-0106dcff656c")
 	)
 	(label "F_A0"
 		(at 36.83 97.79 0)
@@ -4387,7 +4387,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "2169bf0a-711d-4b47-aef9-173403d0fefd")
+		(uuid "eb2366e6-8c2d-453d-8aa5-3087a4e5cd58")
 	)
 	(wire
 		(pts
@@ -4397,7 +4397,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "19b60046-6278-4693-936c-d345ead55a62")
+		(uuid "866a3fd1-fadb-4fd1-8ff8-6218121825b4")
 	)
 	(label "F_A1"
 		(at 36.83 100.33 0)
@@ -4407,7 +4407,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ccdca773-2862-4d0e-8f94-073cdf9fcd39")
+		(uuid "8afea14d-4bf9-4e35-bb2e-e15fdb1386c9")
 	)
 	(wire
 		(pts
@@ -4417,7 +4417,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3b314e1e-6597-4d9f-a1d8-4093f1f96932")
+		(uuid "c463f68f-dfbd-4de3-9d6c-323aabbbe0bb")
 	)
 	(label "F_A2"
 		(at 36.83 102.87 0)
@@ -4427,7 +4427,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9aa3638e-b767-46d5-848c-961413561d72")
+		(uuid "b85f5c52-521f-4a85-966f-db049df8580f")
 	)
 	(wire
 		(pts
@@ -4437,7 +4437,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "047ca5e2-5291-410b-9d5e-ce201963e8b2")
+		(uuid "5c33a661-43b9-4ef5-8c36-9b28c10511ce")
 	)
 	(label "F_A3"
 		(at 36.83 105.41 0)
@@ -4447,7 +4447,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1de0108c-507f-42a8-abda-da4d777398fa")
+		(uuid "92d295c9-afeb-4ecd-9ee1-a13f90b17919")
 	)
 	(wire
 		(pts
@@ -4457,7 +4457,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "692c21bf-085b-4ef0-83e5-3ec83c9f6000")
+		(uuid "e411feaa-a3c3-49a3-9ec0-d8fa745b87cf")
 	)
 	(label "F_A4"
 		(at 36.83 107.95 0)
@@ -4467,7 +4467,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "97fb98d5-0aeb-468b-8729-7fb8e6d18371")
+		(uuid "2feed3dd-93b9-4417-8823-d4783030256e")
 	)
 	(wire
 		(pts
@@ -4477,7 +4477,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "abac88d8-f686-481c-94c3-83799fb4869b")
+		(uuid "c22eda58-f76a-49b1-9a8b-726896435270")
 	)
 	(label "F_A5"
 		(at 36.83 110.49 0)
@@ -4487,7 +4487,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "0e0a59a5-7c2b-4788-b07a-66669bc01dc8")
+		(uuid "288026cc-58a9-4e98-8924-63330d0ee751")
 	)
 	(wire
 		(pts
@@ -4497,7 +4497,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "86059309-3672-4d24-9814-7aeca2352af5")
+		(uuid "df05303c-7bb4-4724-bcb4-574ba149a8d7")
 	)
 	(label "F_RW"
 		(at 36.83 113.03 0)
@@ -4507,7 +4507,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ab30d518-96d1-4e38-8c8c-2d368477e0d9")
+		(uuid "2109eebd-9be8-48b3-a33e-8c820987d4dc")
 	)
 	(wire
 		(pts
@@ -4517,7 +4517,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a8050480-b290-44d5-af39-0e624bdac08b")
+		(uuid "0bd1884b-852f-4854-bbff-fb5169c19c2f")
 	)
 	(label "F_CS0_N"
 		(at 36.83 115.57 0)
@@ -4527,7 +4527,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3bd00775-20c6-4155-8a16-b18974421519")
+		(uuid "654053fe-b7d4-45ae-8164-f23bf73ceeba")
 	)
 	(wire
 		(pts
@@ -4537,7 +4537,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a8e85bff-619d-4907-b2f0-4e133b19afd7")
+		(uuid "e4d74dd9-87ee-4e5b-9029-4841dd4da32e")
 	)
 	(label "F_CS3_N"
 		(at 36.83 118.11 0)
@@ -4547,7 +4547,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "fc29e789-4a8a-46e6-986e-039906606220")
+		(uuid "fb820912-84ae-442c-b439-da18b07d081f")
 	)
 	(wire
 		(pts
@@ -4557,7 +4557,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "abf4d9ca-814d-4553-8f9c-1510e93f2b96")
+		(uuid "b4c9b33b-9f95-42b0-8370-6ac4d658df2d")
 	)
 	(label "F_PHI2"
 		(at 36.83 120.65 0)
@@ -4567,7 +4567,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9eeca911-99f5-4551-a57b-d62035e8c01a")
+		(uuid "d9e81f66-d0be-42ee-8a13-c1047473c59e")
 	)
 	(wire
 		(pts
@@ -4577,7 +4577,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "df934d7c-73f0-4af2-9180-5ce32b697c83")
+		(uuid "9fa0d95b-7d6b-4997-96fe-34626f45665d")
 	)
 	(label "F_OSC"
 		(at 36.83 123.19 0)
@@ -4587,7 +4587,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c3da6bef-c80c-4fc5-920b-cfee8b67a06e")
+		(uuid "36d362d9-9007-4d90-b5c3-e401eb676102")
 	)
 	(wire
 		(pts
@@ -4597,7 +4597,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a2307e1a-a3d1-4e88-8878-372bcdf154b0")
+		(uuid "7c290a6a-0dbe-4d46-88cb-f3df515dbc2b")
 	)
 	(label "F_PHI0"
 		(at 36.83 125.73 0)
@@ -4607,15 +4607,15 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "cdc9efed-4508-455e-a025-1e58a89f9001")
+		(uuid "32afeeb4-2fce-4fd2-8dfa-2eead84b9dd7")
 	)
 	(no_connect
 		(at 39.37 128.27)
-		(uuid "8a690fb1-9a67-48ab-826b-cc75f9ee3110")
+		(uuid "fcab9783-0671-42c5-bea4-223568b1275c")
 	)
 	(no_connect
 		(at 39.37 130.81)
-		(uuid "75790b01-fb11-430b-9b1a-fbe1723887c9")
+		(uuid "a592ffe4-9a14-4843-903a-7619269b8757")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x24")
@@ -4625,7 +4625,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "5b31d209-0dad-45c0-a699-f8c64209e0a9")
+		(uuid "6e9e53e2-ad47-4f43-841c-38569390efe9")
 		(property "Reference" "J4"
 			(at 88.90 66.88 0)
 			(effects
@@ -4644,7 +4644,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x24_P2.54mm_Vertical"
 			(at 90.17 100.33 0)
 			(hide yes)
 			(effects
@@ -4665,80 +4665,80 @@
 			)
 		)
 		(pin "1"
-			(uuid "2c279265-dff0-4a58-bf47-6a72ea1a0a8c")
+			(uuid "ff08c9ad-e40f-486b-a468-e48afa3e5f92")
 		)
 		(pin "2"
-			(uuid "011bfe21-ae20-415e-83b7-c6b408997dee")
+			(uuid "40b60c90-234d-43c1-80b3-250628115019")
 		)
 		(pin "3"
-			(uuid "410d7d0c-d175-4ba4-9d8e-495a33acfff3")
+			(uuid "19d47752-72a6-4cbb-bd9f-1a04a1fe2025")
 		)
 		(pin "4"
-			(uuid "4c7cf1c6-bcae-4299-aecc-16c57bbac3a4")
+			(uuid "0d1f5a9d-0e1d-4a3e-8523-1db8bec0339d")
 		)
 		(pin "5"
-			(uuid "37c3f50d-e55f-4951-a866-69168e07f438")
+			(uuid "fee08f3a-9050-4119-83bb-aa8ed0aa33cb")
 		)
 		(pin "6"
-			(uuid "b3f4317c-80be-495c-a6f0-d227270a31cb")
+			(uuid "795868b4-2e56-42db-9416-6e8df6867dc4")
 		)
 		(pin "7"
-			(uuid "2993c24a-0d1a-4ed6-94d9-c887d7e41e78")
+			(uuid "78d59ab8-1866-44cc-89f6-68977652487b")
 		)
 		(pin "8"
-			(uuid "e14ac2e2-ad97-4a53-92ca-ec29b3ca09c6")
+			(uuid "c081c895-859f-4ca3-8f6f-1729586427af")
 		)
 		(pin "9"
-			(uuid "65d16729-5cd0-4f22-abe3-441e27cf56a0")
+			(uuid "d8f24976-a200-4c26-9460-ffd145e8c413")
 		)
 		(pin "10"
-			(uuid "3e74d11a-ba38-4197-912c-958f2cf4506d")
+			(uuid "af95e815-ee96-4394-8ffb-afb837b7972b")
 		)
 		(pin "11"
-			(uuid "752f8a85-1f5b-4ed6-a36c-3ff89bb3ef87")
+			(uuid "391712fe-a95e-4b89-a0f0-65baa4f4096a")
 		)
 		(pin "12"
-			(uuid "481dbb87-09ff-429a-bccb-fd3a5fbc9b50")
+			(uuid "d7ab1c5c-9617-4b6e-9441-58f224fe309a")
 		)
 		(pin "13"
-			(uuid "01e0b87e-112d-4662-8669-a7f16468b7a3")
+			(uuid "1b5e5a1f-4871-4169-9abe-663ff88fb03b")
 		)
 		(pin "14"
-			(uuid "ff968a4f-e3d6-4d3b-9f53-b5277d450643")
+			(uuid "51e747cc-46f5-4e65-955b-10aa3761b654")
 		)
 		(pin "15"
-			(uuid "a7d567ae-43bb-4053-9c05-5fb16f806b06")
+			(uuid "9a7e0cf1-43a0-49ff-ac40-f0b82cb1e015")
 		)
 		(pin "16"
-			(uuid "1e7eb52d-a463-4305-99df-aa9d0a8ff6a5")
+			(uuid "ba5b84ca-2769-41a9-b9c6-31e11c94ee97")
 		)
 		(pin "17"
-			(uuid "e5435cb2-c2b2-4f77-8e9f-69e1069a971f")
+			(uuid "95f025f1-0839-4f0e-a8b2-2f5fc26ed7ba")
 		)
 		(pin "18"
-			(uuid "ecace2a3-f7be-4350-b337-bad199ca8d13")
+			(uuid "2136710d-dad3-4382-b7ea-7ea056dff3ec")
 		)
 		(pin "19"
-			(uuid "6dfc06cc-2d6e-4571-b3ec-3081805cc9f1")
+			(uuid "b8a32a28-23fc-4504-8c8c-0178fa3b5eee")
 		)
 		(pin "20"
-			(uuid "338e6347-97a0-43a4-8e3d-e51216924292")
+			(uuid "a7695e50-39e3-4273-91a4-0486076f840e")
 		)
 		(pin "21"
-			(uuid "32c42c51-5bb2-4cad-ac1b-fb2e31066b14")
+			(uuid "466ddd2f-e1d6-4d24-98f3-b8baa9b0271f")
 		)
 		(pin "22"
-			(uuid "51dddd0e-c3ff-49a5-a60c-3f17d5b3676b")
+			(uuid "270279f1-98fc-4ef2-a0df-347e20cb5ac0")
 		)
 		(pin "23"
-			(uuid "6338e666-f73f-4020-b826-d4fca074eeb9")
+			(uuid "04d6b7d4-d424-4c95-83b0-ee7fc0f7df0d")
 		)
 		(pin "24"
-			(uuid "2d59c966-9004-4422-aba0-5a035b592b89")
+			(uuid "146a5820-8a3f-4c43-9a31-9e59bb9c9471")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "J4")
 					(unit 1)
 				)
@@ -4753,7 +4753,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c34fe16d-513a-4207-9335-f06090ae9d20")
+		(uuid "8491643a-a71b-4944-9197-77bbc4de7c24")
 	)
 	(label "F_RDY"
 		(at 82.55 72.39 0)
@@ -4763,39 +4763,39 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "836c5cae-01c4-4967-ad86-e0e5dbdb1c35")
+		(uuid "03059f5a-2661-4768-9787-5559ec28192e")
 	)
 	(no_connect
 		(at 85.09 74.93)
-		(uuid "1d89c103-575e-408c-9aef-b6f377a06b5d")
+		(uuid "c2d8e784-3417-4b25-ae6a-72449b025caf")
 	)
 	(no_connect
 		(at 85.09 77.47)
-		(uuid "864e8174-5e11-4224-8e15-ad5febcc0bd0")
+		(uuid "ac3d331a-2a4b-4cf7-a0de-97bff0577baf")
 	)
 	(no_connect
 		(at 85.09 80.01)
-		(uuid "77a98b55-d8f8-431f-a8c3-90f0af8113ff")
+		(uuid "8175cf44-99ef-41a8-972a-60e5f689e753")
 	)
 	(no_connect
 		(at 85.09 82.55)
-		(uuid "c87ee526-cc8a-45ee-b624-f0f6f28bfebe")
+		(uuid "e67a5723-5181-4b40-a720-5625e6d81d69")
 	)
 	(no_connect
 		(at 85.09 85.09)
-		(uuid "16c7cd7f-5a65-4f9f-af33-97e624d83c60")
+		(uuid "df46014a-852a-4e19-8d2d-4c9557e2ee44")
 	)
 	(no_connect
 		(at 85.09 87.63)
-		(uuid "054cb52f-4315-4c03-a0af-79eba9e0ae26")
+		(uuid "7f2c5156-55ca-42a4-8e6a-6cd9c4bb34ee")
 	)
 	(no_connect
 		(at 85.09 90.17)
-		(uuid "b8de5a83-8050-4d36-b3fe-7a7e755b671b")
+		(uuid "06278578-3cd9-44c8-aeb3-0c4b8468e7af")
 	)
 	(no_connect
 		(at 85.09 92.71)
-		(uuid "250910c6-a521-465b-9505-6b82dd7d6629")
+		(uuid "6fa6e3f1-6796-4fb5-be36-54e99771fad4")
 	)
 	(wire
 		(pts
@@ -4805,7 +4805,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "63670243-a640-46e5-acce-9e204ed4305d")
+		(uuid "c13ddd3d-0ba5-403a-a50d-74e6e2194bab")
 	)
 	(label "F_I5"
 		(at 82.55 95.25 0)
@@ -4815,7 +4815,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9a826c20-44c0-4f4f-ac0a-9dc30e6774e9")
+		(uuid "a539aa50-e3fd-47f4-9087-746099b4f0ee")
 	)
 	(wire
 		(pts
@@ -4825,7 +4825,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5143d515-6da3-4074-ab6a-7f4edcd1cf08")
+		(uuid "6f0df8e6-c5ef-46d4-88b9-fd32517660d5")
 	)
 	(label "F_CSYNC"
 		(at 82.55 97.79 0)
@@ -4835,35 +4835,35 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1ac1f441-3779-4c6b-aefc-1a1ae0546302")
+		(uuid "7f38bc6b-e5d2-4ee6-ac5c-3b1a51f6ff75")
 	)
 	(no_connect
 		(at 85.09 100.33)
-		(uuid "ce0c84bd-f8a4-4120-adf4-73882c1ee1e4")
+		(uuid "76830baf-2f30-41f0-930d-08bc33b8b48a")
 	)
 	(no_connect
 		(at 85.09 102.87)
-		(uuid "f05d84f7-e638-44a2-9c9c-bc3461a6c70b")
+		(uuid "74a7712e-2f45-449f-93b7-957b4eac6142")
 	)
 	(no_connect
 		(at 85.09 105.41)
-		(uuid "3a3487b5-cd53-4cc6-ab66-56cdb7638d49")
+		(uuid "ae0937bf-5096-461f-9111-700c1a77cf98")
 	)
 	(no_connect
 		(at 85.09 107.95)
-		(uuid "3df7ed09-c3dc-4a79-9581-527ff6193715")
+		(uuid "b7afcff4-91b2-4040-b198-377ae7adc1ee")
 	)
 	(no_connect
 		(at 85.09 110.49)
-		(uuid "bb422416-2d5c-4fd1-abb6-65e878f2df59")
+		(uuid "61405821-9a2d-44ab-8e9b-274ab06500d9")
 	)
 	(no_connect
 		(at 85.09 113.03)
-		(uuid "15c790a0-1024-4737-a16e-4cd41dba9ff0")
+		(uuid "d8c63a03-fdf3-4239-b1d1-e790efb21e86")
 	)
 	(no_connect
 		(at 85.09 115.57)
-		(uuid "0892ca7e-0c87-4a7f-842d-23b3b243469c")
+		(uuid "c3dd91f6-4a16-4007-8709-57dc98f96ebc")
 	)
 	(wire
 		(pts
@@ -4873,7 +4873,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f8cdd2f2-3ba9-433e-821d-527806b2cbca")
+		(uuid "a0a25b5d-d8eb-4c1a-b556-31ce5a93da7e")
 	)
 	(label "F_LUM0"
 		(at 82.55 118.11 0)
@@ -4883,7 +4883,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "cf5619a9-44db-4e8f-9b9f-ea804bafaeda")
+		(uuid "da087128-3dd1-46d8-af78-7912c2b87297")
 	)
 	(wire
 		(pts
@@ -4893,7 +4893,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a22df102-f35d-4d53-b9c2-d0bfc3b147df")
+		(uuid "65d16afd-bec5-447b-9b81-ff1dc9919b00")
 	)
 	(label "F_LUM1"
 		(at 82.55 120.65 0)
@@ -4903,7 +4903,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c6e341fe-e55c-42a5-b7c4-67f8b55c59ae")
+		(uuid "221e35eb-ad81-4863-b4ab-3d72f71971ec")
 	)
 	(wire
 		(pts
@@ -4913,7 +4913,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "266a11f3-4570-4873-a1fe-e7b01f0b037b")
+		(uuid "e2153954-21c4-428f-a8ce-4539211d7575")
 	)
 	(label "F_LUM2"
 		(at 82.55 123.19 0)
@@ -4923,7 +4923,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1314154e-9ec7-4846-a163-a01364b77229")
+		(uuid "f6b08c36-d695-4cd3-a11e-f0f3fd1782c1")
 	)
 	(wire
 		(pts
@@ -4933,7 +4933,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "77179d7c-bc2a-4d79-b0ec-80ca4806f690")
+		(uuid "cc18f5fb-e031-4ead-bdb0-6248504d3ce8")
 	)
 	(label "F_AU0"
 		(at 82.55 125.73 0)
@@ -4943,7 +4943,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "57b015a5-27ad-455f-bb6e-3565d4b70f52")
+		(uuid "a95c3b58-e004-46db-9c43-e9f289788e4c")
 	)
 	(wire
 		(pts
@@ -4953,7 +4953,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c3483be2-77e1-4d82-ac82-8d4f34ab5292")
+		(uuid "855610c7-a6e2-4f94-b7a8-a885e3c00dd2")
 	)
 	(label "GND"
 		(at 82.55 128.27 0)
@@ -4963,7 +4963,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "6eb2c26e-a412-475a-9a2f-d6cb0ece5b2d")
+		(uuid "6bf860dd-95ad-4496-8d57-18c7917efea5")
 	)
 	(wire
 		(pts
@@ -4973,7 +4973,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b4135760-85c3-4b74-800f-12953094b3d2")
+		(uuid "17ed22cb-9698-48ba-b297-02b46e675790")
 	)
 	(label "+3V3"
 		(at 82.55 130.81 0)
@@ -4983,7 +4983,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "185a7b0c-a812-4f38-9603-8f60f81d2797")
+		(uuid "a76e0795-13dc-471c-8d65-ce6da86aed77")
 	)
 	(text "J4/2-9 are BANK3 at 1.8 V - unusable at 3.3 V without a local LDO and a"
 		(exclude_from_sim no)
@@ -4994,7 +4994,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a1ee84ed-5b4d-4293-b804-da90441edf23")
+		(uuid "dc64aa9c-f6b1-4712-a9a2-5f493a3a3eda")
 	)
 	(text "1.8 V-powered buffer. Recovering those 8 pins is the rev B fix."
 		(exclude_from_sim no)
@@ -5005,7 +5005,7 @@
 			)
 			(justify left)
 		)
-		(uuid "3dbe1de3-5974-4977-93f1-fa8daf94cfb6")
+		(uuid "c6ad396a-0c6d-4835-accc-020b88f217e8")
 	)
 	(text "J4/18 (+5 V from the Tang Nano) left open on purpose: this board is fed"
 		(exclude_from_sim no)
@@ -5016,7 +5016,7 @@
 			)
 			(justify left)
 		)
-		(uuid "24d5847b-8daf-4a88-b8f2-978f0237852a")
+		(uuid "91f4f5d0-841d-47d9-8158-4cac60c7ca9b")
 	)
 	(text "from the breadboard rail, so tying both would put two sources on one net."
 		(exclude_from_sim no)
@@ -5027,7 +5027,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2f7e873f-7342-4433-8c79-ea33e5fb08cb")
+		(uuid "9250c94e-dd2a-4219-8c4a-641c2909ba0c")
 	)
 	(text "Power the Tang Nano over USB. +3V3 is taken from J4/24."
 		(exclude_from_sim no)
@@ -5038,7 +5038,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2eae36a9-1817-4f8c-97b4-b7657373d22a")
+		(uuid "2c0e11f2-cb22-47c0-8288-de0d83b4d24c")
 	)
 	(text "LEVEL TRANSLATORS"
 		(exclude_from_sim no)
@@ -5050,7 +5050,7 @@
 			)
 			(justify left)
 		)
-		(uuid "aba952e6-7c85-4996-99eb-617a16046241")
+		(uuid "e0802853-d66e-40ce-ade1-a1f5a7754c84")
 	)
 	(text "U1 is the critical part: the NMOS 6507 requires VIH(PHI0) = Vcc-0.2 V ~ 4.8 V."
 		(exclude_from_sim no)
@@ -5061,7 +5061,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a8a2a171-e93a-4784-a920-f6f1d5657c89")
+		(uuid "7ddc371f-7fba-4d3a-8d88-da874522dc52")
 	)
 	(text "A 3.3 V output will not clock the 6507 reliably."
 		(exclude_from_sim no)
@@ -5072,7 +5072,7 @@
 			)
 			(justify left)
 		)
-		(uuid "628764ad-baaf-40b5-b6c2-0df1663c9003")
+		(uuid "71d1e927-2ea1-4c47-befb-cfaa36cb098d")
 	)
 	(symbol
 		(lib_id "74xx:74AHCT125")
@@ -5082,7 +5082,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1075d04b-6db2-48b6-a74f-e06ad08fee4e")
+		(uuid "e929918e-f227-4462-abca-ea0b7cb60662")
 		(property "Reference" "U1"
 			(at 161.29 47.83 0)
 			(effects
@@ -5101,7 +5101,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 165.10 55.88 0)
 			(hide yes)
 			(effects
@@ -5122,17 +5122,17 @@
 			)
 		)
 		(pin "1"
-			(uuid "998d2f58-abf5-4680-bc03-b6e5ebbd98d1")
+			(uuid "a7e66dda-3b2d-457e-922d-279a2ca00087")
 		)
 		(pin "2"
-			(uuid "a3672272-6d61-4c6c-a8f3-112595defc40")
+			(uuid "305b009c-ff47-49d0-b913-aa6bd9679d13")
 		)
 		(pin "3"
-			(uuid "6b292911-e033-4bc2-94a7-d22436c6fa46")
+			(uuid "9163e166-71e6-42b9-8171-19bf5503d3c2")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U1")
 					(unit 1)
 				)
@@ -5147,7 +5147,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7e7d0ecb-2f77-4c9c-92f1-28c300940370")
+		(uuid "80edebb4-a467-435b-914d-1d28c30409f0")
 	)
 	(label "GND"
 		(at 165.10 64.77 90)
@@ -5157,7 +5157,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "358c66d5-6bab-4377-a4d2-6765d40db5ae")
+		(uuid "143fe0d1-956a-4ec1-8c8f-a65c45d6b526")
 	)
 	(wire
 		(pts
@@ -5167,7 +5167,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6e1c7dac-8bb3-448d-85f0-14365319ccbf")
+		(uuid "997968ea-dcb4-4ff5-bf00-0034559f35f4")
 	)
 	(label "F_PHI0"
 		(at 154.94 55.88 0)
@@ -5177,7 +5177,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "302be4a5-b62c-458b-8abf-b40fa636687f")
+		(uuid "8bc8aaf9-f1d3-4c68-a41d-a5e3efc79364")
 	)
 	(wire
 		(pts
@@ -5187,7 +5187,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b7336e9b-61aa-4894-96bf-66f35f41473b")
+		(uuid "83fd484c-d5c7-45b0-bc7b-2382b0f2f2a6")
 	)
 	(label "TIA_PHI0"
 		(at 175.26 55.88 0)
@@ -5197,7 +5197,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ddb48aae-a84a-4fb8-a816-b67093a12fbb")
+		(uuid "5074af6a-db01-491d-a56c-4dfb118ed3cf")
 	)
 	(symbol
 		(lib_id "74xx:74AHCT125")
@@ -5207,7 +5207,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a14f2447-806d-42c4-88ee-3df4018b06ed")
+		(uuid "aab57cf4-fcea-47e7-8d34-18c2f049f36b")
 		(property "Reference" "U1"
 			(at 170.41 69.42 0)
 			(effects
@@ -5226,7 +5226,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 165.10 77.47 0)
 			(hide yes)
 			(effects
@@ -5247,17 +5247,17 @@
 			)
 		)
 		(pin "4"
-			(uuid "2ce9c10f-d1d1-41dd-b042-171e499b216c")
+			(uuid "37e8ab80-ce82-45ca-9f37-bb003015a3c7")
 		)
 		(pin "5"
-			(uuid "6a9aaa3e-618c-4df2-beb5-480a71435ea0")
+			(uuid "55b35a88-d3e8-4bc5-8663-dd9e52af337b")
 		)
 		(pin "6"
-			(uuid "a52d3fc2-59bc-442e-9249-c8219765c664")
+			(uuid "b4ccea13-a45b-4432-9a24-3f6f508f0a7b")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U1")
 					(unit 2)
 				)
@@ -5272,7 +5272,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "433614f5-1c35-4ec9-976d-d7795759eea0")
+		(uuid "44fae482-9fae-45fd-9421-2104bd3a7d68")
 	)
 	(label "GND"
 		(at 165.10 86.36 90)
@@ -5282,7 +5282,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "12dd8244-e9c4-4832-815f-4d355bc8d076")
+		(uuid "484b4e2d-8381-4c28-9781-dd301c990fe8")
 	)
 	(wire
 		(pts
@@ -5292,7 +5292,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1db85995-69f6-4bea-9eff-b7e005bb0b15")
+		(uuid "2c086178-f4dd-45a3-a331-00495cc62c7a")
 	)
 	(label "F_RDY"
 		(at 154.94 77.47 0)
@@ -5302,7 +5302,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a8450461-bcf7-4cb9-82cf-831c43bb2464")
+		(uuid "781266bf-affd-476c-9854-c8f7c2cbaf38")
 	)
 	(wire
 		(pts
@@ -5312,7 +5312,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "67281792-b2d3-41ab-aa4f-4209d11e433b")
+		(uuid "178b85a3-4c9e-4b0f-97de-f0b20a6bcdf0")
 	)
 	(label "TIA_RDY"
 		(at 175.26 77.47 0)
@@ -5322,7 +5322,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "fb377c8f-bf0e-4d5a-ad1f-85c9914007aa")
+		(uuid "13fa4dfb-3d0a-4350-97a5-5aad8da478ce")
 	)
 	(symbol
 		(lib_id "74xx:74AHCT125")
@@ -5332,7 +5332,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "31ca1a3a-18e4-4c69-8798-f00b4afc4cc3")
+		(uuid "a0cd5aef-44f9-41d8-b6ff-761dfc1f6eaf")
 		(property "Reference" "U1"
 			(at 161.29 92.28 0)
 			(effects
@@ -5351,7 +5351,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 165.10 100.33 0)
 			(hide yes)
 			(effects
@@ -5372,17 +5372,17 @@
 			)
 		)
 		(pin "8"
-			(uuid "89515f7f-49d8-4605-8958-9b8c65ff3979")
+			(uuid "e8c8bea1-f740-470b-9878-6a03a2414f38")
 		)
 		(pin "9"
-			(uuid "6d3c171a-2e31-47aa-8f19-3ab201c43fcf")
+			(uuid "c329cd0a-0bed-47d3-beb5-dd77d7110955")
 		)
 		(pin "10"
-			(uuid "475e37b4-fb85-4fa4-819d-ef49120910ba")
+			(uuid "de085e9d-5cba-406b-9111-5ae8635149c1")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U1")
 					(unit 3)
 				)
@@ -5391,7 +5391,7 @@
 	)
 	(no_connect
 		(at 172.72 100.33)
-		(uuid "69c36e70-bdc7-4a5c-990f-53cf34b24965")
+		(uuid "e71e8797-27f4-4d49-856c-1e739fb00c2a")
 	)
 	(wire
 		(pts
@@ -5401,7 +5401,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "aa7a806a-bbe3-49db-a094-412ae5cbcb71")
+		(uuid "c4ceff72-1643-4a06-8bec-2e11aac4420f")
 	)
 	(label "GND"
 		(at 154.94 100.33 0)
@@ -5411,7 +5411,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a76c6be1-3e19-471b-bf8a-4f252a78b9c8")
+		(uuid "854cdc21-a905-483b-82ca-2a9cd11e3b72")
 	)
 	(wire
 		(pts
@@ -5421,7 +5421,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7b86dd48-02cb-4a66-8aa8-ed773efac42f")
+		(uuid "a4c8fc59-5bf8-48b3-969e-13c87c898df9")
 	)
 	(label "+5V"
 		(at 165.10 109.22 90)
@@ -5431,7 +5431,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "58dbe24b-b532-4300-98a0-2fc614230912")
+		(uuid "d841e001-ac3f-4b86-b459-69669768b48c")
 	)
 	(symbol
 		(lib_id "74xx:74AHCT125")
@@ -5441,7 +5441,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "405fee7f-13ed-4fe6-bece-4a556596e898")
+		(uuid "15708f27-2b37-4f83-bc8e-63c4848c55dd")
 		(property "Reference" "U1"
 			(at 170.41 113.87 0)
 			(effects
@@ -5460,7 +5460,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 165.10 121.92 0)
 			(hide yes)
 			(effects
@@ -5481,17 +5481,17 @@
 			)
 		)
 		(pin "11"
-			(uuid "0151bf0f-63d7-47da-a760-834a02149dcb")
+			(uuid "85148d5e-fd74-4e96-a6d2-0c2d5f4fa9ab")
 		)
 		(pin "12"
-			(uuid "b83085c1-5e33-4c7c-88ee-e197ee7f45f1")
+			(uuid "ab7e539b-dca7-4184-b5e2-508680faf265")
 		)
 		(pin "13"
-			(uuid "c423f98c-d2af-4c89-969d-6d8aebbe01bf")
+			(uuid "8c5e1c63-2da5-4089-b6c1-0e2c0de47e7b")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U1")
 					(unit 4)
 				)
@@ -5500,7 +5500,7 @@
 	)
 	(no_connect
 		(at 172.72 121.92)
-		(uuid "09e7e0ce-b9d3-48ed-9f1e-ddc2758057cf")
+		(uuid "6708f0da-c920-44a1-b345-36d656d7a955")
 	)
 	(wire
 		(pts
@@ -5510,7 +5510,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "12796554-59c5-4fe7-b31b-6714321f78e6")
+		(uuid "38e78b12-4d82-4391-a447-ab2cfaf25fd6")
 	)
 	(label "GND"
 		(at 154.94 121.92 0)
@@ -5520,7 +5520,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ab888547-db9c-4247-8387-f2125e1431d3")
+		(uuid "0ab91869-6f80-4fd0-8b16-0ed6aa88aa77")
 	)
 	(wire
 		(pts
@@ -5530,7 +5530,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "388643c8-c6cf-4f15-b6ef-7afee201e79a")
+		(uuid "37ab5132-4c4a-4a76-b35e-ff6898124b63")
 	)
 	(label "+5V"
 		(at 165.10 130.81 90)
@@ -5540,7 +5540,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "afa04f0a-8dfe-4a6a-b16e-b2ab1077128b")
+		(uuid "c31d1064-a321-4428-aea4-cc0b7da978b9")
 	)
 	(symbol
 		(lib_id "74xx:74AHCT125")
@@ -5550,7 +5550,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "92990caf-9097-4797-a58d-5ba09d578662")
+		(uuid "8d8c0e0a-561b-43df-8250-c1cbca011b64")
 		(property "Reference" "U1"
 			(at 204.47 44.02 0)
 			(effects
@@ -5569,7 +5569,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 			(at 209.55 55.88 0)
 			(hide yes)
 			(effects
@@ -5590,14 +5590,14 @@
 			)
 		)
 		(pin "7"
-			(uuid "7072dc37-3c37-4675-86b1-dbb50c67cfcc")
+			(uuid "9d905f9e-608d-445f-8b7d-57be1051b040")
 		)
 		(pin "14"
-			(uuid "42021dc8-a5e4-4bfe-80eb-bae92330cb58")
+			(uuid "c7577c40-c53c-4370-82a7-669cbdb0b682")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U1")
 					(unit 5)
 				)
@@ -5612,7 +5612,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "df188c2a-34eb-41e5-96ef-66d37c8667e1")
+		(uuid "d61e64fa-9ef3-425c-a8c8-8c78e99d2476")
 	)
 	(label "GND"
 		(at 209.55 71.12 90)
@@ -5622,7 +5622,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "6e42d836-9d5a-43cc-8742-b9166fd28201")
+		(uuid "9781ab46-0a2e-4537-9e1f-90675360639b")
 	)
 	(wire
 		(pts
@@ -5632,7 +5632,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "54e29ec4-7e66-4699-aab6-7eae745a6f76")
+		(uuid "44a62956-ef8b-4fa5-a7e3-13ee1320c225")
 	)
 	(label "+5V"
 		(at 209.55 40.64 90)
@@ -5642,7 +5642,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f54d320c-2c66-40a1-9ffd-ba235c39f47c")
+		(uuid "09b8ebf0-0c61-40e7-a224-80c5c715ad61")
 	)
 	(text "U1 runs from +5 V - this is where the level step-up happens."
 		(exclude_from_sim no)
@@ -5653,7 +5653,7 @@
 			)
 			(justify left)
 		)
-		(uuid "982e5f0c-56b9-4d59-ae8d-c0b8d9044592")
+		(uuid "3d3c7537-5ced-41a9-8c70-b4229c8079a5")
 	)
 	(text "Spare buffers 3 and 4: /OE tied to +5 V, input tied to GND."
 		(exclude_from_sim no)
@@ -5664,7 +5664,7 @@
 			)
 			(justify left)
 		)
-		(uuid "29a35ad3-3d1d-40af-ae1b-321deb8779d0")
+		(uuid "4b65badb-eb06-4606-a7c9-d660b3d49f7e")
 	)
 	(text "U2  D0-D7 bidirectional. A side = FPGA, B side = TIA."
 		(exclude_from_sim no)
@@ -5675,7 +5675,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c4b81de0-2f7f-403d-a788-412bf9b7d8cf")
+		(uuid "62a6f43f-fa38-4dca-b0e9-2c2ab93d83d1")
 	)
 	(text "DIR comes straight from the buffered R/W: DIR=1 (a read)"
 		(exclude_from_sim no)
@@ -5686,7 +5686,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7ea44fc5-2943-4255-bdc0-4076d0a5cb11")
+		(uuid "12ef95d8-93ae-4f2c-936d-12b49d77349a")
 	)
 	(text "sends FPGA -> TIA. /OE comes from U5, so neither 245"
 		(exclude_from_sim no)
@@ -5697,7 +5697,7 @@
 			)
 			(justify left)
 		)
-		(uuid "15f22678-d990-4be4-ae76-a7d11ed16f9f")
+		(uuid "57829522-11c1-48e0-a5b2-93fc6c214346")
 	)
 	(text "control line costs an FPGA pin - that freed the one we needed."
 		(exclude_from_sim no)
@@ -5708,7 +5708,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e7d2eaf8-6217-4f61-82a9-3096ee365fe2")
+		(uuid "2dc2a0dd-fb52-4ffe-9c54-c3575f4b36f2")
 	)
 	(symbol
 		(lib_id "74xx:74HC245")
@@ -5718,7 +5718,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "33031e2c-cdfc-43cc-bce7-5ecb8292a993")
+		(uuid "6aeedb23-0375-4c7d-9fa0-592717ea51c0")
 		(property "Reference" "U2"
 			(at 157.48 165.94 0)
 			(effects
@@ -5737,7 +5737,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm"
 			(at 165.10 185.42 0)
 			(hide yes)
 			(effects
@@ -5758,68 +5758,68 @@
 			)
 		)
 		(pin "1"
-			(uuid "6ef6395c-c18a-4494-ac58-1c7f2e7640ce")
+			(uuid "8db4bd64-6b6b-4f5e-a91a-52e847965552")
 		)
 		(pin "2"
-			(uuid "0607ad7f-c632-4074-abb6-0c2796981250")
+			(uuid "b2993f15-f1a2-46c8-913e-d24f6395ba76")
 		)
 		(pin "3"
-			(uuid "d779091e-3367-49d6-ad48-8619bd882486")
+			(uuid "891502a2-be24-4e75-8257-de62ae13a7ae")
 		)
 		(pin "4"
-			(uuid "6ef7df0d-eff3-40b3-b8ca-8ccac76a4cef")
+			(uuid "fa95e5a7-ebd7-4fb0-a38f-fc5194584ac2")
 		)
 		(pin "5"
-			(uuid "fcc7b189-cee7-45a8-8854-0c3c23da201a")
+			(uuid "971d0bd1-5a77-4344-a8c7-5a88dd041581")
 		)
 		(pin "6"
-			(uuid "2f8b8ce8-9b50-4292-afcc-eda8c6f7de15")
+			(uuid "aa6feb97-cf72-414e-9da3-d70896d3caa1")
 		)
 		(pin "7"
-			(uuid "7b960953-c6e0-44b1-93b6-65a7f119f304")
+			(uuid "da6c26b5-e9af-408a-acd1-0665d603bdee")
 		)
 		(pin "8"
-			(uuid "1e8a4bfc-8c69-4269-8d3e-f2c1b857e6c6")
+			(uuid "5cebb9f1-e862-4aa8-b958-f82b718cdbc3")
 		)
 		(pin "9"
-			(uuid "a358454a-e685-4613-8402-11c4f659e0ab")
+			(uuid "eeeb38ad-1b41-439f-9214-117819a33fa5")
 		)
 		(pin "10"
-			(uuid "93b7bfd3-79b5-4e6b-82c0-49b8d312a20d")
+			(uuid "900b2315-fdbd-46ed-9d14-1dc07e9df949")
 		)
 		(pin "11"
-			(uuid "9b9cd84d-854a-4de5-bfb9-8a237632b6e3")
+			(uuid "1da49009-9882-42bf-a0cb-39117e718d6d")
 		)
 		(pin "12"
-			(uuid "79707269-2a2c-49cc-b0e1-72c11c48d0c7")
+			(uuid "9106b210-a8aa-44b0-8f63-af8300b7885b")
 		)
 		(pin "13"
-			(uuid "fdb62721-591d-40b0-af83-083f64498b95")
+			(uuid "70673542-2cfa-4f4e-812a-fd86c958f9ad")
 		)
 		(pin "14"
-			(uuid "22904522-eb67-4ee3-8ace-e90e2ca99810")
+			(uuid "99e0ec95-4d25-474c-9ea5-b0585ee63b62")
 		)
 		(pin "15"
-			(uuid "f36be743-ef7a-4de1-8849-2c9f831d6265")
+			(uuid "947978c7-c4a6-41e7-9507-a8309c5bc788")
 		)
 		(pin "16"
-			(uuid "dfda1f2a-7c0d-4fa7-a2bc-92083c8eb256")
+			(uuid "3476c374-3ccf-46d2-bf32-f570336c39e1")
 		)
 		(pin "17"
-			(uuid "791e93fb-4f1f-43d8-81f4-dfb5effbda65")
+			(uuid "54ae14bf-543d-4284-b787-dadeb0f4572e")
 		)
 		(pin "18"
-			(uuid "ca50345e-7aa7-4b20-ab0e-ee672a624b6b")
+			(uuid "ff4e6bbe-0e3d-4578-afad-9e4c6adfa2b3")
 		)
 		(pin "19"
-			(uuid "5e7fe5e3-3548-487e-9196-38a08111110f")
+			(uuid "7e1adbcf-095c-43a4-adfc-e8dfc9468e41")
 		)
 		(pin "20"
-			(uuid "7335a6ce-8db4-448f-9b31-cb7793a1fd33")
+			(uuid "cd6238ef-4be3-461e-a11d-2879c5e58157")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U2")
 					(unit 1)
 				)
@@ -5834,7 +5834,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "46d4c6fa-71b6-4b91-9c4c-41b4cc571201")
+		(uuid "419eac99-6c51-4b6b-8b7e-d0c7a97e1cbe")
 	)
 	(label "F_RW"
 		(at 149.86 195.58 0)
@@ -5844,7 +5844,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "87a5aed9-482a-4d90-b1e7-2d09d0cf2432")
+		(uuid "f1341d1f-fb69-4fc8-9f0d-d1fa98a071db")
 	)
 	(wire
 		(pts
@@ -5854,7 +5854,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9a9eceb8-3b70-4944-9c00-9a8ba204d3a3")
+		(uuid "52460d13-96f3-40dd-9c27-e457a5842786")
 	)
 	(label "F_D0"
 		(at 149.86 172.72 0)
@@ -5864,7 +5864,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e9c7fb72-e395-4aaf-abe3-1c15998cc7f3")
+		(uuid "8b2cd692-434d-4f1e-b3fa-e8edd07d667e")
 	)
 	(wire
 		(pts
@@ -5874,7 +5874,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e59ca9c9-53e6-4adf-aee2-efcd3cc73e23")
+		(uuid "ad43ad17-e646-4b37-8d4e-35530d056e89")
 	)
 	(label "F_D1"
 		(at 149.86 175.26 0)
@@ -5884,7 +5884,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "01539679-2350-4ac1-96f1-c97cec21c57d")
+		(uuid "56490540-3817-4f11-b58d-b7bd1fd0f050")
 	)
 	(wire
 		(pts
@@ -5894,7 +5894,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4730163b-1af3-49c2-9893-edbbd7eba282")
+		(uuid "dab72c85-e386-49d1-b923-3c8455db616d")
 	)
 	(label "F_D2"
 		(at 149.86 177.80 0)
@@ -5904,7 +5904,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "fe6e622e-3063-4e51-8a58-688bb0de6215")
+		(uuid "8f7856a3-a8a8-4706-b4cc-74c2488caaa9")
 	)
 	(wire
 		(pts
@@ -5914,7 +5914,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f3f437c1-a645-4777-88ba-5169e6ac059f")
+		(uuid "c33836dc-befc-4412-a2d7-82ad7c21e9fe")
 	)
 	(label "F_D3"
 		(at 149.86 180.34 0)
@@ -5924,7 +5924,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "23376311-1656-4732-9600-1577d6a638e5")
+		(uuid "2a8c90ed-8ec0-4d26-91a1-dfe168f8a50a")
 	)
 	(wire
 		(pts
@@ -5934,7 +5934,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c6b85a46-3eb0-4cc0-9f8d-07fc69721e6a")
+		(uuid "21ece367-4fe5-486b-a5f1-5e6550270577")
 	)
 	(label "F_D4"
 		(at 149.86 182.88 0)
@@ -5944,7 +5944,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "0e23d122-f5ed-4283-9a67-c9f831acc666")
+		(uuid "d332b3ce-0fa3-4b72-9060-a5da2c7799c7")
 	)
 	(wire
 		(pts
@@ -5954,7 +5954,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6d9a9a98-dc12-4fdd-953a-a87436710935")
+		(uuid "5ac9db9a-0855-4ab5-ba69-19e427295401")
 	)
 	(label "F_D5"
 		(at 149.86 185.42 0)
@@ -5964,7 +5964,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3ff44dfd-2fbf-4902-91a6-11f6143d384a")
+		(uuid "747fb077-17e0-4db8-a246-54688dea93f1")
 	)
 	(wire
 		(pts
@@ -5974,7 +5974,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "953a962c-4e57-4be9-9063-e343ed9a0da7")
+		(uuid "9e2c392f-ff8f-4f70-bdce-8d528075f9f5")
 	)
 	(label "F_D6"
 		(at 149.86 187.96 0)
@@ -5984,7 +5984,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e0814c97-7bfb-45ae-bf09-31805977865f")
+		(uuid "14851af0-b7c3-447b-bc07-af7125cbd3e0")
 	)
 	(wire
 		(pts
@@ -5994,7 +5994,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "eaa04b75-6534-48d1-a068-e9d2d8a9c5dd")
+		(uuid "5c662118-737d-4d8a-8a54-1e636b7512ab")
 	)
 	(label "F_D7"
 		(at 149.86 190.50 0)
@@ -6004,7 +6004,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "6b860617-f65b-4bbf-93fa-d1b522d2d82d")
+		(uuid "b85f5716-f8f8-4456-bdfc-c9c537846ba8")
 	)
 	(wire
 		(pts
@@ -6014,7 +6014,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0bf904a7-e4e8-41c1-9bf3-5268ea29d09c")
+		(uuid "f4e3fdf3-0627-4f0d-b0a3-aa12bd873f06")
 	)
 	(label "GND"
 		(at 165.10 208.28 90)
@@ -6024,7 +6024,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b498fd26-f977-44bf-a572-afa6c23ed71e")
+		(uuid "a94c6837-611d-4bd5-8e29-39f76b47225e")
 	)
 	(wire
 		(pts
@@ -6034,7 +6034,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8e7372b5-0d67-41da-bff8-e5d191924457")
+		(uuid "e5040fd0-1787-4143-bf45-fface8a792c3")
 	)
 	(label "TIA_D7"
 		(at 180.34 190.50 0)
@@ -6044,7 +6044,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "78b87a2e-2405-40c1-8e70-f34e0cc9d7b8")
+		(uuid "02545909-ed4c-44d0-a119-bb1946b36b17")
 	)
 	(wire
 		(pts
@@ -6054,7 +6054,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b4368194-0fde-4fb0-a2b4-24b568e39cd3")
+		(uuid "ab558436-948f-4076-9281-04b5b918eafe")
 	)
 	(label "TIA_D6"
 		(at 180.34 187.96 0)
@@ -6064,7 +6064,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "82c64bb8-0655-48b2-8c2d-49ca71335ed6")
+		(uuid "a8d2ffb1-ff34-42b8-8c4d-db9bd4976fc3")
 	)
 	(wire
 		(pts
@@ -6074,7 +6074,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "154db10d-1b15-490a-b332-3aa6758b1332")
+		(uuid "9dcd6b16-1af2-4710-84ff-a185c3385df7")
 	)
 	(label "TIA_D5"
 		(at 180.34 185.42 0)
@@ -6084,7 +6084,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ff90f7fe-e2c7-4b20-baa6-e88d9a177503")
+		(uuid "b2c7af00-c0a5-4758-ac41-fe1dcbea9aac")
 	)
 	(wire
 		(pts
@@ -6094,7 +6094,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "dba56749-3cc1-48da-9390-61094bdf99c1")
+		(uuid "8b53078b-c21a-4d5b-aabb-2163eb09cb0a")
 	)
 	(label "TIA_D4"
 		(at 180.34 182.88 0)
@@ -6104,7 +6104,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "8bd78e2d-a577-49ee-9dc8-1981ee840037")
+		(uuid "eb203541-2e42-481b-85a4-b7eb8690ee64")
 	)
 	(wire
 		(pts
@@ -6114,7 +6114,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a54ce95b-2e65-4a73-b08c-cef31fe507df")
+		(uuid "aa800961-4409-42bc-b573-03005d960a27")
 	)
 	(label "TIA_D3"
 		(at 180.34 180.34 0)
@@ -6124,7 +6124,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "9aeadc85-e0f3-459b-a95c-d370bd429077")
+		(uuid "655461e3-41d3-4d91-9077-7ccee3012413")
 	)
 	(wire
 		(pts
@@ -6134,7 +6134,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "30719637-e1a7-4d8a-a867-75a23ca41a36")
+		(uuid "6810655a-5835-46f5-b7ec-bb3968f66d24")
 	)
 	(label "TIA_D2"
 		(at 180.34 177.80 0)
@@ -6144,7 +6144,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "7266bbaf-46ce-443d-9a67-ab11e02206de")
+		(uuid "a64d68b2-529c-4d9c-aad0-71fbe0b8be82")
 	)
 	(wire
 		(pts
@@ -6154,7 +6154,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5068e6e1-9bec-43a7-ad0c-cbc62cafd016")
+		(uuid "b9201e1b-5feb-4415-834f-e2624275ddf5")
 	)
 	(label "TIA_D1"
 		(at 180.34 175.26 0)
@@ -6164,7 +6164,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ba48c861-44af-4570-9abc-086a3e5535aa")
+		(uuid "09d5f495-c463-4bc1-9bb4-9fc2ca3bb45b")
 	)
 	(wire
 		(pts
@@ -6174,7 +6174,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ca0dfe30-abc0-44f9-861a-29ab2262b125")
+		(uuid "136abbe8-20f8-4ae1-8d41-f43772ad2466")
 	)
 	(label "TIA_D0"
 		(at 180.34 172.72 0)
@@ -6184,7 +6184,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "4fe5017a-b386-4fe4-98cd-bbeeea9c5447")
+		(uuid "6e84dd77-7dc5-41f6-ad2f-144fefcbb67c")
 	)
 	(wire
 		(pts
@@ -6194,7 +6194,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "07bf6d57-665c-4fe2-b8c7-5ec0beed10ac")
+		(uuid "377d0e77-d11c-401c-9252-f2d84e3e41c0")
 	)
 	(label "DBUS_OE_N"
 		(at 149.86 198.12 0)
@@ -6204,7 +6204,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "95479dcd-09dd-4f91-b317-4c906a88b24e")
+		(uuid "251ebd4b-4dbe-47cd-8d45-d19af5c77eae")
 	)
 	(wire
 		(pts
@@ -6214,7 +6214,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b985aa21-a143-4c6b-bbf8-fe4e2c94706e")
+		(uuid "74987559-9c94-48fe-9330-d8377f3f64f9")
 	)
 	(label "+3V3"
 		(at 165.10 162.56 90)
@@ -6224,7 +6224,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f40b2e87-5e05-4a65-a67e-fe96ddee2a33")
+		(uuid "3db5356b-d61a-4121-8433-6091df17ec00")
 	)
 	(text "U5  /OE = /CS0 OR /CS3. The 245 drives the bus only while the TIA is"
 		(exclude_from_sim no)
@@ -6235,7 +6235,7 @@
 			)
 			(justify left)
 		)
-		(uuid "550f9cd0-5ca6-4df6-9a54-edde4faf5532")
+		(uuid "8a6e1d7f-a87d-4317-ad7a-64076760f021")
 	)
 	(text "selected, so it never fights the ROM or the RIOT on a CPU read."
 		(exclude_from_sim no)
@@ -6246,7 +6246,7 @@
 			)
 			(justify left)
 		)
-		(uuid "48494da8-cbe7-44f2-a388-e10a66840af8")
+		(uuid "ad4cd76e-0f65-4026-88ce-02fd9e10b880")
 	)
 	(symbol
 		(lib_id "74xGxx:74LVC1G32")
@@ -6256,7 +6256,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a932bff5-9b7c-4978-bff3-bc921345ad4b")
+		(uuid "eef007dc-d3cd-46da-bf99-785fd0f5de4b")
 		(property "Reference" "U5"
 			(at 242.57 160.86 0)
 			(effects
@@ -6275,7 +6275,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
 			(at 250.19 170.18 0)
 			(hide yes)
 			(effects
@@ -6296,23 +6296,23 @@
 			)
 		)
 		(pin "1"
-			(uuid "9659b282-090d-4025-829d-d1f04c592c5d")
+			(uuid "afb0eeb1-bbcf-408e-bd0d-4a21f8445916")
 		)
 		(pin "2"
-			(uuid "0e3f49f7-0e62-4d6a-aa23-92a5be68127d")
+			(uuid "e7de2682-c9f9-4b8f-abff-0ae869338672")
 		)
 		(pin "3"
-			(uuid "699d7b2d-539d-44a3-91ed-f9cf9285fb75")
+			(uuid "c7fba5d0-497a-4827-9ca3-94d8e82223f7")
 		)
 		(pin "4"
-			(uuid "ec8411b7-7017-4492-be75-f4cc8361e060")
+			(uuid "73e27ca1-0119-466c-ae22-37a6380af3b7")
 		)
 		(pin "5"
-			(uuid "61932769-aaf8-4422-9f8d-f52c8e6e57b5")
+			(uuid "1055364f-5ea7-4dc5-b0ff-5498ee6aa6e6")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U5")
 					(unit 1)
 				)
@@ -6327,7 +6327,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6539669e-4ed5-4b57-bbd1-728b01a3d210")
+		(uuid "0e8ffab5-7ea1-4a59-a1a3-19877509045a")
 	)
 	(label "F_CS0_N"
 		(at 232.41 167.64 0)
@@ -6337,7 +6337,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "6efffe52-6c4d-4562-ac4d-9b501fe25fbe")
+		(uuid "fc5f4b7b-99c7-4126-b70a-2635d465e8d8")
 	)
 	(wire
 		(pts
@@ -6347,7 +6347,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "54f9e905-58c8-48d9-b6b7-e794dfad4bbf")
+		(uuid "f42f7cf6-2031-494b-916e-63e60bba05bb")
 	)
 	(label "F_CS3_N"
 		(at 232.41 172.72 0)
@@ -6357,7 +6357,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "edb6d2c5-08e9-4eef-aa9a-8bcf0fd49699")
+		(uuid "f9c98c72-9101-44a7-8ba8-ef409afad25b")
 	)
 	(wire
 		(pts
@@ -6367,7 +6367,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "912f2d0e-3554-4177-9010-65d48fb6e082")
+		(uuid "a64e0861-16be-4e51-b90b-85e5086da611")
 	)
 	(label "GND"
 		(at 250.19 182.88 90)
@@ -6377,7 +6377,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "caa9b9ae-12b5-4591-a105-ddc4f3c89d80")
+		(uuid "b5be96ce-fd22-4bfa-8a4a-882418fc03cd")
 	)
 	(wire
 		(pts
@@ -6387,7 +6387,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6847a28d-fca1-46a8-9fea-23f09fb7ca29")
+		(uuid "78e9a2bf-6aed-4b2c-84fa-81a8d9ace55b")
 	)
 	(label "DBUS_OE_N"
 		(at 265.43 170.18 0)
@@ -6397,7 +6397,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a46aeb42-5722-4859-9cdf-d560e628ac8e")
+		(uuid "40dd67c4-afdc-4443-a4d9-c4cd740da17f")
 	)
 	(wire
 		(pts
@@ -6407,7 +6407,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "74af7869-7799-4505-b7bc-ebde71917b95")
+		(uuid "8706a6d1-f9d7-4f0a-8d0b-a4267c26dec6")
 	)
 	(label "+3V3"
 		(at 250.19 157.48 90)
@@ -6417,7 +6417,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "14082c23-0f03-4b36-a1d2-089725d16ed2")
+		(uuid "6e316407-3fe0-4fd6-acc9-d3998eb344e6")
 	)
 	(text "U3  A0-A5, R/W and PHI2 - permanently enabled (G1=G2=GND)."
 		(exclude_from_sim no)
@@ -6428,7 +6428,7 @@
 			)
 			(justify left)
 		)
-		(uuid "38e078a2-4e8d-4944-8fca-ededf5f47008")
+		(uuid "346388dc-e7e5-4ec6-bce8-ad66590b81bf")
 	)
 	(symbol
 		(lib_id "74xx:74AHC541")
@@ -6438,7 +6438,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1c73da03-514b-4cb6-94a3-9d2bf48a4668")
+		(uuid "10cb7372-8108-4f8a-b777-7290be21a317")
 		(property "Reference" "U3"
 			(at 157.48 226.90 0)
 			(effects
@@ -6457,7 +6457,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm"
 			(at 165.10 246.38 0)
 			(hide yes)
 			(effects
@@ -6478,68 +6478,68 @@
 			)
 		)
 		(pin "1"
-			(uuid "14e82e89-eb13-479a-91e1-30ba1b9950d2")
+			(uuid "8e664467-1a20-4b6a-b94b-82b103d39e7f")
 		)
 		(pin "2"
-			(uuid "b04fb488-f8fc-4e47-87f7-8dee95c844b0")
+			(uuid "8244618d-5c7f-4653-bbd2-1b6f7fcd68db")
 		)
 		(pin "3"
-			(uuid "f1b6ba14-29b3-4d1b-8a6d-87dd86a08c8a")
+			(uuid "32c4c71b-3f60-45e2-9750-c5ddffd46c7f")
 		)
 		(pin "4"
-			(uuid "381097e7-3a60-41d3-aada-835ce1609250")
+			(uuid "6d3dbd9d-90d1-4bc1-ae9b-b81cf534fdc8")
 		)
 		(pin "5"
-			(uuid "090e2e2a-8f59-4fac-931e-a5d9ff62110e")
+			(uuid "4c0ddd2f-73a0-497b-bdb9-4c32421969c8")
 		)
 		(pin "6"
-			(uuid "7d152666-94e8-45c7-9cf1-783ec22b4c86")
+			(uuid "194a3fa7-bb06-41a8-ad2a-d56eeb90c8f0")
 		)
 		(pin "7"
-			(uuid "34ffddbc-8af5-418f-a4b4-89e563d783a1")
+			(uuid "62d4f567-fc70-4c03-8c02-102a516dd88f")
 		)
 		(pin "8"
-			(uuid "07cb9417-5a33-4f11-b86c-d4fe7d803465")
+			(uuid "90a4d29c-03b0-42ef-87ec-8e7fb6614018")
 		)
 		(pin "9"
-			(uuid "1bd80124-fa72-45e2-ad3c-426c1c7aa5b2")
+			(uuid "5457fc19-507c-405b-bbf1-8746e8f07897")
 		)
 		(pin "10"
-			(uuid "b8517c0f-9051-44bf-abb8-cfbf2230c7b2")
+			(uuid "c0c46105-0770-43ae-a6b9-20da8fe4701f")
 		)
 		(pin "11"
-			(uuid "699b1198-2f93-4a9f-89f5-d72f4523fc7e")
+			(uuid "68fd4212-0da2-405b-a78b-b2364a117a7e")
 		)
 		(pin "12"
-			(uuid "1be6aa56-755b-424b-832d-50768bc7376f")
+			(uuid "fa243243-cbc6-4f66-af3a-9d0474e3d071")
 		)
 		(pin "13"
-			(uuid "ad5c8f4b-f8e8-4b25-a89c-7050aaf94a38")
+			(uuid "cfcfec16-c4f6-4172-b9a4-3fe8f3669a82")
 		)
 		(pin "14"
-			(uuid "56abe9d4-6dea-484d-a68b-df9a46fbd82f")
+			(uuid "58a277e1-0076-4c84-bb47-7321daa3d90a")
 		)
 		(pin "15"
-			(uuid "2cc5f2be-13b8-4cec-822d-4fa2c15775e8")
+			(uuid "2130f187-7f16-4843-a7c3-e6db98e7259a")
 		)
 		(pin "16"
-			(uuid "1a4f38f2-262c-4873-8839-337c4db0bd91")
+			(uuid "0c5b3e38-c8e6-455c-b866-2fc89fd02e74")
 		)
 		(pin "17"
-			(uuid "0b8739dc-0cf5-4045-af2d-5c0c785fbd4f")
+			(uuid "7e6ab307-42c4-4162-aa42-6452a0fde770")
 		)
 		(pin "18"
-			(uuid "8c300050-d341-4c39-b57e-9234bcdc047c")
+			(uuid "08ebf402-657a-4183-a4bc-e0242d53998a")
 		)
 		(pin "19"
-			(uuid "654c6e17-fbf7-47e0-a70d-24c353de7946")
+			(uuid "5bee8221-f357-4610-9c84-849db87a18f0")
 		)
 		(pin "20"
-			(uuid "2e157eaf-842e-48f8-b59b-2f4f2c2d728f")
+			(uuid "2e8c9626-d4fd-4829-bfd8-1e5d3604a0c3")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U3")
 					(unit 1)
 				)
@@ -6554,7 +6554,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5a71929d-477b-403c-a618-429da818dc2e")
+		(uuid "ed6ef1e6-2117-4b27-a32b-335ab10be918")
 	)
 	(label "GND"
 		(at 149.86 256.54 0)
@@ -6564,7 +6564,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "bee4d84a-c638-4a35-afbd-4dff03a7cf13")
+		(uuid "a58703d3-8931-4bd8-a706-3995d8766d1a")
 	)
 	(wire
 		(pts
@@ -6574,7 +6574,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "256f3d6c-0261-4268-8ec6-d4bc3aa9c18c")
+		(uuid "6f8b68d5-fceb-4870-9b96-53877b90674b")
 	)
 	(label "TIA_A0"
 		(at 149.86 233.68 0)
@@ -6584,7 +6584,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "019caa98-efc4-466e-972f-69694146cc55")
+		(uuid "220a1bbb-8a8f-4e47-9869-8074424ab841")
 	)
 	(wire
 		(pts
@@ -6594,7 +6594,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ad7ec6d8-9556-4c17-88f4-4c886f9f70d7")
+		(uuid "2ef4b99b-b723-42cb-a4bf-b1a6e7d6dafc")
 	)
 	(label "TIA_A1"
 		(at 149.86 236.22 0)
@@ -6604,7 +6604,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "88c377d2-dbc1-4371-a558-1d52106282dd")
+		(uuid "d02255fa-cc3d-4c53-bf80-3f57810874d2")
 	)
 	(wire
 		(pts
@@ -6614,7 +6614,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e402c272-70c9-43ae-bb61-6f5a4ef86ef4")
+		(uuid "8e653c1e-6b09-4023-9410-9e11e0929fa0")
 	)
 	(label "TIA_A2"
 		(at 149.86 238.76 0)
@@ -6624,7 +6624,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e1740db7-0aff-4a7b-b865-3422954837f0")
+		(uuid "838a4aaa-04ba-4581-8804-765064374458")
 	)
 	(wire
 		(pts
@@ -6634,7 +6634,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ea5c1ac0-262e-4d40-8afc-f1362c196179")
+		(uuid "a1bb7295-fca6-4f2e-9042-2159b0a10294")
 	)
 	(label "TIA_A3"
 		(at 149.86 241.30 0)
@@ -6644,7 +6644,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "88ff7f53-51f2-4581-8d9b-170f32ebca59")
+		(uuid "ad272431-ce06-451a-90f9-84b7965588e1")
 	)
 	(wire
 		(pts
@@ -6654,7 +6654,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7466e828-2e85-45b8-90e9-d6e69b5e8a91")
+		(uuid "c932eada-cddc-431b-9437-34c31779ad05")
 	)
 	(label "TIA_A4"
 		(at 149.86 243.84 0)
@@ -6664,7 +6664,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e3bf50f4-7282-48b9-a782-e483233892a6")
+		(uuid "52a970ae-0702-4d3c-9418-277d6edf2c7a")
 	)
 	(wire
 		(pts
@@ -6674,7 +6674,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "80ccc8ef-c2bb-47d2-9a5d-93efe39780b4")
+		(uuid "238d57ae-561d-4624-aa08-3dfe9905f987")
 	)
 	(label "TIA_A5"
 		(at 149.86 246.38 0)
@@ -6684,7 +6684,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "bca2b1c4-09ee-47b9-8603-b831877f56ca")
+		(uuid "60f5203e-01a9-4fd4-bb86-e278636c1b93")
 	)
 	(wire
 		(pts
@@ -6694,7 +6694,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "aa488d3d-b2a1-4035-90c0-14cdd1aef606")
+		(uuid "cb8ee923-4fee-4c9c-8651-112f719137aa")
 	)
 	(label "TIA_RW"
 		(at 149.86 248.92 0)
@@ -6704,7 +6704,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7bf30d2b-57d4-45a6-a0cb-374cb67cafec")
+		(uuid "af6a6f39-d7c9-45db-b25b-2f8b3978bfb0")
 	)
 	(wire
 		(pts
@@ -6714,7 +6714,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9065bde0-47aa-40bc-b91b-48f78753b945")
+		(uuid "9ca9a119-7129-48bb-8ec1-d45792fad948")
 	)
 	(label "TIA_PHI2"
 		(at 149.86 251.46 0)
@@ -6724,7 +6724,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e6dcf6d3-5285-4741-bbf3-ee2e99f11474")
+		(uuid "a105a0b4-dc04-4f0d-baaa-58273d9ed6a4")
 	)
 	(wire
 		(pts
@@ -6734,7 +6734,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "658ea499-aabe-4375-824f-7c9a16ded71b")
+		(uuid "1522eab2-7137-41b1-827e-5a29ac5385fa")
 	)
 	(label "GND"
 		(at 165.10 269.24 90)
@@ -6744,7 +6744,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d51b09a6-e87e-4920-b359-139ebad31120")
+		(uuid "6257c20a-512d-4eab-9e68-a406923d9587")
 	)
 	(wire
 		(pts
@@ -6754,7 +6754,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5649dbb9-ada6-4926-ad49-c574060dd3c9")
+		(uuid "9e771a35-6b6e-46c9-b1f9-e37012dfe6b6")
 	)
 	(label "F_PHI2"
 		(at 180.34 251.46 0)
@@ -6764,7 +6764,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "849bc68b-738c-42fd-852b-088a5a410c0e")
+		(uuid "6c9f8c1a-3e2b-4838-90bd-82d889140b7a")
 	)
 	(wire
 		(pts
@@ -6774,7 +6774,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e184afdb-39a2-45d7-aa01-aaa33870f8cb")
+		(uuid "ac48b2c9-a62b-4d2f-8ffd-b392031b99ec")
 	)
 	(label "F_RW"
 		(at 180.34 248.92 0)
@@ -6784,7 +6784,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "9b5daa4f-2205-4775-bbad-77e912f74828")
+		(uuid "e2263381-3fc6-46b9-b9b5-bf9123af0606")
 	)
 	(wire
 		(pts
@@ -6794,7 +6794,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c68b2d5a-1d19-49c3-9498-6633f406a6e4")
+		(uuid "cb8c35b0-3806-4456-9726-fa08266cf3b5")
 	)
 	(label "F_A5"
 		(at 180.34 246.38 0)
@@ -6804,7 +6804,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c52e2804-fc4a-40f8-914d-2f6e207eff85")
+		(uuid "bc06e14e-629b-4b8e-9d11-cf1c2827826f")
 	)
 	(wire
 		(pts
@@ -6814,7 +6814,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "430e9644-0d6d-4872-be94-2c657b99324d")
+		(uuid "f2c472e5-d2d6-44f5-8ae9-9471410e9a50")
 	)
 	(label "F_A4"
 		(at 180.34 243.84 0)
@@ -6824,7 +6824,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "514f1fb6-3cdf-44f6-a996-e7090dab394f")
+		(uuid "10331a14-d0b2-40d7-b3dd-b9ab007a50c2")
 	)
 	(wire
 		(pts
@@ -6834,7 +6834,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1a701402-6cae-44ab-9950-e044446f796a")
+		(uuid "c8cc83cf-d633-46e0-bc80-a14ba42aeb98")
 	)
 	(label "F_A3"
 		(at 180.34 241.30 0)
@@ -6844,7 +6844,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "27897547-7d98-43b8-91cf-2ddbd004c659")
+		(uuid "5780972e-e815-4823-9692-bbccd5d4ff02")
 	)
 	(wire
 		(pts
@@ -6854,7 +6854,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a98ec52e-647f-431e-a728-501ae0780443")
+		(uuid "ca6384c2-25bd-4b80-96ba-3cf443c84575")
 	)
 	(label "F_A2"
 		(at 180.34 238.76 0)
@@ -6864,7 +6864,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a76d1a17-206b-4071-806b-9575e364a0e7")
+		(uuid "586f3c88-c807-47e6-ba9f-65c559bd2aef")
 	)
 	(wire
 		(pts
@@ -6874,7 +6874,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "34b8cd20-954c-4bd9-80d0-abb6a73a1b2d")
+		(uuid "e09eac19-ecbe-441c-af38-174ad3aed5cf")
 	)
 	(label "F_A1"
 		(at 180.34 236.22 0)
@@ -6884,7 +6884,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "9ca96bc0-6eab-4b6b-8fcd-241233250363")
+		(uuid "f56ef27c-bbde-4f2d-928a-6d0f5bfbde2d")
 	)
 	(wire
 		(pts
@@ -6894,7 +6894,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "cd352a1e-1691-4807-9d64-ae3bc1834e5e")
+		(uuid "74848bdb-aa4b-46ae-b829-b8c24d1c1ab4")
 	)
 	(label "F_A0"
 		(at 180.34 233.68 0)
@@ -6904,7 +6904,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f11e8a6d-2b6e-4c09-ba73-a912bf7eda5f")
+		(uuid "98c243f8-daeb-4dff-8279-c7ed37603039")
 	)
 	(wire
 		(pts
@@ -6914,7 +6914,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4e865164-8eb3-49fa-bd23-be535aee6733")
+		(uuid "eaae339e-930e-4436-bf5e-e650be6ee8f7")
 	)
 	(label "GND"
 		(at 149.86 259.08 0)
@@ -6924,7 +6924,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "20153fff-891d-4bb3-98eb-79def8e7a358")
+		(uuid "7b76d433-1527-4394-8ba1-caa8c51edc35")
 	)
 	(wire
 		(pts
@@ -6934,7 +6934,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2bd8b75e-96de-47dc-9749-ca8e24cdd662")
+		(uuid "9b6539a5-10ac-434b-858a-49808fa1e77d")
 	)
 	(label "+3V3"
 		(at 165.10 223.52 90)
@@ -6944,7 +6944,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "4479399e-870f-452d-b40b-1d774524209f")
+		(uuid "d33da73f-888f-4a2b-a3d8-e6d87e2b74ec")
 	)
 	(text "U4  /CS0, /CS3, triggers and the 3.579545 MHz clock from the crystal."
 		(exclude_from_sim no)
@@ -6955,7 +6955,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4b92dfd8-d600-4bc9-ad30-1e645285dc7a")
+		(uuid "b805a240-a57d-4747-b5e2-b521f9cdfbf9")
 	)
 	(symbol
 		(lib_id "74xx:74AHC541")
@@ -6965,7 +6965,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "41b717a4-7c8d-4e94-91a1-fc4edcd9751b")
+		(uuid "2147146f-a75c-4867-8bf1-e3cb08e62628")
 		(property "Reference" "U4"
 			(at 267.97 226.90 0)
 			(effects
@@ -6984,7 +6984,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm"
 			(at 275.59 246.38 0)
 			(hide yes)
 			(effects
@@ -7005,68 +7005,68 @@
 			)
 		)
 		(pin "1"
-			(uuid "28a424d4-8444-4198-9442-973cdc40b901")
+			(uuid "1873b5d2-242c-41be-84f1-d6657404a2c6")
 		)
 		(pin "2"
-			(uuid "7cebdff4-1f15-4b47-9863-80dbed4fc700")
+			(uuid "e57865d3-f137-4107-85c5-be16a08fc4b0")
 		)
 		(pin "3"
-			(uuid "c04a2685-1640-47e3-8156-4d3440233d4b")
+			(uuid "fd712fa5-2cc8-42d3-b165-3e4784719def")
 		)
 		(pin "4"
-			(uuid "4b990d8d-d425-41bd-8785-d76d5f518f6a")
+			(uuid "0a6a6215-b39a-4557-8a8b-c5f3ea4ea5de")
 		)
 		(pin "5"
-			(uuid "1cc88535-e5c7-43ea-8044-9baae6c3f8d4")
+			(uuid "083453b7-aac9-4ceb-bbee-dd1bd7e74362")
 		)
 		(pin "6"
-			(uuid "eb3830ef-b089-43fb-a00a-8507054b3ea8")
+			(uuid "aa89c6b9-fc73-4425-931a-d6d727d18217")
 		)
 		(pin "7"
-			(uuid "e1c30b0e-1ea5-4daf-8c52-303be15f42d9")
+			(uuid "a4299b0b-c475-4320-90de-c33614fcd82e")
 		)
 		(pin "8"
-			(uuid "d69da9ed-e9f5-4a9a-9c75-a0ab6ec92dd0")
+			(uuid "32648e8e-2d91-4d7b-b009-614533e6da85")
 		)
 		(pin "9"
-			(uuid "9c66e45a-1607-468c-9770-84d035887f24")
+			(uuid "3404b5b4-8e6f-4f19-9ad8-9c4a66871b80")
 		)
 		(pin "10"
-			(uuid "202ba322-e2d9-4dc1-b916-330e76981325")
+			(uuid "ba1e8992-1f0e-49bf-85dd-4fbe520a9675")
 		)
 		(pin "11"
-			(uuid "08786492-9b98-4086-acae-217ad1918986")
+			(uuid "e5249747-b278-4662-a330-9f107e2ee485")
 		)
 		(pin "12"
-			(uuid "a13163dd-4afa-4998-918b-81d6b9113a90")
+			(uuid "54f5abe9-96b7-4445-b9cb-903a2675bb0a")
 		)
 		(pin "13"
-			(uuid "a4ce9de1-8239-4f88-8494-61d3ca3156ce")
+			(uuid "bf161971-c999-4268-977c-0b75f37cdb6b")
 		)
 		(pin "14"
-			(uuid "fe50db43-b103-44a1-925f-9c14b6e22b2f")
+			(uuid "928e7432-4d66-46be-8c82-af996fed5431")
 		)
 		(pin "15"
-			(uuid "f5eae260-6b7b-42c3-b936-7b33b2883ff8")
+			(uuid "dac0fd5d-ec80-4749-b2fb-9868fa1c3f4f")
 		)
 		(pin "16"
-			(uuid "06dd2007-86e7-4a5d-97a7-8d7cc0657bf2")
+			(uuid "d75f8e8a-a243-4819-8b4a-772456a9ba11")
 		)
 		(pin "17"
-			(uuid "399c1d24-cc00-42b8-ab0e-3872346c7038")
+			(uuid "e3df96f7-5f54-46db-90ca-2de2f93bee5f")
 		)
 		(pin "18"
-			(uuid "8e55f084-a906-4c0a-8748-ba3e901d3ff2")
+			(uuid "ed61d171-13d1-4dd8-9eaf-3e4808f9456e")
 		)
 		(pin "19"
-			(uuid "d7025006-78c1-4773-857c-71599526a289")
+			(uuid "7880cb8c-6427-4965-8fed-0997ccf2605f")
 		)
 		(pin "20"
-			(uuid "5cfa22f0-b903-4d4b-8dcd-98629ae2fd61")
+			(uuid "90de10d1-ea31-47eb-ad97-77f8fa68311c")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "U4")
 					(unit 1)
 				)
@@ -7081,7 +7081,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b45c6fa2-b649-49e7-a0c8-1b7219b42976")
+		(uuid "08eadd09-c641-44c1-9c60-7dcd5a9937d0")
 	)
 	(label "GND"
 		(at 260.35 256.54 0)
@@ -7091,7 +7091,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "993fccdf-cbe4-454b-8098-45137e13624e")
+		(uuid "9823a939-a95a-416c-b5cd-0f68f5111d35")
 	)
 	(wire
 		(pts
@@ -7101,7 +7101,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f42b925a-b23a-4966-b922-38afa06ba832")
+		(uuid "aedbe724-3cd3-4491-8f8d-1fc4121acbd4")
 	)
 	(label "TIA_CS0_N"
 		(at 260.35 233.68 0)
@@ -7111,7 +7111,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "051ff4b7-cdb9-4174-b697-43484be9d21f")
+		(uuid "a53b91db-fa44-4af2-ab6f-a3892867aff0")
 	)
 	(wire
 		(pts
@@ -7121,7 +7121,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "92cbc59d-ed9a-4722-b0ff-7a570c2641a4")
+		(uuid "ebe83ddf-676f-4bc4-a411-a7bb1b352f8b")
 	)
 	(label "TIA_CS3_N"
 		(at 260.35 236.22 0)
@@ -7131,7 +7131,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ea800b59-b4d7-42a1-973e-153fe15a9ad5")
+		(uuid "a517e7f5-261a-4628-a91e-8ca62e0f4750")
 	)
 	(wire
 		(pts
@@ -7141,7 +7141,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "db670664-25a2-4f92-809a-41f5244bd03f")
+		(uuid "db7f72bd-669d-4837-8c07-e545642695db")
 	)
 	(label "TIA_I4"
 		(at 260.35 238.76 0)
@@ -7151,7 +7151,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "20c3e0ed-da98-4ef1-b184-527930dd28b0")
+		(uuid "4f51a1eb-751a-4ff8-964d-0ebc62b576cc")
 	)
 	(wire
 		(pts
@@ -7161,7 +7161,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6b10fac4-044a-4a94-a5ee-ea094ffa756c")
+		(uuid "f42600a8-26f0-49d9-bb74-9c53a96b8416")
 	)
 	(label "TIA_I5"
 		(at 260.35 241.30 0)
@@ -7171,7 +7171,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7723668b-d235-4bcc-a03a-5fbffe7f4f24")
+		(uuid "a06562d6-5f6e-4ec2-bc5a-8ede5dbe54a1")
 	)
 	(wire
 		(pts
@@ -7181,7 +7181,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d7197f3f-e7cd-4ccf-8828-d9d56acbe9fa")
+		(uuid "8ca147bf-7d84-455b-b8d0-3e1705cba425")
 	)
 	(label "TIA_OSC"
 		(at 260.35 243.84 0)
@@ -7191,7 +7191,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "928cd7e2-627a-44f0-9dbd-ee42fc5c4504")
+		(uuid "1709a0ee-08fb-4194-b0f6-7fdd960b0b09")
 	)
 	(wire
 		(pts
@@ -7201,7 +7201,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b74e5ed0-3043-4dc6-8db0-3d99534d983e")
+		(uuid "033afc2f-ee86-4e4b-beb2-44279c1137c8")
 	)
 	(label "GND"
 		(at 260.35 246.38 0)
@@ -7211,7 +7211,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "df060c3e-2458-4357-bf93-5468bd7a0fb3")
+		(uuid "35447215-f98b-4fd2-9e6b-a3de5ef07001")
 	)
 	(wire
 		(pts
@@ -7221,7 +7221,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "48e52a31-8b6d-4def-bad9-73ebce3147ec")
+		(uuid "e9a90172-5246-4ffe-ac42-4fb46995be04")
 	)
 	(label "GND"
 		(at 260.35 248.92 0)
@@ -7231,7 +7231,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "8287f24b-5001-4072-a769-b1cf7c7ef548")
+		(uuid "4c4ed1da-9499-4e20-b228-c48a34e80956")
 	)
 	(wire
 		(pts
@@ -7241,7 +7241,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d8ba7b2d-770a-4c35-987f-dbe739adab6e")
+		(uuid "41d0c641-fd29-4697-abe2-b03ea66b6461")
 	)
 	(label "GND"
 		(at 260.35 251.46 0)
@@ -7251,7 +7251,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "4f36b2f1-d72f-4e58-ba9c-bb9329050083")
+		(uuid "ef093237-8450-4a1f-a871-86fab44db8c5")
 	)
 	(wire
 		(pts
@@ -7261,7 +7261,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "39299d8e-66b7-4ebe-ad53-7b3a66b62be6")
+		(uuid "d5433d79-9856-4a82-a93d-c272a4ba0038")
 	)
 	(label "GND"
 		(at 275.59 269.24 90)
@@ -7271,19 +7271,19 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "050d7a27-7856-4774-8853-5c6ad4e9fa69")
+		(uuid "b21f7c03-db62-461e-9345-abe9e1a0db57")
 	)
 	(no_connect
 		(at 288.29 251.46)
-		(uuid "35409f3b-1973-44ad-afa2-810877e79ad5")
+		(uuid "494850e2-00f6-43e0-bad6-737f4f08e65c")
 	)
 	(no_connect
 		(at 288.29 248.92)
-		(uuid "ae745786-cb9a-4718-b7df-18a0992a1186")
+		(uuid "6f203e9a-b6eb-4e75-908e-c875ff60cbaa")
 	)
 	(no_connect
 		(at 288.29 246.38)
-		(uuid "8252f473-1a45-46c1-9dc5-c18d8397617c")
+		(uuid "c0b290bf-0d45-44ad-81ea-e1b5c29c2c8a")
 	)
 	(wire
 		(pts
@@ -7293,7 +7293,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a8562cd8-6590-442f-b94d-73b6dce97206")
+		(uuid "2d7d0434-7b75-4ce1-b50d-f6778c23cd71")
 	)
 	(label "F_OSC"
 		(at 290.83 243.84 0)
@@ -7303,7 +7303,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "22fe8d93-1f6d-4cd4-b71c-ab4e5d77bbac")
+		(uuid "d5a7c6cf-868c-49d8-8eca-e61a90aee2a7")
 	)
 	(wire
 		(pts
@@ -7313,7 +7313,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fc0cbfb5-92d8-4a84-88b9-a527a6f1096c")
+		(uuid "927d0a71-4462-4429-9f24-35942be56e6a")
 	)
 	(label "F_I5"
 		(at 290.83 241.30 0)
@@ -7323,7 +7323,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "fcd1de46-d4b3-464c-a55e-aeb778b08918")
+		(uuid "c464cef6-2a53-4194-9d07-6cecbab7943b")
 	)
 	(wire
 		(pts
@@ -7333,7 +7333,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "49c53a36-7802-4ea7-b33a-79db56516ac4")
+		(uuid "1727bf14-7463-44c0-8665-bcf292b8e47a")
 	)
 	(label "F_I4"
 		(at 290.83 238.76 0)
@@ -7343,7 +7343,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "02937532-2e46-4c51-a477-cbbb93dbc826")
+		(uuid "7180a75f-f823-4a17-a5b1-f9194269d9d5")
 	)
 	(wire
 		(pts
@@ -7353,7 +7353,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "12996b62-0ba1-41fc-b0a7-7baad68c2a64")
+		(uuid "8fffdbda-5415-464c-9c21-c13ce148fd5b")
 	)
 	(label "F_CS3_N"
 		(at 290.83 236.22 0)
@@ -7363,7 +7363,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "aff4af51-d71e-45d9-ab54-b7beb9293e97")
+		(uuid "9cedf558-ba70-4bd8-bfb0-634722bf1a6b")
 	)
 	(wire
 		(pts
@@ -7373,7 +7373,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "77df379c-d616-4726-b79f-53cf7252d463")
+		(uuid "6ec7488a-3227-4294-8466-fe0f4f4e61b2")
 	)
 	(label "F_CS0_N"
 		(at 290.83 233.68 0)
@@ -7383,7 +7383,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "3dcad0e3-0f4d-4712-82a5-b27bc440ac94")
+		(uuid "7ba2611c-8d36-41f1-9397-de43762f4f1c")
 	)
 	(wire
 		(pts
@@ -7393,7 +7393,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5cc70bad-6de4-42bd-b0b7-16927949dba9")
+		(uuid "c40a7d82-a107-4e29-a9a9-50679df9ef6a")
 	)
 	(label "GND"
 		(at 260.35 259.08 0)
@@ -7403,7 +7403,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "5d701914-2278-4426-b916-68c8816d5eee")
+		(uuid "82983a8f-6139-4498-a94c-60d470f621c5")
 	)
 	(wire
 		(pts
@@ -7413,7 +7413,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0323679b-9875-4b9a-a850-ad4d6c1197ec")
+		(uuid "84db3799-0c0f-4e64-ae66-099bfde8ab8a")
 	)
 	(label "+3V3"
 		(at 275.59 223.52 90)
@@ -7423,7 +7423,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "beb170e9-60fa-46ec-a618-1d15e1dc2fa2")
+		(uuid "10b79be0-140a-4f99-bbe6-c3f28cac4cf1")
 	)
 	(text "TIA SOCKET - DIP-40"
 		(exclude_from_sim no)
@@ -7435,7 +7435,7 @@
 			)
 			(justify left)
 		)
-		(uuid "54903e7d-c0d6-4823-b810-6a3588c58e7c")
+		(uuid "df791958-eecf-48b4-a431-2caa7a7c53e1")
 	)
 	(text "Two 20-way SIP strips that plug into the 2600 socket"
 		(exclude_from_sim no)
@@ -7446,7 +7446,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b84ea436-cb79-43b0-b915-7dcf52101c9f")
+		(uuid "5c1c1af0-6343-4f2d-bd3f-ddddce89062b")
 	)
 	(text "or a breadboard, in place of the C010444."
 		(exclude_from_sim no)
@@ -7457,7 +7457,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c9574fda-1a18-4ae6-b684-a7ec08bbb0ad")
+		(uuid "926ebde4-fcc4-4e73-96a2-e8150a34c8be")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x20")
@@ -7467,7 +7467,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ab00d608-339f-46a0-860d-42d1ca094e41")
+		(uuid "59018729-67c6-4cec-92f3-2ef9c1862771")
 		(property "Reference" "J2"
 			(at 354.33 66.88 0)
 			(effects
@@ -7486,7 +7486,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical"
 			(at 355.60 95.25 0)
 			(hide yes)
 			(effects
@@ -7507,68 +7507,68 @@
 			)
 		)
 		(pin "1"
-			(uuid "37b1c4e1-64c7-4345-9640-f17b4f1d4b32")
+			(uuid "1c68bd31-dfdd-46dc-aad5-16f708f4308e")
 		)
 		(pin "2"
-			(uuid "4d4e40d3-e0cd-472a-a27d-37aa88ec56b2")
+			(uuid "e58cc57f-b2f8-4948-b723-9d4132172f6e")
 		)
 		(pin "3"
-			(uuid "9b265bd3-53cc-48e1-94c2-bbaef87fba9b")
+			(uuid "8ef616c6-72b5-4ed1-be61-ba266ca29d5a")
 		)
 		(pin "4"
-			(uuid "228c5807-719d-4441-8344-598ffe5bf63b")
+			(uuid "b3ee62c1-d81f-4187-8a13-dc778a9aa9fe")
 		)
 		(pin "5"
-			(uuid "65bbe7b5-d183-4669-89b1-28cff68fe16e")
+			(uuid "24d96dc5-0905-456c-8d6e-7fcd4434ef1a")
 		)
 		(pin "6"
-			(uuid "e0a3b98c-76fd-4c44-9ebf-73be3a4588b1")
+			(uuid "3480156b-c78f-4aa2-8886-22f1282014f9")
 		)
 		(pin "7"
-			(uuid "b9f6d7db-a550-4793-a7cc-3eeb6a180b08")
+			(uuid "6f7e9215-1664-4058-bb43-e41aeb7a013c")
 		)
 		(pin "8"
-			(uuid "934958e5-d04f-4fde-b5a7-5267a88108ce")
+			(uuid "dbf70bfa-34e4-461e-9b81-ec8fd39d718c")
 		)
 		(pin "9"
-			(uuid "7717848a-2ca7-4454-be03-91baa4cda427")
+			(uuid "83967ab8-12ef-47c8-8586-565c69d1e45a")
 		)
 		(pin "10"
-			(uuid "822c7ff7-ef49-416f-8e0b-6341e8608f4a")
+			(uuid "d2acafca-811d-4581-beac-ba677ef8fc12")
 		)
 		(pin "11"
-			(uuid "74b84dec-88bc-4fab-9541-240d3b59aebf")
+			(uuid "503e1aac-5d68-4476-9abf-ff44f4e24eef")
 		)
 		(pin "12"
-			(uuid "af77134a-3c46-4155-9278-1c1ebfac87ed")
+			(uuid "f2d96b8a-28ba-491b-a818-092d8c2936d0")
 		)
 		(pin "13"
-			(uuid "d088f99b-81b4-4a17-9b11-316e48391e09")
+			(uuid "a6cb4b46-c81a-466c-94e3-2c23963c64b8")
 		)
 		(pin "14"
-			(uuid "1ed4bd55-c158-47c0-a188-13796d7b8319")
+			(uuid "95ce47fa-d15e-485a-95cb-8075ccbd403c")
 		)
 		(pin "15"
-			(uuid "b4811a8c-dacf-4d65-84ec-61855c638128")
+			(uuid "05db13f9-800e-422e-a5ca-70c26168415f")
 		)
 		(pin "16"
-			(uuid "4b072027-e3f0-4554-accb-740118a514de")
+			(uuid "b0736957-a58d-4e11-b5b2-8568a3cfcdc5")
 		)
 		(pin "17"
-			(uuid "c4bd38a6-ce68-4726-a71e-ba4022b55939")
+			(uuid "c2c194b7-6650-46cc-8c63-015cb73e9f70")
 		)
 		(pin "18"
-			(uuid "969f8114-8ad4-4fba-8f17-a5b8756a0a93")
+			(uuid "29c4c131-0890-437f-827e-ef224599d991")
 		)
 		(pin "19"
-			(uuid "06830c3f-5aa7-4657-8202-9f61f0ccbadd")
+			(uuid "f2761428-4cb5-4eaa-9964-79685a6a898b")
 		)
 		(pin "20"
-			(uuid "d84a20a0-708d-4001-8b51-d615388f3584")
+			(uuid "7a9bed0e-2a71-4b84-9c35-1082e6b58dd4")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "J2")
 					(unit 1)
 				)
@@ -7583,7 +7583,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b8b6d5d2-4a9b-4c52-8c74-c63f9b794e39")
+		(uuid "0bf84dff-f803-4e3b-94e1-8cbeb11e3e5f")
 	)
 	(label "GND"
 		(at 347.98 72.39 0)
@@ -7593,7 +7593,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3eeac4ef-3b2b-405b-a123-87a3a7cd870c")
+		(uuid "4dae591d-22aa-4622-8d9b-087971ef799b")
 	)
 	(wire
 		(pts
@@ -7603,7 +7603,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "693d3014-bc7c-45b9-86e8-b0e28260e5e1")
+		(uuid "279f09b6-2a39-4d41-aa73-1e7ba916e843")
 	)
 	(label "F_CSYNC"
 		(at 347.98 74.93 0)
@@ -7613,7 +7613,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "cd17951a-62b4-401f-878c-e7ab90959033")
+		(uuid "c7e8df0e-38f5-4d66-b855-ee3ea189e194")
 	)
 	(wire
 		(pts
@@ -7623,7 +7623,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e35cfca8-8ce0-495b-8ca7-d87ca36838fb")
+		(uuid "84341f3c-a19d-4dc0-80c5-3aa3f5b16ebd")
 	)
 	(label "TIA_RDY"
 		(at 347.98 77.47 0)
@@ -7633,7 +7633,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a04d6dc6-95e6-4388-8ac0-155943ec011d")
+		(uuid "442d6286-ba13-4142-ab06-bf8c80d3d3d4")
 	)
 	(wire
 		(pts
@@ -7643,7 +7643,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "eb369474-d366-4672-a232-b3faf30dbab0")
+		(uuid "01a8cf60-8438-4c0b-9ab1-2814073f3856")
 	)
 	(label "TIA_PHI0"
 		(at 347.98 80.01 0)
@@ -7653,7 +7653,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "4d9ff3b7-59cf-4d47-838c-ab584316020f")
+		(uuid "e3524ffb-0a3d-4350-80e6-0cb83a9a8b32")
 	)
 	(wire
 		(pts
@@ -7663,7 +7663,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "70513e62-4c41-4b69-9b3e-1afe83af4547")
+		(uuid "a4aabdb0-edd9-4e09-9ea2-0f16d7b0fb1c")
 	)
 	(label "F_LUM1"
 		(at 347.98 82.55 0)
@@ -7673,11 +7673,11 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "23c23c50-b158-4e72-9862-a6b89cd051b5")
+		(uuid "f4dfde49-9cc1-417a-9f40-a2f661d0443e")
 	)
 	(no_connect
 		(at 350.52 85.09)
-		(uuid "019a6874-d3f8-4869-bf6d-c6ea8596dad0")
+		(uuid "ae4dfc4c-54ec-45c3-ad50-e50e17603bb5")
 	)
 	(wire
 		(pts
@@ -7687,7 +7687,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3d36b48c-cc06-45ee-93cd-a4a9291de8b9")
+		(uuid "2f8fb80f-fc80-48f9-bba5-9422e1fc4283")
 	)
 	(label "F_LUM2"
 		(at 347.98 87.63 0)
@@ -7697,7 +7697,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "857d85d5-3a3f-46fd-8b4f-1f996bde4380")
+		(uuid "50878384-de4d-457c-abed-0a089b202fa4")
 	)
 	(wire
 		(pts
@@ -7707,7 +7707,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0a15f3b2-f86d-4297-8964-fbfd8f97a99e")
+		(uuid "aad92dde-0e50-42a0-8163-d93e06291d8c")
 	)
 	(label "F_LUM0"
 		(at 347.98 90.17 0)
@@ -7717,15 +7717,15 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c543f420-a29c-416b-a7ba-429988946cc5")
+		(uuid "ebd75160-f275-4fb9-a94d-943b5f1dd186")
 	)
 	(no_connect
 		(at 350.52 92.71)
-		(uuid "323082ba-03ba-4e12-b51b-ae161de97f72")
+		(uuid "08ddcc1c-802f-42b8-8c87-287b253540eb")
 	)
 	(no_connect
 		(at 350.52 95.25)
-		(uuid "7e14db06-9751-4649-93d2-f28a4e792d42")
+		(uuid "6a27ea00-9b43-48be-96e5-19f533d8748c")
 	)
 	(wire
 		(pts
@@ -7735,7 +7735,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4caeab3c-1934-4afe-beaf-a6baa7bbdc92")
+		(uuid "442a2522-9136-4895-b242-06ca66beb3d6")
 	)
 	(label "TIA_OSC"
 		(at 347.98 97.79 0)
@@ -7745,7 +7745,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "118c7eed-8abc-42ea-acfd-c8bc83b29cc3")
+		(uuid "6e9bfe6e-6255-4466-9f77-84eb4365113a")
 	)
 	(wire
 		(pts
@@ -7755,7 +7755,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "888967fd-f13d-4f38-9afb-7c14f4bb58cb")
+		(uuid "9e78189d-21db-4a81-ac46-f6aef12e7f93")
 	)
 	(label "F_AU1"
 		(at 347.98 100.33 0)
@@ -7765,7 +7765,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "22450ea9-18fd-450c-b529-203a53f48d4f")
+		(uuid "2ba6df96-ab93-4a0c-b13d-cec83211d437")
 	)
 	(wire
 		(pts
@@ -7775,7 +7775,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8fb03de9-57f6-48f6-ab15-a5788ea11f4a")
+		(uuid "0c7e8099-9894-42e3-8546-125588c14f2a")
 	)
 	(label "F_AU0"
 		(at 347.98 102.87 0)
@@ -7785,7 +7785,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "455e6166-27d3-40ec-a27a-340e60454f3b")
+		(uuid "a6b5e1a2-5212-4916-bba3-d5f4e5416993")
 	)
 	(wire
 		(pts
@@ -7795,7 +7795,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3f6d9578-1eeb-4592-8871-39e22becca92")
+		(uuid "7e98da53-2c6d-461c-b39a-66f2aea1164a")
 	)
 	(label "TIA_D0"
 		(at 347.98 105.41 0)
@@ -7805,7 +7805,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "58075bd1-ac19-4f9d-987e-77717fd7c169")
+		(uuid "d1e46e6b-a79b-49e5-9738-60c8bec261de")
 	)
 	(wire
 		(pts
@@ -7815,7 +7815,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "00d99832-c16c-473b-bf4a-c31ce4c9aec9")
+		(uuid "a125046a-d744-4d5b-a6c2-6a29de444b4e")
 	)
 	(label "TIA_D1"
 		(at 347.98 107.95 0)
@@ -7825,7 +7825,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "29c6f115-a610-4d31-b915-c070fba29027")
+		(uuid "d4dc30b4-eba7-4e2e-b023-c19f5ab593c8")
 	)
 	(wire
 		(pts
@@ -7835,7 +7835,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5e4bea4a-6a9d-4ffd-a903-d286a9e70bdb")
+		(uuid "1d20d287-1db1-48fa-bc97-0e2f9e925962")
 	)
 	(label "TIA_D2"
 		(at 347.98 110.49 0)
@@ -7845,7 +7845,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e68086b1-b67d-4054-b48a-404684b37c3a")
+		(uuid "e71b23fd-34c4-4b18-99e4-9648868b1850")
 	)
 	(wire
 		(pts
@@ -7855,7 +7855,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b9628677-c48c-491a-b771-20954962a5b2")
+		(uuid "03f20b3d-45d2-403f-9a03-fcae32547033")
 	)
 	(label "TIA_D3"
 		(at 347.98 113.03 0)
@@ -7865,7 +7865,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e0457bb6-515c-4c5e-9df9-163e1aedf4f1")
+		(uuid "07182632-3ea2-4b5d-906e-c19c17d901a3")
 	)
 	(wire
 		(pts
@@ -7875,7 +7875,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9794447d-4ef7-49bf-bc76-377679c39ceb")
+		(uuid "798d0483-fea0-4ee8-93d7-8f7be6c51664")
 	)
 	(label "TIA_D4"
 		(at 347.98 115.57 0)
@@ -7885,7 +7885,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "8c07375b-724c-4da2-a832-3c17ed1030b8")
+		(uuid "2579323d-d5ac-4450-9b6d-8eedb544fabe")
 	)
 	(wire
 		(pts
@@ -7895,7 +7895,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "607d53bf-01b3-4f38-96f4-3607a8800ecb")
+		(uuid "e2106d1c-6d6b-42dc-ba82-153a13b6ad9d")
 	)
 	(label "TIA_D5"
 		(at 347.98 118.11 0)
@@ -7905,7 +7905,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "749728a0-ad5a-43d5-a4e6-3af360c68c89")
+		(uuid "ecc0f094-9acb-4c2c-84cb-699f95ed140b")
 	)
 	(wire
 		(pts
@@ -7915,7 +7915,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "44fd338f-e7a3-45d6-b6b8-e43faa4d9dfe")
+		(uuid "10c3257d-de48-476f-b6a9-eef5d8296b67")
 	)
 	(label "+5V"
 		(at 347.98 120.65 0)
@@ -7925,7 +7925,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "533d32c5-1372-483c-bce0-33646d56815e")
+		(uuid "7b3e0823-6435-4289-8e33-34ca0fae8187")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x20")
@@ -7935,7 +7935,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c1eba29c-0e65-4bd5-ae9e-d2e2eb62170e")
+		(uuid "a652c026-b6e4-44dd-b067-390dace3c0ae")
 		(property "Reference" "J3"
 			(at 393.70 66.88 0)
 			(effects
@@ -7954,7 +7954,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical"
 			(at 394.97 95.25 0)
 			(hide yes)
 			(effects
@@ -7975,68 +7975,68 @@
 			)
 		)
 		(pin "1"
-			(uuid "55551d8b-c909-4cbe-9783-22594d389064")
+			(uuid "d9d1cf99-65ed-4ddf-9cb7-80e24552ff8c")
 		)
 		(pin "2"
-			(uuid "23f2dc1e-471c-4cef-80b0-99e7f3c5c412")
+			(uuid "74268134-80c8-44dd-b139-da7f5dc9ebda")
 		)
 		(pin "3"
-			(uuid "20963772-0c81-40d3-92b8-932ab7a4ad03")
+			(uuid "5ec21e91-a34d-4912-821a-38b85acbabe1")
 		)
 		(pin "4"
-			(uuid "46d2ac97-f2c7-42fc-ad24-13357b98a4f2")
+			(uuid "964c9d80-aaa7-42db-84d3-da2ad6cf4697")
 		)
 		(pin "5"
-			(uuid "503fc61f-bd1f-44e7-8cf9-079a8faa4302")
+			(uuid "14a1f35f-5c12-4856-a06e-1d789c930d50")
 		)
 		(pin "6"
-			(uuid "e5f06678-b31e-4d7d-81bb-48df1be9fbc0")
+			(uuid "cb27a4b8-1c1c-497b-887f-cbd09a58cba0")
 		)
 		(pin "7"
-			(uuid "97211c57-0c9b-4664-8cf2-d4eecfa9add4")
+			(uuid "39485d9e-2f15-4fbd-96e1-25d9f40f20a2")
 		)
 		(pin "8"
-			(uuid "c60bcc98-02ce-4cf0-a080-01e4a1bce9f6")
+			(uuid "56575850-cd39-4bce-8115-20e09da2385b")
 		)
 		(pin "9"
-			(uuid "f0b5d2a3-535c-4660-bcf2-2c659c36b394")
+			(uuid "14403f5c-d3fe-45cb-bd72-60820ad0782b")
 		)
 		(pin "10"
-			(uuid "fb93039e-bf97-47ea-855b-5976da42ed70")
+			(uuid "174664aa-d4d8-4888-826d-46c76f413be1")
 		)
 		(pin "11"
-			(uuid "b66e1658-f208-4734-9dab-352940b54032")
+			(uuid "0e277905-70a8-40d5-a3e2-d1e9ccdab466")
 		)
 		(pin "12"
-			(uuid "07d178af-6b5b-408c-aefa-550ff593169b")
+			(uuid "1340a557-1b45-4556-9d74-aa04d9bf599f")
 		)
 		(pin "13"
-			(uuid "dfdaee77-54e5-444a-b4cb-db9be20db6cb")
+			(uuid "ad4a4870-fd40-4b8d-bb9e-995fb9ff2538")
 		)
 		(pin "14"
-			(uuid "385d6316-4fa7-4e34-bfe1-dfe40cf00312")
+			(uuid "27ec80d0-fdc2-472d-995d-9d7752eaa0bf")
 		)
 		(pin "15"
-			(uuid "048734f7-b1e5-40e9-86c6-71282b39ec6f")
+			(uuid "35aab2fb-6853-4f23-836e-58024d76b8d8")
 		)
 		(pin "16"
-			(uuid "db5d2591-99f0-4a33-a94d-4f88d1e975d2")
+			(uuid "4c54a29f-f621-4e2d-9d4f-63289f38ab32")
 		)
 		(pin "17"
-			(uuid "2bfeed06-3cd3-4b9e-8d24-da90596d0030")
+			(uuid "a171aaa8-5b9a-4366-b05b-26a90da5f34a")
 		)
 		(pin "18"
-			(uuid "9a490a73-149f-4bf1-918b-d32774c661ad")
+			(uuid "1568517a-4c51-49ed-b149-c66e6d1d66a8")
 		)
 		(pin "19"
-			(uuid "7155ef99-3dca-4b66-b7c1-26634417edb7")
+			(uuid "7257b02d-b54d-4d8f-858e-5a8bd80f841f")
 		)
 		(pin "20"
-			(uuid "85ca912c-0911-4db2-ba1f-b529836252ea")
+			(uuid "b3b1b631-0de2-4e5d-add8-af9ed270c074")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "J3")
 					(unit 1)
 				)
@@ -8051,7 +8051,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "60adbba7-6a87-4dac-bae8-7d9f9f6b9ee2")
+		(uuid "14ec6fd3-20a9-4fcf-8d31-1214d4f24514")
 	)
 	(label "TIA_CS3_N"
 		(at 387.35 72.39 0)
@@ -8061,7 +8061,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "0b539e4e-17f3-4aab-8aa1-e0521a5cb17a")
+		(uuid "42530d2b-ee10-4b79-8cae-7b618f8b4bf1")
 	)
 	(wire
 		(pts
@@ -8071,7 +8071,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e8568a31-87bd-4732-b408-6385aa913f35")
+		(uuid "941403c3-c1db-437a-9b62-bc1baa77c33d")
 	)
 	(label "GND"
 		(at 387.35 74.93 0)
@@ -8081,7 +8081,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "156cbcea-604a-4d74-89a0-93403bbf47b1")
+		(uuid "7c64b39b-6798-4cc7-bad9-57d3a8e99a6f")
 	)
 	(wire
 		(pts
@@ -8091,7 +8091,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "71058bc0-4488-4df8-bf11-7cda7a142bbb")
+		(uuid "36140e33-9929-4e18-b402-8bb82f72877c")
 	)
 	(label "+5V"
 		(at 387.35 77.47 0)
@@ -8101,7 +8101,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9100b2dc-cfb3-40b8-9832-e838ed956211")
+		(uuid "cd790d15-2f1f-4607-9f8d-b5259c3325da")
 	)
 	(wire
 		(pts
@@ -8111,7 +8111,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4cb61852-00d5-4241-9d4a-facee880c508")
+		(uuid "a86c3845-65a1-448c-85d3-95e87006994c")
 	)
 	(label "TIA_CS0_N"
 		(at 387.35 80.01 0)
@@ -8121,7 +8121,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "329748d8-1698-476a-bd14-196b32bffe4b")
+		(uuid "860f6c89-74c4-4e07-acf1-3ef172d3beaa")
 	)
 	(wire
 		(pts
@@ -8131,7 +8131,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c0a0438e-33cb-40d0-b6dd-2a4b000decf1")
+		(uuid "5b4c705d-23d9-4f93-a85e-147e090e9c40")
 	)
 	(label "TIA_RW"
 		(at 387.35 82.55 0)
@@ -8141,7 +8141,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1571537c-585b-4a6e-b508-21997fa01917")
+		(uuid "aea9125b-168a-41da-a999-3791a0204b79")
 	)
 	(wire
 		(pts
@@ -8151,7 +8151,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "337528ca-b337-4493-ac84-f2ecf9909682")
+		(uuid "9443f8b1-5344-4472-ae28-5769f38bf7c0")
 	)
 	(label "TIA_PHI2"
 		(at 387.35 85.09 0)
@@ -8161,7 +8161,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3ffab364-cf37-44b4-ac5b-32a379d6d12f")
+		(uuid "2f09e5f4-e731-4137-afa7-cea125fcd4d0")
 	)
 	(wire
 		(pts
@@ -8171,7 +8171,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d84550d8-3b19-4041-9227-85dbf5633ee9")
+		(uuid "4679a0f0-8e11-44df-8260-79b620c6c47d")
 	)
 	(label "TIA_A5"
 		(at 387.35 87.63 0)
@@ -8181,7 +8181,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "55689038-746d-4fca-9ef8-94470a7919b7")
+		(uuid "69f87083-5d1a-489d-ad0c-88b723a9013d")
 	)
 	(wire
 		(pts
@@ -8191,7 +8191,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3fbced76-f86c-4dc7-902d-64a202c91779")
+		(uuid "769507c4-acf3-49cd-8ff2-3c71fce45ea7")
 	)
 	(label "TIA_A4"
 		(at 387.35 90.17 0)
@@ -8201,7 +8201,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "18dec3d1-cdb6-4fbd-84ea-fcc13041ed7c")
+		(uuid "ec084dee-9769-41e5-9eed-1873270edeba")
 	)
 	(wire
 		(pts
@@ -8211,7 +8211,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8834225b-f8f5-4e75-a551-dfc2e3e157c6")
+		(uuid "2b9ab24f-6b6f-48f8-9566-7a43ec5d51ff")
 	)
 	(label "TIA_A3"
 		(at 387.35 92.71 0)
@@ -8221,7 +8221,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b62bbf8d-a3c4-4c27-b10d-50de3e108e6e")
+		(uuid "07bf4bbc-83f8-4322-a2f4-8ea2546053de")
 	)
 	(wire
 		(pts
@@ -8231,7 +8231,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3faefd44-85b6-4fdc-b9d0-0be24ef1c5dd")
+		(uuid "f092979f-a3c2-4ee7-93f8-abc3cc78c41f")
 	)
 	(label "TIA_A2"
 		(at 387.35 95.25 0)
@@ -8241,7 +8241,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7ce2fd88-090a-4c81-8418-a0ddab3670e0")
+		(uuid "231b7e1f-b6ae-4a49-9229-fbd8ee8f08a6")
 	)
 	(wire
 		(pts
@@ -8251,7 +8251,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ab56e5e5-3bbf-4bbf-a9ff-cbd8f8948271")
+		(uuid "15824831-6a66-4d05-acfd-1af86fac139d")
 	)
 	(label "TIA_A1"
 		(at 387.35 97.79 0)
@@ -8261,7 +8261,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "2eede068-40c6-4f7a-9fc2-cae47dfe91d9")
+		(uuid "3c0cf444-ba18-4b41-a689-fc1db2de9cc2")
 	)
 	(wire
 		(pts
@@ -8271,7 +8271,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "94b0e1a3-b724-49eb-ac98-44c36c9cce9f")
+		(uuid "fad1bb72-061d-459b-aa49-9769c1fadee1")
 	)
 	(label "TIA_A0"
 		(at 387.35 100.33 0)
@@ -8281,7 +8281,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "86b4a9cd-ef2f-4fa8-95e6-ed4af92fe97e")
+		(uuid "b8f69422-467f-45bf-a2dc-3643d9bfa41f")
 	)
 	(wire
 		(pts
@@ -8291,7 +8291,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8180ab46-c204-4b25-8ffc-158e97ae9c8a")
+		(uuid "cecf0a62-7133-4951-a054-459335fd76ff")
 	)
 	(label "TIA_D6"
 		(at 387.35 102.87 0)
@@ -8301,7 +8301,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c5b525ab-224b-4e74-a9c3-113c9d8d9acd")
+		(uuid "b7b82d6f-f6d9-46a9-b975-73aa527164a5")
 	)
 	(wire
 		(pts
@@ -8311,7 +8311,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c782e14d-b763-43b7-ad16-1df5ef7204de")
+		(uuid "64a56c45-276a-449f-8d2b-4e8595eb0ade")
 	)
 	(label "TIA_D7"
 		(at 387.35 105.41 0)
@@ -8321,7 +8321,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1c35f9c8-757e-4488-a702-6fdbb738964d")
+		(uuid "2bbd8f78-28f0-408e-aa71-151fa993d864")
 	)
 	(wire
 		(pts
@@ -8331,7 +8331,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "805beb74-bee0-416b-9d30-5ae8d9c39def")
+		(uuid "fe68d7a8-52cf-4499-804f-72da9598e24b")
 	)
 	(label "TIA_I5"
 		(at 387.35 107.95 0)
@@ -8341,7 +8341,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d450e912-5c99-4453-a131-0b76b47a95ce")
+		(uuid "0786e586-3987-4311-ad51-6713d7acd46b")
 	)
 	(wire
 		(pts
@@ -8351,7 +8351,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "95c66112-edf7-477b-9c35-887d11ab7668")
+		(uuid "58b769c3-2d7f-4152-bf9d-f4d5442c65ef")
 	)
 	(label "TIA_I4"
 		(at 387.35 110.49 0)
@@ -8361,23 +8361,23 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a4137ae6-7409-4be0-abf5-f38a36224777")
+		(uuid "9b974270-3f0e-4581-abd2-5a2f39500c10")
 	)
 	(no_connect
 		(at 389.89 113.03)
-		(uuid "a5f27ca7-9fe1-427f-b48d-6965bb0efcad")
+		(uuid "81043e39-88eb-4f01-b50f-e2b3729e0995")
 	)
 	(no_connect
 		(at 389.89 115.57)
-		(uuid "6a2cd6c1-33cd-40a1-b034-e7ae80eab46f")
+		(uuid "6a90b179-7fd3-490f-98cb-f9e379e909c8")
 	)
 	(no_connect
 		(at 389.89 118.11)
-		(uuid "0267c8f7-1464-4da5-96b9-94d29ab60fcf")
+		(uuid "78e4ca3a-0c36-4059-ac91-d62c71cbbf17")
 	)
 	(no_connect
 		(at 389.89 120.65)
-		(uuid "ba409425-ab93-42a8-a771-9ed777690a4f")
+		(uuid "b9732ee5-b57c-45ae-b577-d34696aba8c1")
 	)
 	(text "Pin 9 (COL, chroma) and pins 37-40 (paddles) left open:"
 		(exclude_from_sim no)
@@ -8388,7 +8388,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ccf74034-5040-4031-8139-9dc6913fc842")
+		(uuid "821054a7-a543-41de-a7cc-76cab3b96504")
 	)
 	(text "no FPGA pin is left for them on a Tang Nano 9K. See README."
 		(exclude_from_sim no)
@@ -8399,7 +8399,7 @@
 			)
 			(justify left)
 		)
-		(uuid "dd3836f3-18ca-47c9-8b34-7264b3264b85")
+		(uuid "0a6e7692-1756-4716-8022-6099be8e19ce")
 	)
 	(text "VIDEO OUTPUT - CX-2600A resistor network (phase 6, not populated)"
 		(exclude_from_sim no)
@@ -8411,7 +8411,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f877ad1c-6397-4049-b6b4-6cf994273cfc")
+		(uuid "e195bbc6-9cf1-4359-8402-d0b62e6a529d")
 	)
 	(text "4:2:1 luma weighting. Output stage (2N3563) follows the original sheet."
 		(exclude_from_sim no)
@@ -8422,7 +8422,7 @@
 			)
 			(justify left)
 		)
-		(uuid "1d0d83c0-9dc4-4813-86ef-e3b142b67cca")
+		(uuid "0454086d-eec6-481d-9f02-b250d99c9c98")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -8432,7 +8432,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c11a659b-8f30-402b-b644-35ef2b7206da")
+		(uuid "83c1365b-8953-4eb4-a88d-b28e0765b35f")
 		(property "Reference" "R1"
 			(at 332.72 181.18 0)
 			(effects
@@ -8451,7 +8451,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 330.20 187.96 0)
 			(hide yes)
 			(effects
@@ -8472,14 +8472,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "4705c323-2988-4bc4-b677-9e8146ed66cb")
+			(uuid "664c14e5-94b2-41af-b264-1019d93f9884")
 		)
 		(pin "2"
-			(uuid "0f37f1dd-9885-4240-8fee-23a06dba8434")
+			(uuid "10ba053e-5b9a-4707-b64a-cbcbab912487")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R1")
 					(unit 1)
 				)
@@ -8494,7 +8494,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "523e2ba3-39bd-42c4-b56e-1fe15126c510")
+		(uuid "1db34492-ef01-410a-ab3a-0349fdf452bd")
 	)
 	(label "F_CSYNC"
 		(at 330.20 181.61 90)
@@ -8504,7 +8504,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "40a2f04f-ee77-4cd9-afaf-9c54955c86dd")
+		(uuid "bf9e0412-bc3d-4b5a-a762-785cba47d72f")
 	)
 	(wire
 		(pts
@@ -8514,7 +8514,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a108b590-1572-413a-866d-6c756a6f9087")
+		(uuid "b5f251bf-af9a-4968-ab87-f2996b5534d0")
 	)
 	(label "VIDEO_SUM"
 		(at 330.20 194.31 90)
@@ -8524,7 +8524,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f2e97831-4749-45ad-b5a5-1d041d48bd1c")
+		(uuid "6bd0a7ec-e6ae-47b4-90b7-4200d23a3826")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -8534,7 +8534,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "2c22f5b9-692c-42e7-8730-90f7651066db")
+		(uuid "a33a2568-57f0-498a-b798-d30985ae0b66")
 		(property "Reference" "R2"
 			(at 354.31 181.18 0)
 			(effects
@@ -8553,7 +8553,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 351.79 187.96 0)
 			(hide yes)
 			(effects
@@ -8574,14 +8574,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "7d839d71-78c6-4d93-8d5c-2d6262c21fed")
+			(uuid "5f8414f4-9c09-4b70-b176-e7bf53b82e0b")
 		)
 		(pin "2"
-			(uuid "96ad1544-6112-4b3a-81c3-e94fdbbfc097")
+			(uuid "391e6dfe-3c18-41fe-a7e4-60a1edcdddde")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R2")
 					(unit 1)
 				)
@@ -8596,7 +8596,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6cc2f51d-c6e3-4dc3-8d55-718a15f7e9d8")
+		(uuid "9f4e36a4-fc22-4cf8-9c63-d28053a382d2")
 	)
 	(label "F_LUM1"
 		(at 351.79 181.61 90)
@@ -8606,7 +8606,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "df42d8da-b6db-4232-a7bf-235204b88125")
+		(uuid "b6d57783-1956-4089-9941-732133e6d962")
 	)
 	(wire
 		(pts
@@ -8616,7 +8616,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "90780c19-7afe-4df0-9212-3ef84d3a48b0")
+		(uuid "abf36c2a-e56c-4e91-8755-5102b2639655")
 	)
 	(label "VIDEO_SUM"
 		(at 351.79 194.31 90)
@@ -8626,7 +8626,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e430dc73-8746-4914-a3a8-91155d09d4a1")
+		(uuid "a0fcd815-e7b4-4c58-a2ef-643f600a7ad4")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -8636,7 +8636,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b039b050-7e31-418c-9d2b-de1857e90ce7")
+		(uuid "81a780b9-9eb0-4f03-b085-fc61ae014310")
 		(property "Reference" "R3"
 			(at 375.90 181.18 0)
 			(effects
@@ -8655,7 +8655,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 373.38 187.96 0)
 			(hide yes)
 			(effects
@@ -8676,14 +8676,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "6b4b7100-e85c-400c-81da-281b6c35a8f6")
+			(uuid "6c43baaa-5f93-45e8-952e-1d7b1fac812d")
 		)
 		(pin "2"
-			(uuid "b2c8c77e-33df-4711-b8c4-b5e39760f487")
+			(uuid "f88d48c4-e589-46df-a187-4c03fd2c1a2a")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R3")
 					(unit 1)
 				)
@@ -8698,7 +8698,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a3dc9236-067f-4abe-a89b-ce0b896f4aad")
+		(uuid "c7701513-1947-472b-a785-f043477f1b61")
 	)
 	(label "F_LUM2"
 		(at 373.38 181.61 90)
@@ -8708,7 +8708,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "98901d05-b9ac-4b2b-bba2-17ef27d390df")
+		(uuid "bc5061b9-43aa-4635-9c79-8ec6136728d2")
 	)
 	(wire
 		(pts
@@ -8718,7 +8718,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b86eb011-c2ac-4697-943a-3c2d74d35f61")
+		(uuid "b13ed77d-9881-4037-ad98-31438e524ea1")
 	)
 	(label "VIDEO_SUM"
 		(at 373.38 194.31 90)
@@ -8728,7 +8728,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f74cf49c-06fc-4c30-9fbb-8781b8bac207")
+		(uuid "f4580283-2877-4650-b55a-4afce614cc12")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -8738,7 +8738,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "7b043e82-ee89-4df0-8bb2-adc582deeff3")
+		(uuid "92fa5efa-d9fd-4357-91e5-e59c0bd6d446")
 		(property "Reference" "R4"
 			(at 398.76 181.18 0)
 			(effects
@@ -8757,7 +8757,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 396.24 187.96 0)
 			(hide yes)
 			(effects
@@ -8778,14 +8778,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "cefad97d-3e1d-4754-a2c9-9565b224224a")
+			(uuid "4f5deec5-81e4-4131-a700-2b90aca8f00e")
 		)
 		(pin "2"
-			(uuid "8cd1e176-7f6e-448d-bed7-24b7091ce822")
+			(uuid "2aac4619-76fd-48b3-91ef-1945364b6de4")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R4")
 					(unit 1)
 				)
@@ -8800,7 +8800,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "49931309-bc7c-42a1-87eb-71f8d19869ae")
+		(uuid "95d00b15-41bd-4eb5-8179-c83c1b93766e")
 	)
 	(label "F_LUM0"
 		(at 396.24 181.61 90)
@@ -8810,7 +8810,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "04dd9804-133d-4560-b0d3-5e242cf0987f")
+		(uuid "7849a8b6-00b2-47db-8d15-03f6448f5058")
 	)
 	(wire
 		(pts
@@ -8820,7 +8820,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "01831801-c9cf-4ae6-b1a6-8386365f0d7b")
+		(uuid "2cc7cc78-b25d-4649-ad2c-5953fd4a6d30")
 	)
 	(label "VIDEO_SUM"
 		(at 396.24 194.31 90)
@@ -8830,7 +8830,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "5e678c2b-c7fe-4ce3-bf53-fe6a375008b9")
+		(uuid "091b3105-6184-413b-b092-e7dd70cc2b0f")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -8840,7 +8840,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "0fe3d295-76dc-431e-a1b9-3df6482eeefd")
+		(uuid "37b7c447-ce42-4cb8-b457-bc575db84e54")
 		(property "Reference" "R5"
 			(at 332.72 206.58 0)
 			(effects
@@ -8859,7 +8859,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 330.20 213.36 0)
 			(hide yes)
 			(effects
@@ -8880,14 +8880,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "a1f8afbe-ffca-451b-9b96-3e628787afe0")
+			(uuid "31d1c846-fb4a-4b09-8e75-f95f656c8212")
 		)
 		(pin "2"
-			(uuid "305b427c-64f9-4ac7-9c85-4bbbda7fd186")
+			(uuid "7f03be80-3597-4a20-84ff-be2080b720d7")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R5")
 					(unit 1)
 				)
@@ -8902,7 +8902,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "38e42294-8b61-492d-bfd5-37e5d526509f")
+		(uuid "294db4fb-ce17-434c-9233-405ac50af993")
 	)
 	(label "F_CSYNC"
 		(at 330.20 207.01 90)
@@ -8912,7 +8912,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "44fc5e5e-7b2e-4541-b98c-c9e388908da7")
+		(uuid "0ab1f1c6-c4bd-45ea-931d-57e32623a1a3")
 	)
 	(wire
 		(pts
@@ -8922,7 +8922,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "21ecb8f4-0d99-4c9f-b8e9-4d767c2839fc")
+		(uuid "d12c7731-367f-495c-bb6d-183082c7a9ac")
 	)
 	(label "GND"
 		(at 330.20 219.71 90)
@@ -8932,7 +8932,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a88c39c8-d9fc-4b3d-b106-a64f3b52f8e2")
+		(uuid "69d37139-3d12-4154-a042-895b1044ec68")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -8942,7 +8942,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "33b33f6d-791d-49fa-b565-740719bc4951")
+		(uuid "2fe330de-a71a-47ef-bdfc-c20880add18d")
 		(property "Reference" "R6"
 			(at 354.31 206.58 0)
 			(effects
@@ -8961,7 +8961,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 351.79 213.36 0)
 			(hide yes)
 			(effects
@@ -8982,14 +8982,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "2a5d85ff-602e-48f8-957b-40cff192257e")
+			(uuid "5833876b-0b7e-434a-8f3f-6433337eba14")
 		)
 		(pin "2"
-			(uuid "6b817f7d-479e-4de5-b885-aca7c14a10e3")
+			(uuid "5fd052e0-8c9c-4d4e-b375-bc0471eb2206")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R6")
 					(unit 1)
 				)
@@ -9004,7 +9004,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3f5d5beb-7cc6-4ee6-b51a-beb8c612b962")
+		(uuid "914312a5-bdf5-4258-a56c-a0f27853fd6f")
 	)
 	(label "F_LUM1"
 		(at 351.79 207.01 90)
@@ -9014,7 +9014,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "82acc37d-fb99-4948-80f1-e2db36458a82")
+		(uuid "28f48b9e-d733-4523-8dab-97ec428bcea9")
 	)
 	(wire
 		(pts
@@ -9024,7 +9024,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c37e3127-6d03-409b-a1c9-e84a93eb17fe")
+		(uuid "0ee75a31-798b-4d8e-bf84-5123b7d36b91")
 	)
 	(label "GND"
 		(at 351.79 219.71 90)
@@ -9034,7 +9034,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d432f2ee-1e1c-4607-8fc7-6a607a681ee6")
+		(uuid "8ea25e10-af94-45ec-896f-f117b3259e22")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -9044,7 +9044,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "834d5fcc-4b8f-4936-87fb-a7c2c9f18c7b")
+		(uuid "b72b3fe9-3c55-473f-9f57-9fd7b07fe810")
 		(property "Reference" "R7"
 			(at 375.90 206.58 0)
 			(effects
@@ -9063,7 +9063,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 373.38 213.36 0)
 			(hide yes)
 			(effects
@@ -9084,14 +9084,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "23b20885-4286-4a91-a241-ec77308dfc7b")
+			(uuid "89dbe807-0fe3-4178-8c8e-984594761142")
 		)
 		(pin "2"
-			(uuid "cfb10124-4c0f-462c-a172-36a0efabc004")
+			(uuid "a25aa51e-18be-4e7d-bd0e-75477e3abb1f")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R7")
 					(unit 1)
 				)
@@ -9106,7 +9106,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f480d485-82a5-4f4c-a09d-2c50ae38c9df")
+		(uuid "23b48a69-e424-4466-94c6-fafbbd03072e")
 	)
 	(label "F_LUM2"
 		(at 373.38 207.01 90)
@@ -9116,7 +9116,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c670bf83-1090-4d23-98f5-1ea7c654fbfc")
+		(uuid "b08c6766-26ce-48f0-aace-35c1cdd5c232")
 	)
 	(wire
 		(pts
@@ -9126,7 +9126,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7fccf2a3-66ac-48f6-8550-92a30e30074a")
+		(uuid "74173bf5-36ca-4a7e-9603-542717b1c438")
 	)
 	(label "GND"
 		(at 373.38 219.71 90)
@@ -9136,7 +9136,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3e81aff8-6cc1-4c9a-b71f-72aa8cb8792f")
+		(uuid "2852f2bf-db8f-411b-80a2-c385b4ae9c25")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -9146,7 +9146,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "582ebef7-a37c-4fbd-be46-3ada61f6ef99")
+		(uuid "30caa355-30de-4368-a2d0-553f00273db0")
 		(property "Reference" "R8"
 			(at 398.76 206.58 0)
 			(effects
@@ -9165,7 +9165,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 396.24 213.36 0)
 			(hide yes)
 			(effects
@@ -9186,14 +9186,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "9367b29c-7643-4443-b522-d48c169b2e3e")
+			(uuid "6ec0991c-f409-4eee-a34c-98a5869dd27e")
 		)
 		(pin "2"
-			(uuid "5de0a1f6-7029-4eff-adf8-93e93fa70688")
+			(uuid "b54344a7-e2ef-43aa-a6ed-96b20488c781")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "R8")
 					(unit 1)
 				)
@@ -9208,7 +9208,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b9464fd0-82f7-4b61-b233-e5f6ce1cdd62")
+		(uuid "076ac4a0-9348-461d-975f-a997505972d0")
 	)
 	(label "F_LUM0"
 		(at 396.24 207.01 90)
@@ -9218,7 +9218,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "44efee4d-a2f3-4821-b33a-902eb0edf329")
+		(uuid "64e2d0da-dfa0-42e5-98db-6929798a7d91")
 	)
 	(wire
 		(pts
@@ -9228,7 +9228,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "bf6aac35-3b38-4f68-a6f1-a38fbb40022e")
+		(uuid "f14a3766-9197-4e32-8f01-77cc40b1c3e0")
 	)
 	(label "GND"
 		(at 396.24 219.71 90)
@@ -9238,7 +9238,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "96e5679a-1d05-4772-9092-117e416eb7e5")
+		(uuid "205327b5-76be-4e35-95a8-197b6c46bcb4")
 	)
 	(text "POWER AND DECOUPLING"
 		(exclude_from_sim no)
@@ -9250,7 +9250,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a3cef043-14d5-46ee-b843-e86f693a46f0")
+		(uuid "f2ac79d3-227e-4a48-92cb-1184b6252e58")
 	)
 	(text "+3V3 comes from the Tang Nano (J4/24). +5 V comes from the breadboard rail."
 		(exclude_from_sim no)
@@ -9261,7 +9261,7 @@
 			)
 			(justify left)
 		)
-		(uuid "162a403b-71f1-4cbe-b03b-4f8777df2ee2")
+		(uuid "d48edfa6-f243-4f78-8665-3b02a2c6c81c")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9271,7 +9271,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "02ef93c9-b919-4d88-b596-bf0067d7d112")
+		(uuid "b3255384-8ad0-4bbf-99a1-9389cc55dad1")
 		(property "Reference" "C1"
 			(at 34.01 213.44 0)
 			(effects
@@ -9290,7 +9290,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 30.48 218.44 0)
 			(hide yes)
 			(effects
@@ -9311,14 +9311,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "3f40306e-8bdf-4130-9c63-e8ad7e04485b")
+			(uuid "9d6fd505-a7a7-4b98-88c5-36c73c8898ce")
 		)
 		(pin "2"
-			(uuid "cc4009dd-993b-4c7a-a0ae-f887d2d523cb")
+			(uuid "47fc8c3b-b788-49a8-93fe-7b07a7bc56c9")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "C1")
 					(unit 1)
 				)
@@ -9333,7 +9333,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8aab469f-76ad-4b10-8a73-14d75b45f44c")
+		(uuid "c6256484-6c3d-46e3-9d38-7afdb509b72d")
 	)
 	(label "+5V"
 		(at 30.48 212.09 90)
@@ -9343,7 +9343,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "13fde199-a0a1-450e-877f-1b04281f64d6")
+		(uuid "d49302fb-97b5-44b1-bed5-01eccecf8576")
 	)
 	(wire
 		(pts
@@ -9353,7 +9353,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "86f9ef32-0509-46b5-a5da-e67615e7285b")
+		(uuid "e06b4261-9043-4287-b82a-235f0dbc6066")
 	)
 	(label "GND"
 		(at 30.48 224.79 90)
@@ -9363,7 +9363,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "744c0127-d53c-4b38-88a4-7a1de0d5f75e")
+		(uuid "a11f2632-3eb4-4ab6-b499-54512533f804")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9373,7 +9373,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "79a135f7-2d00-4414-af6e-8f6382402f0b")
+		(uuid "1867945b-44cf-4f08-99a6-4ce1d25358c2")
 		(property "Reference" "C2"
 			(at 53.06 213.44 0)
 			(effects
@@ -9392,7 +9392,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 49.53 218.44 0)
 			(hide yes)
 			(effects
@@ -9413,14 +9413,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "c84aca92-7395-4ac7-aa9c-a03c17d53790")
+			(uuid "8aec6fe4-b24b-49ff-a259-769832942f45")
 		)
 		(pin "2"
-			(uuid "6815c3bc-05da-497e-963a-8914e636df36")
+			(uuid "546db6f9-9b7c-4030-a5f1-4282c159e664")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "C2")
 					(unit 1)
 				)
@@ -9435,7 +9435,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e25e3399-ad47-4810-8776-f94ae32a9ac4")
+		(uuid "36d1da2c-e38f-4435-a897-f38f1811304f")
 	)
 	(label "+3V3"
 		(at 49.53 212.09 90)
@@ -9445,7 +9445,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "eecf5c26-f795-46f9-a4ec-97e323e62af9")
+		(uuid "eefd44d5-e40e-41fc-be82-7bfdc1d52471")
 	)
 	(wire
 		(pts
@@ -9455,7 +9455,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a39fff29-bf58-4815-8bc4-b48998da83c9")
+		(uuid "c6a09f83-79df-4ab6-9f13-5a8843238570")
 	)
 	(label "GND"
 		(at 49.53 224.79 90)
@@ -9465,7 +9465,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "5654c3b1-e885-498c-af18-05ad6ed8a5ae")
+		(uuid "6d2ad987-12a0-4a95-8eca-a5f139ea8599")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9475,7 +9475,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1e73a926-80da-4fda-bfaa-178efe82b279")
+		(uuid "b9ccbea4-971f-4aa7-a9c8-4c17cb3bff70")
 		(property "Reference" "C3"
 			(at 73.38 213.44 0)
 			(effects
@@ -9494,7 +9494,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 69.85 218.44 0)
 			(hide yes)
 			(effects
@@ -9515,14 +9515,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "4fe882fb-ed2a-4f34-a7c5-eed238cc738a")
+			(uuid "ad5f14da-5600-415d-a35a-fa3b8cf95058")
 		)
 		(pin "2"
-			(uuid "5b5deae0-20b4-4e8d-aeda-fb199693e41a")
+			(uuid "b047398d-5ef2-41dc-9da6-93c1401cdc1f")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "C3")
 					(unit 1)
 				)
@@ -9537,7 +9537,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "28ef1e76-6c00-4b06-a193-b3b2df9b74e3")
+		(uuid "f39459ec-1fe1-4c05-a38b-230d4ec0f8f2")
 	)
 	(label "+3V3"
 		(at 69.85 212.09 90)
@@ -9547,7 +9547,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "fbba210d-8da9-41d3-8a28-2ba77e347da5")
+		(uuid "3f4bf69f-e647-45e7-923a-73053e529d1b")
 	)
 	(wire
 		(pts
@@ -9557,7 +9557,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "dbd90489-7fa4-4586-8661-8c2b28f59260")
+		(uuid "304daba8-fe07-4ab8-bb28-4b5568c2f653")
 	)
 	(label "GND"
 		(at 69.85 224.79 90)
@@ -9567,7 +9567,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "aa5cd96d-57e6-4254-8edf-37750dc630aa")
+		(uuid "fd45a755-eb39-4f90-b379-d3bf87917445")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9577,7 +9577,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "360c9525-4676-41f4-a599-17f8ccc6b0f3")
+		(uuid "a1c3be2c-ac51-4ae7-a74b-df958880a232")
 		(property "Reference" "C4"
 			(at 93.70 213.44 0)
 			(effects
@@ -9596,7 +9596,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 90.17 218.44 0)
 			(hide yes)
 			(effects
@@ -9617,14 +9617,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "4bdd4072-1e02-4316-9c5c-01498f38b206")
+			(uuid "590b252e-1d28-4b1d-afac-bdf70ffdc1bf")
 		)
 		(pin "2"
-			(uuid "5248b25e-d744-4b10-a554-848ea69f6c8e")
+			(uuid "36817322-b286-4a0e-b6f2-4b697310f650")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "C4")
 					(unit 1)
 				)
@@ -9639,7 +9639,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "dd52f1aa-34da-4389-89f8-bd43dd3cfcbe")
+		(uuid "335fb8c3-b530-4412-85b6-01088954f732")
 	)
 	(label "+3V3"
 		(at 90.17 212.09 90)
@@ -9649,7 +9649,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "7fec979c-10bd-45da-8b03-a40833686b0f")
+		(uuid "e5b8adc2-014f-4e28-a523-66cec18145cb")
 	)
 	(wire
 		(pts
@@ -9659,7 +9659,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c7746086-05c0-4e8a-9cc8-56bab1d219ce")
+		(uuid "f277962c-6d20-4c16-be0c-aad9768bd1ae")
 	)
 	(label "GND"
 		(at 90.17 224.79 90)
@@ -9669,7 +9669,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "42e37495-1167-4aa3-9adc-6d557c1d97a2")
+		(uuid "1b9ce7e7-3087-4203-8e45-f6d763526fdb")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9679,7 +9679,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e6703f87-772a-4218-a580-54d22d3de7cf")
+		(uuid "64b099df-f3e8-4c63-bfb2-1def04ac04a5")
 		(property "Reference" "C5"
 			(at 114.02 213.44 0)
 			(effects
@@ -9698,7 +9698,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 110.49 218.44 0)
 			(hide yes)
 			(effects
@@ -9719,14 +9719,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "8128e488-e8f6-4cd7-abc5-6fbbc4f1eaa1")
+			(uuid "85cbd9de-c6b3-4134-9b85-82f4a962dd51")
 		)
 		(pin "2"
-			(uuid "7cb3df28-3427-4630-b980-635dba546145")
+			(uuid "622a8405-163a-49f2-9339-e5478302aa04")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "C5")
 					(unit 1)
 				)
@@ -9741,7 +9741,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3d513edf-f002-42f3-91d6-c147dff1f95e")
+		(uuid "11d38a00-f8e0-47d8-bbad-b051cc01a7fb")
 	)
 	(label "+5V"
 		(at 110.49 212.09 90)
@@ -9751,7 +9751,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "96536bbd-4214-468f-986e-c8d2bbd27f1c")
+		(uuid "efef23a4-35a5-4238-9b7c-18deb453b1e8")
 	)
 	(wire
 		(pts
@@ -9761,7 +9761,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7836b12a-cd97-45e2-98c0-c0725d6e37f8")
+		(uuid "9c082797-fff2-49a8-9e91-6e93ef21a5e2")
 	)
 	(label "GND"
 		(at 110.49 224.79 90)
@@ -9771,7 +9771,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9c6fa0c6-d3bb-4d3f-b16e-dd40acc6f922")
+		(uuid "8a60cc1e-f367-48ba-853f-2a3f6296df26")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9781,7 +9781,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "bcc1f8b4-2949-4446-97a5-04648fc8d53c")
+		(uuid "b9f0a6cd-af08-43fb-b982-9cf7865d08cb")
 		(property "Reference" "C6"
 			(at 133.07 213.44 0)
 			(effects
@@ -9800,7 +9800,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 129.54 218.44 0)
 			(hide yes)
 			(effects
@@ -9821,14 +9821,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "5f578392-48d9-45da-906d-df47fd7a1543")
+			(uuid "5603cdc5-2ed9-4e80-94f1-b0a5db5ed276")
 		)
 		(pin "2"
-			(uuid "8a70e736-c07d-4f84-a490-1396a04f5f20")
+			(uuid "e76843c3-0969-480b-a2ba-eb1f48beda93")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "C6")
 					(unit 1)
 				)
@@ -9843,7 +9843,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "50f563f7-0ef4-4814-8c72-9f0fc0cb338e")
+		(uuid "deab65ea-e521-4b1e-8af9-8c68e71c4f62")
 	)
 	(label "+3V3"
 		(at 129.54 212.09 90)
@@ -9853,7 +9853,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d1032a6a-cd56-46bc-b821-e1d7e0092241")
+		(uuid "d4e01663-ffab-4b13-af97-531a54f60a77")
 	)
 	(wire
 		(pts
@@ -9863,7 +9863,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "df7b305c-f9ce-4ae0-affc-df78b368f34a")
+		(uuid "f3f29d1b-8175-437a-a1b9-f2f59bc2f3ae")
 	)
 	(label "GND"
 		(at 129.54 224.79 90)
@@ -9873,7 +9873,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d0fe662c-91ef-4d80-a35b-145104b4a472")
+		(uuid "283af8ff-8517-45dc-9b54-cc47ca2b5852")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -9883,7 +9883,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "236cad1c-2877-4111-b220-b3484e7b4213")
+		(uuid "3c86ece6-fcfd-4a28-b062-f34661af283b")
 		(property "Reference" "#FLG1"
 			(at 30.48 242.57 0)
 			(hide yes)
@@ -9925,11 +9925,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "24561d09-cf2a-49ce-802b-0075e30b454e")
+			(uuid "b7731a19-0853-495b-8187-c0af9c17bb84")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "#FLG1")
 					(unit 1)
 				)
@@ -9944,7 +9944,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f868e8ad-db02-4705-9d2b-496bf601424f")
+		(uuid "6438016b-0fb3-4016-9e7a-d3db79ca9a8e")
 	)
 	(label "+5V"
 		(at 30.48 245.11 90)
@@ -9954,7 +9954,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "99cd7ab6-b574-4f7e-98f7-fd53a04d16c5")
+		(uuid "f2eeebab-0057-4bdb-bbc6-e8c7f186a046")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -9964,7 +9964,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "5315d11e-fa62-49e2-b895-64ff93df58b8")
+		(uuid "53f28d74-42f7-4034-9400-25a4c116550a")
 		(property "Reference" "#FLG2"
 			(at 54.61 242.57 0)
 			(hide yes)
@@ -10006,11 +10006,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "b2253c68-aeb0-41a7-842c-0bb74a5f0e1f")
+			(uuid "bfa47221-3150-4fed-a5e2-0d9d672523ee")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "#FLG2")
 					(unit 1)
 				)
@@ -10025,7 +10025,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9d17398a-e4e5-4c58-92a2-9d9dcca65dfa")
+		(uuid "901ca5da-f337-48df-aef2-be96e1e2b6cc")
 	)
 	(label "+3V3"
 		(at 54.61 245.11 90)
@@ -10035,7 +10035,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7e46d3ab-0ae1-4286-8ac3-5348356e3a5c")
+		(uuid "f57be0af-0b7a-47db-9810-beb27f83f1b2")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -10045,7 +10045,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "46440168-4c7b-4570-9d67-3961db6fa83f")
+		(uuid "fc70f46a-94f4-40c3-b32d-2f61707a33c5")
 		(property "Reference" "#FLG3"
 			(at 80.01 242.57 0)
 			(hide yes)
@@ -10087,11 +10087,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "daf3ff86-d18f-4715-8eb7-5de900acc8f9")
+			(uuid "5ec721e3-8415-4080-95a5-67b36e442ee3")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "#FLG3")
 					(unit 1)
 				)
@@ -10106,7 +10106,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8c4d8da4-9d66-4b8b-b120-54e12d183357")
+		(uuid "b4ad43b1-ca3b-4c8b-9e4e-c4ecbc34b61a")
 	)
 	(label "GND"
 		(at 80.01 245.11 90)
@@ -10116,7 +10116,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "10489451-13a8-463d-9f57-1fcd1b57a587")
+		(uuid "73674e03-0d57-4fdc-a443-40579ec3a412")
 	)
 	(symbol
 		(lib_id "power:+5V")
@@ -10126,7 +10126,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e2076af0-bd3b-4d0f-bb93-0cbd40ab20b1")
+		(uuid "c315e4b1-c8e3-4abd-aaaa-d4187bd814d1")
 		(property "Reference" "#PWR1"
 			(at 30.48 260.35 0)
 			(hide yes)
@@ -10168,11 +10168,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "85019719-1949-4d52-8427-52d959856063")
+			(uuid "e13699cc-a49c-448a-9580-1f6f6770eda0")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "#PWR1")
 					(unit 1)
 				)
@@ -10187,7 +10187,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0adae483-cab1-4c41-b844-42737bccb65d")
+		(uuid "59cb0d24-17ca-4ff1-ba30-5e434dfe9c57")
 	)
 	(label "+5V"
 		(at 30.48 262.89 90)
@@ -10197,7 +10197,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d4aaf431-2b69-4d96-b358-4f074c577f42")
+		(uuid "213ff93c-41b7-4002-a4df-2ae80f111630")
 	)
 	(symbol
 		(lib_id "power:+3V3")
@@ -10207,7 +10207,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "fa9159d3-7686-4a64-84e8-f08b4e4b266a")
+		(uuid "ce2b20c0-2c8d-4359-bab0-65b1e46c4a89")
 		(property "Reference" "#PWR2"
 			(at 54.61 260.35 0)
 			(hide yes)
@@ -10249,11 +10249,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "dda090c7-31d4-48a4-a4ec-b93b05c311a0")
+			(uuid "be27761a-9a66-483a-9f87-98037409c042")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "#PWR2")
 					(unit 1)
 				)
@@ -10268,7 +10268,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9d7a914e-809b-4dad-9e64-b06914e42e2f")
+		(uuid "0ebd7f27-9424-44de-b78c-a8cb6bbfcb69")
 	)
 	(label "+3V3"
 		(at 54.61 262.89 90)
@@ -10278,7 +10278,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b49707ae-8498-4809-8375-0ff82eb6e31c")
+		(uuid "f33fbf3f-52c4-4e6d-8bc3-4be5f83eb178")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -10288,7 +10288,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c6ded63c-2cd1-405e-a2d9-4d2d37becc9e")
+		(uuid "4ce80467-049a-4a9a-a274-a0c398bf27d5")
 		(property "Reference" "#PWR3"
 			(at 80.01 260.35 0)
 			(hide yes)
@@ -10330,11 +10330,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "9d2268f9-dc15-4d10-b54f-3459ead824d8")
+			(uuid "cccb601f-2938-4402-868f-194288bb508a")
 		)
 		(instances
 			(project "tia-fpga"
-				(path "/3b635726-b7b9-42f2-b0e7-41170b4e11b6"
+				(path "/5f598ce8-ca6a-4129-874a-bfed97976bf2"
 					(reference "#PWR3")
 					(unit 1)
 				)
@@ -10349,7 +10349,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fd33ff3a-66bc-4f6c-b27b-c4f5e301f60b")
+		(uuid "25793afd-cd28-491d-8b68-0cb027a2926e")
 	)
 	(label "GND"
 		(at 80.01 257.81 90)
@@ -10359,7 +10359,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "15f97c2b-aec3-4689-a023-46b8639dadb3")
+		(uuid "abaa5701-858e-4636-8b9a-2f7c54da395d")
 	)
 	(text "COLOUR VIDEO - via the Tang Nano's HDMI connector"
 		(exclude_from_sim no)
@@ -10371,7 +10371,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4b84726b-a57b-4be1-99c8-085dd19de145")
+		(uuid "d486eadd-1e98-4eff-8be9-1f18ece88542")
 	)
 	(text "The 7-bit colour value never leaves the FPGA: an internal"
 		(exclude_from_sim no)
@@ -10382,7 +10382,7 @@
 			)
 			(justify left)
 		)
-		(uuid "28428b11-bc06-4fda-a6f3-7dc02b4e42a5")
+		(uuid "5b908bbf-f9e2-4612-b5df-fd2c93d56083")
 	)
 	(text "TMDS encoder drives the HDMI pins, which are dedicated"
 		(exclude_from_sim no)
@@ -10393,7 +10393,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d5454c68-91e4-44b4-b6da-2197832be9c1")
+		(uuid "d15fa99a-0362-4e7c-831c-bc48a84a5806")
 	)
 	(text "differential pairs on the module and were never part of"
 		(exclude_from_sim no)
@@ -10404,7 +10404,7 @@
 			)
 			(justify left)
 		)
-		(uuid "cbc28223-0003-4745-9793-37087ddb4a51")
+		(uuid "1eb0853b-103d-48d1-91b1-1ab5d6d56d81")
 	)
 	(text "the 29-pin GPIO budget. Colour costs zero header pins."
 		(exclude_from_sim no)
@@ -10415,7 +10415,7 @@
 			)
 			(justify left)
 		)
-		(uuid "8bcde044-2534-44b4-ad29-63b6fb032ddf")
+		(uuid "8a6011ab-0583-4747-adc4-ee24ea1f3b95")
 	)
 	(text "FPGA pins (P/N): CK 69/68, D0 71/70, D1 73/72, D2 75/74."
 		(exclude_from_sim no)
@@ -10426,7 +10426,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d49a421d-58c5-44c9-b2bf-3c03d071fe9d")
+		(uuid "208e839a-079b-430b-a211-fc6c241079b8")
 	)
 	(text "RULE: leave J1/23-24 and J4/12-17 open - they carry the"
 		(exclude_from_sim no)
@@ -10437,7 +10437,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e02a0794-1b74-4460-8091-44d70200f9aa")
+		(uuid "f5d158a0-541b-4b97-b7cc-a310c3482f4c")
 	)
 	(text "same TMDS pairs, and any stub degrades the signal."
 		(exclude_from_sim no)
@@ -10448,7 +10448,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d86517ec-1eb9-4990-8509-362c097492ee")
+		(uuid "b41db963-4fdf-49fe-93e1-c710f064cd44")
 	)
 	(text "Copyright 2026 Leonardo Roman da Rosa - SPDX-License-Identifier: CERN-OHL-S-2.0"
 		(exclude_from_sim no)
@@ -10459,7 +10459,7 @@
 			)
 			(justify left)
 		)
-		(uuid "1f513277-3183-439b-bfdf-b0f2bf02b034")
+		(uuid "f0f77ce3-4741-4b44-bc0f-47dd34b310b3")
 	)
 	(text "Open Hardware under CERN-OHL-S v2. Source: https://github.com/lrrosa/tia-fpga"
 		(exclude_from_sim no)
@@ -10470,7 +10470,7 @@
 			)
 			(justify left)
 		)
-		(uuid "5befc972-d80d-4631-a70c-5cc7b2880451")
+		(uuid "8523d8a9-24fd-4a44-98c4-c8544403df5b")
 	)
 	(sheet_instances
 		(path "/"

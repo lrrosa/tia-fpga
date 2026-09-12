@@ -92,11 +92,54 @@ Three ways to get the pins back, in increasing order of effort:
 This is the single most important thing to know before ordering parts: the Tang
 Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*.
 
+## The board
+
+Rev A is a 2-layer, 72 × 100 mm sandwich: Tang Nano sockets at the top, the
+TIA's DIP-40 pins at the bottom, logic in between.
+
+| | |
+|---|---|
+| Size | 72 × 100 mm, 2 layers |
+| Components | 23 — SOIC/SOT-23 logic, 0805 passives, through-hole connectors |
+| Routing | 736 track segments, 61 vias, 3.72 m of copper |
+| Track / clearance | 0.25 mm signal, 0.6 mm power, 0.15 mm clearance |
+| **DRC** | **0 violations, 0 unconnected items** |
+
+Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4:
+109 connections, all routed in 19 s over 6 passes, final score 991.53.
+
+Files: `tia-fpga.kicad_pcb`, plus fabrication output in `gerbers/` (Gerber X2 +
+Excellon drill, regenerate whenever the board changes).
+
+### ⚠ Verify before ordering a board
+
+**The Tang Nano 9K header row spacing is an assumption.** Sipeed documents the
+module as 70.0 × 26.0 mm with 2.54 mm pitch, but does not publish the distance
+between the two 24-pin rows. This layout uses **20.32 mm** (8 × 2.54), the only
+value that leaves sensible pad-to-edge clearance on a 26 mm wide board — but it
+is deduced, not measured. **Put a caliper on your own module before sending this
+to a fab.** If it is wrong, every other dimension is still fine; only J1 and J4
+move.
+
+The DIP-40 row spacing (15.24 mm) is fixed by the package and is not a guess.
+
+### Known limitations of this routing
+
+- **No ground pour.** GND is routed as 0.6 mm track. That is adequate at
+  3.58 MHz, but a pour on B.Cu would be better for return paths and is the
+  obvious rev B improvement. It was left out deliberately: Freerouting treats a
+  pour as an obstacle and effectively goes single-layer, abandoning nets.
+- **Placement is functional, not optimised.** The IC pin order does not follow
+  the connector pin order, so the data and address buses cross the board
+  diagonally. Reordering the buffers to match the header sequence would cut the
+  copper length substantially. This is the first thing to improve.
+- The board outline is a plain rectangle with no mounting holes.
+
 ## Status
 
 - [x] Rev A schematic — passes KiCad 10 ERC with 0 violations
 - [x] FPGA pin assignment (`fpga/tia_fpga.cst`)
-- [ ] PCB layout
+- [x] PCB layout — rev A routed, DRC clean
 - [ ] TIA RTL
 - [ ] Paddle circuit (phase 5 — needs pins, see above)
 - [ ] Composite video (phase 6 — needs pins, see above)
