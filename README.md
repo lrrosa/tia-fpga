@@ -237,12 +237,50 @@ header pins, because the HDMI pins are dedicated differential pairs on the
 module. Useful while the RTL is still being brought up against the composite
 output.
 
+## The RTL
+
+`rtl/` holds the core: horizontal counter, playfield, two players, two
+missiles, ball, collisions, HMOVE, audio and the bus interface, in twelve files
+of plain Verilog-2005. `sim/` holds the test harness the section below argues
+for, and it is not aspirational — the core is checked against
+[Sim2600](https://github.com/gregjames/Sim2600) half clock by half clock:
+
+```bash
+python sim/run.py
+```
+
+Against Donkey Kong from power-on to its first visible pixels, 51,657 scored
+half clocks (about 113 scanlines; the trace itself is regenerated locally, since
+it carries the game's artwork), the core matches the die exactly on composite
+sync, blanking, RDY, the data bus drivers and both audio pads, and differs on
+**13 records**: one half clock of Φ0 at an RSYNC, and one double-size player
+sitting three colour clocks left of where the die draws it. Both are written up
+in [`sim/README.md`](sim/README.md) with the record numbers to start from.
+
+The harness also settled several things the published documentation does not
+say — which edge of the colour clock each latch runs on, that Φ0 is a 50 per
+cent square wave reloaded by the horizontal counter every line, and what RSYNC
+actually does, which Towers explicitly left as "requires more investigation".
+Those are the notes in `sim/README.md` under *What the traces have settled*.
+
+**Clocking.** The real chip is clocked by the 3.58 MHz colour clock and uses
+both its edges. This core takes a faster system clock and treats the colour
+clock as a signal to oversample, so everything is one clock domain, one edge,
+no gated clocks. On this board `clk0` comes from the console's own crystal
+through U4 and the system clock from a PLL, so the core stays locked to the
+machine it is plugged into.
+
 ## Status
 
 - [x] Rev A schematic — passes KiCad 10 ERC with 0 violations
 - [x] FPGA pin assignment (`fpga/tia_fpga.cst`)
 - [x] PCB layout — rev A routed, ground pour, mounting holes, DRC clean
-- [ ] TIA RTL
+- [x] Sim2600 test harness — traces, replay testbench, comparison
+- [x] TIA RTL, first cut — 13 mismatched half clocks in 51,657, see above
+- [ ] Board wrapper — pin mapping, PLL, data bus tri-state, audio PWM. Note the
+      TIA's audio pad is a 4-bit weighted current DAC and the board gives each
+      channel a single 3.3 V pin, so AUDV has to come back as PWM
+- [ ] Synthesis: the core has never been through Gowin EDA
 - [ ] Paddle circuit (still needs pins, see above)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to
       synthesise the 15 subcarrier phases)
@@ -264,19 +302,27 @@ kicad-cli sch erc tia-fpga.kicad_sch -o erc.rpt --severity-error --severity-warn
 
 ## Suggested order of work
 
-1. **Build the test harness first.** Compare your RTL cycle by cycle against
-   [Sim2600](https://github.com/gregjames/Sim2600) — not an emulator, but the
-   netlist extracted from the die shot, simulated transistor by transistor.
-   Without a trustworthy oracle you cannot tell "my HMOVE is wrong" from "that
-   is how the game actually looks".
-2. **Run an existing core** on the Tang Nano over HDMI before touching real
-   hardware. This separates bugs in your TIA from bugs in your bench wiring.
-3. **Rewrite the TIA one block at a time**, in dependency order: horizontal sync
-   counter → playfield → players → missiles and ball → collisions → HMOVE (leave
-   HMOVE for last, it is the most treacherous).
-4. **This board** — TIA-only, with a real 6507.
-5. Audio and paddles.
-6. Composite video.
+1. ~~**Build the test harness first.**~~ Done — `sim/`. Comparing cycle by cycle
+   against [Sim2600](https://github.com/gregjames/Sim2600) — not an emulator,
+   but the netlist extracted from the die shot, simulated transistor by
+   transistor — earned its keep immediately. Four of the bugs it caught were in
+   things the documentation states plainly enough that they looked settled:
+   which edge of CLK each latch runs on, the duty cycle of Φ0, what RSYNC does
+   to the counter phase, and the four colour clocks a RESP0 takes to clear its
+   counter. None of them would have been findable by looking at the picture.
+2. ~~**Rewrite the TIA one block at a time**~~ — first cut done, in dependency
+   order: horizontal sync counter → playfield → players → missiles and ball →
+   collisions → HMOVE. HMOVE really is the most treacherous; leave it last.
+3. **Widen the coverage.** Donkey Kong's title screen is players and little
+   else. The playfield, ball, missiles, collisions and HMOVE are all still
+   unexercised, and so is every audio mode.
+4. **Board wrapper and synthesis** — pin mapping onto `fpga/tia_fpga.cst`, a
+   PLL off the console crystal, tri-state on the data bus, audio PWM.
+5. **Run it on the Tang Nano over HDMI** before touching real hardware. This
+   separates bugs in the TIA from bugs in your bench wiring.
+6. **This board** — TIA-only, with a real 6507.
+7. Paddles.
+8. Composite colour: synthesising the 15 subcarrier phases.
 
 ## Timing quirks that matter
 

@@ -24,3 +24,13 @@ impl/
 
 # Fabrication archive is attached to releases, not tracked
 *-gerbers.zip
+
+# Icarus Verilog build products
+sim/build/
+*.vvp
+*.vcd
+
+# Traces recorded from commercial cartridges carry bytes of the game, so they
+# stay on the machine that made them. Traces from the project's own test ROMs
+# live in sim/traces/ and are committed.
+sim/traces/local/

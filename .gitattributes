@@ -1,0 +1,4 @@
+# Traces are compared byte for byte, and git apply has to see the patch
+# exactly as it was written. Keep both LF on every platform.
+*.trace text eol=lf
+*.patch text eol=lf

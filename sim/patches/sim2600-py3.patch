@@ -1,0 +1,144 @@
+Sim2600 Python 3 port, for the tia-fpga test harness.
+
+Sim2600 is Copyright (c) 2014 Greg James, Visual6502.org, and MIT licensed.
+This patch modifies it and is offered under the same terms.
+SPDX-License-Identifier: MIT
+
+Apply with `git apply` to https://github.com/gregjames/Sim2600 at commit
+af3bc453e253172503967ffb826377517b95a62a -- see sim/README.md.
+
+diff --git a/circuitSimulatorBase.py b/circuitSimulatorBase.py
+index a8069f9..fd9e014 100644
+--- a/circuitSimulatorBase.py
++++ b/circuitSimulatorBase.py
+@@ -210,7 +210,7 @@ class CircuitSimulatorBase:
+         if wire != None:
+             wire.setHigh()
+         else:
+-            print 'ERROR - trying to set wire None high'
++            print('ERROR - trying to set wire None high')
+ 
+     def setLowWN(self, n):
+         if n in self.wireNames:
+@@ -223,7 +223,7 @@ class CircuitSimulatorBase:
+         if wire != None:
+             wire.setLow()
+         else:
+-            print 'ERROR - trying to set wire None low'
++            print('ERROR - trying to set wire None low')
+ 
+     def setHigh(self, wireIndex):
+         self.wireList[wireIndex].setPulledHighOrLow(True)
+@@ -271,7 +271,7 @@ class CircuitSimulatorBase:
+     # Use for debug and to examine busses.  This is slow. 
+     def getGen(self, strSigName, size):
+         data = 0
+-        for i in xrange(size, -1, -1):
++        for i in range(size, -1, -1):
+             data = data * 2
+             bit = '%s%d'%(strSigName,i)
+             if self.isHighWN(bit):
+@@ -280,13 +280,13 @@ class CircuitSimulatorBase:
+ 
+     def setGen(self, data, string, size):
+         d = data
+-        for i in xrange(size):
++        for i in range(size):
+             bit = '%s%d'%(string,i)
+             if (d & 1) == 1:
+                 self.setHigh(bit)
+             else:
+                 self.setLowWN(bit)
+-            d = d / 2
++            d = d // 2
+             
+     def updateWireNames (self, wireNames):        
+         for j in wireNames:
+@@ -303,10 +303,10 @@ class CircuitSimulatorBase:
+         if not os.path.exists(filePath):
+             raise Exception('Could not find circuit file: %s  from cwd %s'%
+                             (filePath, os.getcwd()))
+-        print 'Loading %s' % filePath
++        print('Loading %s' % filePath)
+         
+         of = open (filePath, 'rb')
+-        rootObj = pickle.load (of)
++        rootObj = pickle.load (of, encoding='latin1')
+         of.close()
+ 
+         numWires = rootObj['NUM_WIRES']
+diff --git a/sim2600Console.py b/sim2600Console.py
+index 2980935..0afea85 100644
+--- a/sim2600Console.py
++++ b/sim2600Console.py
+@@ -154,7 +154,7 @@ class Sim2600Console:
+             estr += 'This is likely a bank switch strobe we have not implemented'
+           elif addr >= 0xF000 and addr <= 0xF07F:
+             estr += 'This is likely a cartridge RAM write we have not implemented'
+-          raise RuntimeException(estr)
++          raise RuntimeError(estr)
+                     
+       # 6502 shouldn't write to where we keep the console switches
+       if (addr == 0x282 or addr == 0x280) and not setup:
+@@ -186,7 +186,7 @@ class Sim2600Console:
+           if period != None:
+               pia.timerPeriod = period
+               # initial value for timer read from data bus
+-              pia.timerVal = cpu.getDataBusValue()
++              pia.timerValue = cpu.getDataBusValue()
+               pia.timerClockCount = 0
+               pia.timerFinished = False
+       #elif addr <= 0x2C:
+@@ -206,7 +206,7 @@ class Sim2600Console:
+         self.programLen = programLen
+         if not programLen in [2048, 4096, 8192]:
+             estr = 'No support for program byte list of length %d'%(programLen)
+-            raise RuntimeException(estr)
++            raise RuntimeError(estr)
+ 
+         if programLen == 2048:
+             # Duplicate ROM contents so it fills all of 0xF000 - 0xFFFF
+@@ -250,7 +250,7 @@ class Sim2600Console:
+         progHex = ''
+         count = 0
+         for byte in byteStr:
+-            intVal = struct.unpack ('1B', byte)[0]
++            intVal = byte if isinstance(byte, int) else struct.unpack('1B', byte)[0]
+             progHex += '%2.2X '%intVal
+             count += 1
+             if count == 8:
+diff --git a/sim6502.py b/sim6502.py
+index 8f8281e..9734881 100644
+--- a/sim6502.py
++++ b/sim6502.py
+@@ -101,7 +101,7 @@ class Sim6502(CircuitSimulator):
+         self.setHighWN('NMI')  # no interrupt
+         self.setHighWN('RDY')  # let the chip run.  Will connect to TIA with pullup
+         self.recalcWireNameList(['IRQ','NMI','RES','RDY'])
+-        for i in xrange(4):
++        for i in range(4):
+             if i % 2:
+                 self.setLowWN('CLK0')
+             else:
+diff --git a/simTIA.py b/simTIA.py
+index e4a93db..5703463 100644
+--- a/simTIA.py
++++ b/simTIA.py
+@@ -143,7 +143,7 @@ class SimTIA(CircuitSimulator):
+         # least significant
+ 
+         self.colLumToRGB8LUT = [0]*128
+-        for intKey in xrange(len(col)):
++        for intKey in range(len(col)):
+             colPair = col[intKey]
+             start = colPair[0]
+             end   = colPair[1]
+@@ -152,7 +152,7 @@ class SimTIA(CircuitSimulator):
+                 # result is tuple of same dim as 'start' and 'end'      
+                 dif += (end[i] - startv,)
+             # lumInt from 0 to 7
+-            for lumInt in xrange(8):
++            for lumInt in range(8):
+                 lumFrac = lumInt / 7.0
+                 ctup = ()
+                 for i, startv in enumerate(start):
