@@ -5,7 +5,17 @@ An FPGA replacement for the **Television Interface Adaptor (TIA)** — the custo
 
 Revision **A** is the digital interface board between a Sipeed Tang Nano 9K
 module and the TIA's DIP-40 socket, for use with a real 6507 (on a breadboard or
-in an actual 2600). Composite video and paddles are deferred to later revisions.
+in an actual 2600).
+
+| Front | Back |
+|:---:|:---:|
+| ![Front of the board](docs/pcb-3d-top.png) | ![Back of the board](docs/pcb-3d-bottom.png) |
+| Tang Nano sockets face **up**; the logic sits in the channel between the rows | The TIA's DIP-40 pins face **down** into the socket, over the ground pour |
+
+70 × 32 mm, two layers. The four connector rows are concentric on the 2.54 mm
+grid — that is what keeps the board down to roughly the Tang Nano's own
+footprint, which it has to be: in a real 2600 the TIA, the 6507 and the RIOT sit
+millimetres apart.
 
 ---
 
