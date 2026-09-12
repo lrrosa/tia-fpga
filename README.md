@@ -101,37 +101,58 @@ Nano 9K is big enough in *logic* by a wide margin, and tight in *pins*.
 
 ## The board
 
-Rev A is a 2-layer, **76 × 36 mm** board — roughly the Tang Nano's own footprint.
+Rev A is a 2-layer, **70 × 32 mm** board — roughly the Tang Nano's own footprint.
 In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart, ringed by
 resistor networks and the cartridge slot, so the board cannot spread sideways.
 All four connector rows are **concentric**, and the two sets face opposite ways:
 
 | y (mm) | Row | Side | Faces |
 |---|---|---|---|
-| 7.84 | J1 — Tang Nano row A | F.Cu | socket, **up** |
-| 10.38 | J2 — TIA pins 1–20 | **B.Cu** | pins, **down** into the socket |
-| 25.62 | J3 — TIA pins 21–40 | **B.Cu** | pins, **down** |
-| 28.16 | J4 — Tang Nano row B | F.Cu | socket, **up** |
+| 5.84 | J1 — Tang Nano row A | F.Cu | socket, **up** |
+| 8.38 | J2 — TIA pins 1–20 | **B.Cu** | pins, **down** into the socket |
+| 23.62 | J3 — TIA pins 21–40 | **B.Cu** | pins, **down** |
+| 26.16 | J4 — Tang Nano row B | F.Cu | socket, **up** |
 
 The two pitches coexist because everything lands on the 2.54 mm grid. SMD logic
 sits on the front in the 15.24 mm channel between the DIP rows; passives go in
-the outer margins; four M2 mounting holes in the corners.
+the outer margins.
 
 | | |
 |---|---|
-| Size | 76 × 36 mm, 2 layers, 4 × M2 holes |
+| Size | 70 × 32 mm, 2 layers |
 | Components | 24 — SOIC/SOT-23 logic, 0805 passives, through-hole connectors |
-| Routing | 758 segments, 47 vias, 2.19 m of copper |
-| Ground | **B.Cu pour, 1418 mm² filled** |
-| Track / clearance | 0.20 mm / 0.13 mm |
-| **DRC** | **0 clearance, 0 unconnected, 0 shorts, 0 courtyard** |
+| Routing | 601 segments, 31 vias, 1.68 m of copper |
+| Ground | B.Cu pour, 1075 mm² filled |
+| Track / clearance | 0.18 mm / 0.13 mm |
+| **DRC** | **0 clearance, 0 unconnected, 0 shorts** |
 
-Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4.
-The channel leaves only ~1.1 mm between the header pads and the SOIC pads, so
-clearance is what decides whether it routes at all: 0.20 mm stalled with two
-connections left, 0.15 mm left one, 0.13 mm routed all 111 in 22.6 s. The ground
-pour is added **after** routing — Freerouting reads a pour as an obstacle and
-goes effectively single-layer if it is present.
+### Pin assignment is solved, not listed
+
+Which signal sits on which header position is free — any GPIO can carry any
+signal — so it is chosen to put each FPGA pin next to the TIA pin it serves.
+Solving that as an assignment problem (Hungarian, over the 29 usable positions)
+took the summed |x_header − x_TIA| from **737 mm to 127 mm**, with several
+signals landing at exactly the same x as their target.
+
+The buffers are then ordered left to right by the centroid of what they carry:
+**U1, U4, U3, U2**. Together those two changes cut the board's copper by about a
+quarter and a third of its vias:
+
+| | before | after |
+|---|---|---|
+| Segments | 758 | **601** |
+| Vias | 47 | **31** |
+| Copper | 2.19 m | **1.68 m** |
+
+`fpga/tia_fpga.cst` carries the result. Do not reshuffle those `IO_LOC` lines
+casually — the layout depends on them.
+
+Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4;
+all 111 connections in 11 s. The channel leaves only ~1.1 mm between the header
+pads and the SOIC pads, so the geometry is what decides whether it routes at
+all: it took 0.13 mm clearance and 0.18 mm track to close. The ground pour is
+added **after** routing — Freerouting reads a pour as an obstacle and goes
+effectively single-layer if one is present.
 
 Files: `tia-fpga.kicad_pcb`, renders in `docs/`, fabrication output in `gerbers/`.
 
@@ -152,6 +173,10 @@ put this board straight into them; a socket extender or long machined pins are
 required. Measure the vertical clearance in your console — the Tang Nano's HDMI
 connector adds roughly 5 mm on top.
 
+**There are no mounting holes.** The board is held by its own pins in the TIA
+socket, and there is nothing to screw into inside a 2600. Adding holes only
+forced the board larger, so they were dropped.
+
 **Do not populate R1–R9 when the board goes into a real 2600.** That resistor
 network is a copy of the console's own luma/chroma ladder, for standalone and
 breadboard use. A second one in parallel with the console's would shift every
@@ -160,11 +185,12 @@ existing video path does the rest.
 
 ### Known limitations
 
-- 2 cosmetic silkscreen overlaps. A production revision wants the reference
-  designators placed by hand.
+- Two DRC notes remain, both checked by hand and both benign: one silkscreen
+  mark crossing copper, and one courtyard overlap between U5 and J1 where the
+  actual copper clears by **1.24 mm** — KiCad's courtyard is assembly margin,
+  not a clash.
 - The four paddle inputs still do not fit — see the pin budget above.
-- Placement does not follow connector pin order, so some buses cross the
-  channel diagonally. Reordering U2/U3/U4 would shorten them.
+- No ground pour on F.Cu; only B.Cu is poured.
 
 ## Two ways to use this
 
