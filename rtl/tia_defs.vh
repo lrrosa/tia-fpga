@@ -29,8 +29,10 @@
 `define TIA_HC_LRHB  6'b010111   // 18  late reset HBLANK (after HMOVE)
 `define TIA_HC_CNT   6'b101100   // 36  centre: second half of the playfield
 `define TIA_HC_SHB   6'b010100   // 56  start HBLANK, reset the counter
-`define TIA_HC_AUD1  6'b111011   // 9   audio clock, first tick of the line
-`define TIA_HC_AUD2  6'b110110   // 37  audio clock, second tick
+`define TIA_HC_AUDA1 6'b100000   // 1   audio phase A, first tick of the line
+`define TIA_HC_AUDB1 6'b111011   // 9   audio phase B, first tick
+`define TIA_HC_AUDA2 6'b101011   // 19  audio phase A, second tick
+`define TIA_HC_AUDB2 6'b110110   // 37  audio phase B, second tick
 `define TIA_LFSR_ERR 6'b111111   // illegal state, force a reset
 
 // ------------------------------------------------------------ object counters

@@ -51,7 +51,8 @@ module tia_hcount (
     output wire       cnt_early,      // one colour clock before cntd
     output wire       rhb_next,       // level: the coming H@2 releases HBLANK
     output wire       cnt_next,       // level: the coming H@2 is the centre
-    output wire       aud_ck          // audio clock, two pulses per line
+    output wire       aud_a,          // audio phase A, two pulses per line
+    output wire       aud_b           // audio phase B, two pulses per line
 );
 
     // The LFSR: shift right, bit 5 fed by XNOR of the two bits falling off.
@@ -113,11 +114,14 @@ module tia_hcount (
     assign rhb_next  = at_rhb | at_lrhb;
     assign cnt_next  = (q == `TIA_HC_CNT);
 
-    // The audio clock. Sim2600's audio pads change 77 and 301 half clocks into
-    // the line -- counts 9 and 37, on the sync latch's phase -- so the two
-    // ticks are 112 and 116 colour clocks apart rather than an even 114. That
-    // is what two decodes of a 57-state counter can give you.
-    assign aud_ck    = sync_ce & ((q == `TIA_HC_AUD1) | (q == `TIA_HC_AUD2));
+    // The audio clocks: two ticks a line, two phases a tick, all on the sync
+    // latch's phase. Read off the netlist, phase A closes at counts 1 and 19
+    // and phase B at counts 9 and 37 -- phase B is where Sim2600's audio pads
+    // change, 77 and 301 half clocks into the line. The two ticks are 112 and
+    // 116 colour clocks apart rather than an even 114, which is what decodes
+    // of a 57-state counter can give you.
+    assign aud_a     = sync_ce & ((q == `TIA_HC_AUDA1) | (q == `TIA_HC_AUDA2));
+    assign aud_b     = sync_ce & ((q == `TIA_HC_AUDB1) | (q == `TIA_HC_AUDB2));
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

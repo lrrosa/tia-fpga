@@ -39,20 +39,23 @@ commands under *Generating a trace*.
 ## Current results
 
 Mismatched half clocks, against every half clock scored in each trace. Φ0,
-RDY, composite sync and blanking are **zero on every trace** and are left out.
+RDY, composite sync, blanking, the data bus and both audio pads are **zero on
+every trace** and are left out.
 
-| trace | what it exercises | scored | lum/col | data bus | audio |
-|---|---|---:|---:|---:|---:|
-| `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 | **0** | **0** | **0** |
-| `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 | **0** | **0** | **0** |
-| `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 | **0** | **0** | **0** |
-| `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 | **0** | **0** | **0** |
-| `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 | 6 | **0** | **0** |
-| `missiles` | widths, copies, RESMP at every player size | 55,887 | 8 | **0** | **0** |
-| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | 12 | **0** | **0** |
-| `players` | every NUSIZ mode at all four sub-count phases | 46,767 | 56 | **0** | **0** |
-| `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 | 652 | 45 | **0** |
-| `audio` | the volume DAC, and a glimpse of every AUDC mode | 90,543 | **0** | **0** | 25,104 / 40,816 |
+| trace | what it exercises | scored | lum/col |
+|---|---|---:|---:|
+| `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 | **0** |
+| `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 | **0** |
+| `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 | **0** |
+| `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 | **0** |
+| `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 | **0** |
+| `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 | **0** |
+| `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 | 6 |
+| `missiles` | widths, copies, RESMP at every player size | 55,887 | 8 |
+| `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 | 8 |
+| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | 12 |
+| `players` | every NUSIZ mode at all four sub-count phases | 46,767 | 12 |
+| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 | 28 |
 
 Every remaining mismatch is located and described under *Known gaps*. The suite
 reports FAIL for every trace that still has one, and it should keep doing so
@@ -229,6 +232,38 @@ same result as the raw one. What it does lose is the cartridge's program, which
 otherwise rides the data bus into the trace every time the 6507 fetches from
 ROM. `gen_trace.py --raw-bus` keeps everything, for local investigation.
 
+## Looking inside the die
+
+When a mismatch will not give way to reasoning about pins, look inside the
+die. Sim2600's TIA has 2,660 wires, and every one of them can be recorded:
+
+```bash
+pip install numpy
+python sim/probe_die.py --sim2600 ../Sim2600 \
+       --rom sim/roms/build/players.bin --count 51072 --out players.npy
+```
+
+This runs the cartridge exactly as `gen_trace.py --skip 0` does, so record k
+of the probe is record k of the committed trace, and it adds little to the
+simulation's own running time. Only the pads, the register strobes and a few
+buses have names; every other wire is `N<index>`, so the other half of the job
+is reading the logic around a wire:
+
+```bash
+python sim/netlist.py --sim2600 ../Sim2600 node  RESP0_metal
+python sim/netlist.py --sim2600 ../Sim2600 tree  N2203 --depth 4
+python sim/netlist.py --sim2600 ../Sim2600 loads N1703
+python sim/netlist.py --sim2600 ../Sim2600 waves --probe audio.npy \
+       --trace sim/traces/audio.trace --line 60 N1703 N2591
+```
+
+The recipe behind the reset and audio findings below: follow a named strobe
+to the latches it forces; find a register's bits by correlating every wire
+with a model's state, since a real bit agrees on every sample; read where each
+clock sits in the line with `waves`; then read the logic with `tree`. Where a
+model still disagreed with the die, the die's own latches showed which tick
+went wrong.
+
 ## What the traces have settled
 
 Everything here contradicts, sharpens or simply is not in the published
@@ -274,15 +309,24 @@ implements it.
   half starts, and the priority bit turns SCORE off** — with PFP set the
   playfield keeps COLUPF.
 
-**Objects**
+**Objects** — read off the netlist, with the tools under *Looking inside the
+die*
 
-- **A RESxx strobe realigns the object's two-phase clock one colour clock after
-  it, and clears the counter four colour clocks after it.** The four is
-  Towers' "resetting the counter takes 4 CLK", taken literally; a sweep from 4
-  to 11 has 4 best by a wide margin. Realigning the phase early is what lets
-  the die draw a copy that was already decoded a colour clock early instead of
-  losing it.
-- **RESBL starts the ball when the counter clears, not at the strobe.**
+- **A RESxx strobe does not reset the counter. It holds the object's
+  two-phase clock in H@1 and sets a latch.** The two-phase clock is a ring of
+  four half-clock stages. For as long as the strobe is high the ring is forced
+  into H@1; on the next H@2 the latch lets go and starts a pulse one count long
+  that forces every stage of the counter to zero. The counter therefore clears
+  on the first H@2 after the strobe and counts on from there.
+- **That is why a copy already on its way survives a reset.** START decodes
+  pass through a latch that follows them for all of H@1, so holding the ring
+  in H@1 catches a START decoded just before the strobe and clocks it out on
+  the new phase.
+- **In HBLANK the ring cannot move**, because MOTCK is stopped: a reset there
+  waits in H@1 for the first colour clock of the visible line and clears the
+  counter on the second.
+- **RESBL starts the ball on the H@2 that clears the counter**, not at the
+  strobe.
 - **Double- and quad-size players start one colour clock later than
   single-size ones**, and their scan counter is clocked from H@1 alone (4×) or
   both phases (2×), so the first stretched pixel is as wide as the rest.
@@ -298,45 +342,59 @@ implements it.
   nothing, and one strobed late in HBLANK loses every pulse past RHB — even
   though the HMOVE latch holds HBLANK on until LRHB.
 
-**Audio and inputs**
+**Audio** — also read off the netlist, then checked tick by tick against the
+die's own divider and counters, not just its pads
 
-- **The audio clock ticks twice a line, at counts 9 and 37** of the horizontal
-  counter, 112 and 116 colour clocks apart rather than an even 114.
+- **Each audio tick has two phases.** Phase A, at counts 1 and 19, compares
+  the divider with AUDF, latches the result as the tick's enable and, on an
+  enabled tick, latches the hold decision and the feedback bits from AUDC as
+  it is at that moment. Phase B, at counts 9 and 37, shifts the counters; the
+  pads change there, 112 and 116 colour clocks apart rather than an even 114.
+- **AUDF is compared, not loaded.** The divider is a binary counter cleared on
+  an enabled tick, so lowering AUDF below the count lets it run on to 31 and
+  wrap before the channel ticks again.
+- **The pulse counter has no lockup guards.** Stella keeps its 4-bit
+  polynomial away from %1010 and the divide-by-6 away from %0000; the netlist
+  has neither term, and the simulated die does step from %0000 to %1111 in
+  AUDC C.
+- **The two channels are not wired alike.** Channel 0's phase-A latches follow
+  the enable latched in that same phase; channel 1 takes the enable through one
+  more latch and follows the tick before, which is how Stella models both.
+  The difference only shows on the first tick after the divider lets a
+  channel run again with AUDC changed in the meantime. Whether real chips
+  share it, or it came in with the extraction of the netlist, is open.
 - **AUDC 0 and B hold the output at the AUDV level** — a DC offset, not silence.
+
+**Inputs**
+
 - **VBLANK D7 grounds the paddle inputs**, which then read as zero.
 
 ## Known gaps
 
 Located divergences, largest first:
 
-- **A double-size player reset during HBLANK** (`collisions`: 652 pixels, and
-  all 45 of the bus mismatches). RESP1 lands thirteen half clocks into the
-  line with NUSIZ1 = %101, and on every following line the core draws that
-  player six half clocks left of the die. The collision reads that disagree
-  are the knock-on effect: the misplaced pixels overlap objects the die's do
-  not. The reset model above was fitted to strobes in the visible line; while
-  HBLANK stops MOTCK, only the free-running colour clock advances its delays,
-  and that is evidently not what the die does. The same trace also switches a
-  player from 1× to 4× while a copy is being drawn, which the core draws too
-  wide.
-- **A quad-size player reset while a copy is on screen** (`players`, 56):
-  RESP0 landing inside a quad-size copy holds the die's next stretched pixel
-  for four colour clocks longer than the core does. Double-size copies reset
-  the same way already match.
+- **A double-size player reset while a copy is being drawn** (`players`, 12,
+  and 16 of `resets_hblank`'s 28). With NUSIZ0 = %101, a RESP0 landing inside
+  a copy -- or right as HBLANK ends, 139 or 157 half clocks into the line --
+  leaves the core holding one stretched pixel four half clocks longer than the
+  die, and the rest of that copy lands four half clocks late. Single- and
+  quad-size players reset the same way already match, which points at the
+  double-size scan clock around the strobe rather than at the counter.
+- **The ball's START around a clear** (`ball`, 6, and 12 of `resets_hblank`).
+  Four RESBL strobes nine colour clocks apart with an 8-pixel ball: the die
+  draws one unbroken run, the core four with gaps between them. And around a
+  RESBL at the very start of a line: on the line before it the die draws a
+  one-pixel ball at the left edge that the core does not, and after it one
+  twelve-half-clock run where the core draws two and eight. The netlist shows
+  what the core lacks: on the die the clear pulse runs on through a second
+  latch stage into the ball's START logic.
 - **HMM0 rewritten at the very end of an HMOVE** (`hmove`, 12) — the Cosmic Ark
   trick. Afterwards the core's missile sits one pixel left of the die's.
 - **Missiles** (`missiles`, 8): a copy wrapping into the start of the next line
-  that the core does not draw, and the pixel where RESMP0 releases a missile
-  from a three-copy player.
-- **RESBL retriggered within the ball's own width** (`ball`, 6): four strobes
-  nine colour clocks apart with an 8-pixel ball. The die draws one unbroken
-  run; the core leaves a colour clock's gap between each copy.
-- **The audio polynomial counters** (`audio`). The clock, the volume taps and
-  the constant modes match; the 4-, 5- and 9-bit polynomial counters and the
-  divide-by-three do not, and `audio` switches mode too often to see their
-  sequences. The `audio_modes` cartridge holds each mode for 80 audio clock
-  ticks and the 9-bit counter for a whole period, which is what pinning them
-  down takes.
+  that the core does not draw, and the pixel where RESMP0 lets go of a missile.
+- **NUSIZ changed while a copy is on screen** (`collisions`, 8): a player
+  switched from 1× to 4× part way through a copy, which the core draws eight
+  half clocks too wide.
 
 And gaps in coverage rather than in the core:
 
@@ -344,8 +402,9 @@ And gaps in coverage rather than in the core:
   so the trigger latch has never been exercised.
 - One cartridge revision. There are at least twelve NTSC TIA revisions with
   observable differences, and Sim2600's netlist is the 10444D.
-- The core has never been synthesised, and there is no board-level wrapper
-  yet: no pin mapping onto `fpga/tia_fpga.cst`, no PLL, no tri-state on the
+- The core has been synthesised with Yosys (`fpga/check_synth.py`: no warnings,
+  379 flip-flops, about 640 LUTs) but never built with Gowin EDA, and there is
+  no board-level wrapper yet: no pin mapping onto `fpga/tia_fpga.cst`, no PLL, no tri-state on the
   data bus. Note also that the TIA's audio pad is a four-bit weighted current
   DAC — that is what `au0` and `au1` are — while the board gives each channel a
   single 3.3 V pin, so AUDV has to come back as PWM or sigma-delta on the way

@@ -251,12 +251,13 @@ that matters.
 python sim/run.py
 ```
 
-Against Donkey Kong from power-on to its first picture, and against the
-playfield and vertical-delay cartridges, the core matches the die on every pin
-at every half clock. On every trace, Φ0, RDY, composite sync and blanking match
-exactly. What is left is a handful of object-reset corner cases -- a double-size
-player reset during HBLANK, RESBL retriggered inside the ball's own width, an
-HMxx rewrite at the very end of an HMOVE -- and the audio polynomial counters.
+Against Donkey Kong from power-on to its first picture, against the playfield
+and vertical-delay cartridges, and against both sound cartridges, the core
+matches the die on every pin at every half clock. On every trace, Φ0, RDY,
+composite sync, blanking and both audio pads match exactly. What is left is a
+handful of object corner cases -- a double-size player reset while a copy is
+on screen, RESBL retriggered inside the ball's own width, an HMxx rewrite at
+the very end of an HMOVE -- each a few pixels on a few lines.
 [`sim/README.md`](sim/README.md) has the table, and every remaining mismatch
 located to the record. (The Donkey Kong traces are regenerated locally rather
 than committed, since they carry the game's artwork.)
@@ -268,7 +269,11 @@ RSYNC actually does, which Towers left as "requires more investigation"; that
 HMOVE's first compare must come before its first decrement, or an HMxx of -8
 moves an object sixteen pixels the wrong way; that stuffed pulses stop counting
 at RHB although HBLANK runs on to LRHB; and exactly when a mid-line playfield
-write reaches the screen.
+write reaches the screen. Once the harness could record the die's internal
+wires as well as its pins, the netlist itself settled the rest: how a RESxx
+strobe really resets an object -- by holding its clock, not by zeroing its
+counter -- and how the sound counters are clocked, down to the discovery that
+the two audio channels are not wired alike.
 
 **Clocking.** The real chip is clocked by the 3.58 MHz colour clock and uses
 both its edges. This core takes a faster system clock and treats the colour
@@ -284,11 +289,14 @@ machine it is plugged into.
 - [x] PCB layout — rev A routed, ground pour, mounting holes, DRC clean
 - [x] Sim2600 test harness — traces, replay testbench, test cartridges
 - [x] TIA RTL — matches the die on a real game and on most test cartridges
-- [ ] Object reset corner cases and the audio polynomial counters
+- [x] Audio -- read off the die's netlist; both channels match on every trace
+- [ ] The last object corner cases (listed in `sim/README.md`)
 - [ ] Board wrapper — pin mapping, PLL, data bus tri-state, audio PWM. Note the
       TIA's audio pad is a 4-bit weighted current DAC and the board gives each
       channel a single 3.3 V pin, so AUDV has to come back as PWM
-- [ ] Synthesis: the core has never been through Gowin EDA
+- [x] Synthesis check: Yosys `synth_gowin` with no warnings -- 379 flip-flops
+      and about 640 LUTs, some 7 per cent of the GW1NR-9 (`fpga/check_synth.py`)
+- [ ] Gowin EDA build and timing closure
 - [ ] Paddle circuit (still needs pins, see above)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to
       synthesise the 15 subcarrier phases)
@@ -319,9 +327,9 @@ kicad-cli sch erc tia-fpga.kicad_sch -o erc.rpt --severity-error --severity-warn
 2. ~~**Rewrite the TIA one block at a time**~~ -- done, in dependency order:
    horizontal sync counter, playfield, players, missiles and ball, collisions,
    HMOVE. HMOVE really is the most treacherous; leave it last.
-3. ~~**Widen the coverage.**~~ Done for the picture: the test cartridges in
-   `sim/roms/` cover every CTRLPF, NUSIZ and HMOVE value. Still open: the object
-   reset corner cases and the audio polynomial counters.
+3. ~~**Widen the coverage.**~~ Done: the test cartridges in `sim/roms/` cover
+   every CTRLPF, NUSIZ, HMOVE and AUDC value, and resets at every phase of
+   HBLANK. Still open: the last few object corner cases.
 4. **Board wrapper and synthesis** -- pin mapping onto `fpga/tia_fpga.cst`, a
    PLL off the console crystal, tri-state on the data bus, audio PWM.
 5. **Run it on the Tang Nano over HDMI** before touching real hardware. This
@@ -335,18 +343,23 @@ kicad-cli sch erc tia-fpga.kicad_sch -o erc.rpt --severity-error --severity-warn
 Almost every one of these is a bug in the original chip that games came to rely
 on. They are what separates "runs Combat" from "runs Pitfall II":
 
-- **None of the TIA's counters are binary.** They are polynomial counters (LFSRs)
-  with wired-AND decode matrices — the horizontal sync counter, all five object
-  position counters, and the audio generators. Binary counters with comparators
-  will run games but get the edge effects wrong.
+- **Almost none of the TIA's counters are binary.** They are polynomial
+  counters (LFSRs) with wired-AND decode matrices — the horizontal sync
+  counter, all five object position counters, and the audio generators. Binary
+  counters with comparators will run games but get the edge effects wrong. The
+  exception is each sound channel's frequency divider: a binary counter
+  *compared* with AUDF, not loaded from it, so lowering AUDF below the count
+  makes it run on to 31 before the channel ticks again.
 - **HMOVE comb.** Strobing `HMOVE` delays the end of HBlank (the LRHB line),
   producing the 8-pixel black bar at the left edge. Pitfall II depends on it.
 - **Cosmic Ark starfield.** Writing HMxx during the HMOVE window makes the
   comparator see a still-running counter. The resulting pattern *differs between
   TIA revisions*.
-- **RESPn latency.** A manual reset does not zero the counter; it forces the
-  decode state and takes 4–5 CLK, with different behaviour inside and outside
-  HBlank.
+- **RESPn latency.** A reset strobe does not zero the counter. It holds the
+  object's two-phase clock in H@1 and sets a latch, and the counter clears on
+  the next H@2. A copy that was already decoded therefore survives the reset,
+  and inside HBlank, where the object clock is stopped, the clear waits for
+  the first colour clocks of the visible line.
 - There are at least **12 NTSC TIA revisions** with observable differences.
   Decide which one you are cloning before you start.
 

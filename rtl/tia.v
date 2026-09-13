@@ -227,7 +227,7 @@ module tia (
 
     // ================================================== horizontal counter
     wire        hblank, hsync, hb_normal;
-    wire        hc_p1, hc_p2, shb_early, rhb, cntd, cnt_early, aud_ck;
+    wire        hc_p1, hc_p2, shb_early, rhb, cntd, cnt_early, aud_a, aud_b;
     wire        rhb_next, cnt_next;
     wire        hmove_latch;
     wire [5:0]  hc_q;
@@ -254,7 +254,8 @@ module tia (
         .cnt_early   (cnt_early),
         .rhb_next    (rhb_next),
         .cnt_next    (cnt_next),
-        .aud_ck      (aud_ck)
+        .aud_a       (aud_a),
+        .aud_b       (aud_b)
     );
 
     // WSYNC holds the 6507 until one colour clock before the next line. A
@@ -313,12 +314,13 @@ module tia (
 
     // ============================================================== objects
     wire p0_p1, p0_p2, p1_p1, p1_p2;
+    wire p0_pa, p1_pa, m0_pa, m1_pa, bl_pa;
     wire m0_p1, m0_p2, m1_p1, m1_p2, bl_p1, bl_p2;
     wire p0_close, p0_med, p0_far, p0_main;
     wire p1_close, p1_med, p1_far, p1_main;
     wire m0_close, m0_med, m0_far, m0_main;
     wire m1_close, m1_med, m1_far, m1_main;
-    wire bl_main, bl_reset_now;
+    wire bl_main, bl_clear_now;
     wire [2:0] p0_scan, p1_scan;
     wire p0_fstob, p1_fstob;
 
@@ -328,38 +330,38 @@ module tia (
 
     tia_objcnt u_p0_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_p0), .ce_free (ce_rise), .reset (resp0_s),
-        .q (), .p1 (p0_p1), .p2 (p0_p2), .ph (),
+        .q (), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .ph (),
         .dec_close (p0_close), .dec_med (p0_med),
-        .dec_far (p0_far), .dec_main (p0_main), .reset_now ());
+        .dec_far (p0_far), .dec_main (p0_main), .clear_now ());
 
     tia_objcnt u_p1_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_p1), .ce_free (ce_rise), .reset (resp1_s),
-        .q (), .p1 (p1_p1), .p2 (p1_p2), .ph (),
+        .q (), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .ph (),
         .dec_close (p1_close), .dec_med (p1_med),
-        .dec_far (p1_far), .dec_main (p1_main), .reset_now ());
+        .dec_far (p1_far), .dec_main (p1_main), .clear_now ());
 
     tia_objcnt u_m0_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_m0), .ce_free (ce_rise), .reset (resm0_s | m0_lock),
-        .q (), .p1 (m0_p1), .p2 (m0_p2), .ph (),
+        .q (), .p1 (m0_p1), .p2 (m0_p2), .pa (m0_pa), .ph (),
         .dec_close (m0_close), .dec_med (m0_med),
-        .dec_far (m0_far), .dec_main (m0_main), .reset_now ());
+        .dec_far (m0_far), .dec_main (m0_main), .clear_now ());
 
     tia_objcnt u_m1_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_m1), .ce_free (ce_rise), .reset (resm1_s | m1_lock),
-        .q (), .p1 (m1_p1), .p2 (m1_p2), .ph (),
+        .q (), .p1 (m1_p1), .p2 (m1_p2), .pa (m1_pa), .ph (),
         .dec_close (m1_close), .dec_med (m1_med),
-        .dec_far (m1_far), .dec_main (m1_main), .reset_now ());
+        .dec_far (m1_far), .dec_main (m1_main), .clear_now ());
 
     tia_objcnt u_bl_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_bl), .ce_free (ce_rise), .reset (resbl_s),
-        .q (), .p1 (bl_p1), .p2 (bl_p2), .ph (),
+        .q (), .p1 (bl_p1), .p2 (bl_p2), .pa (bl_pa), .ph (),
         .dec_close (), .dec_med (), .dec_far (), .dec_main (bl_main),
-        .reset_now (bl_reset_now));
+        .clear_now (bl_clear_now));
 
     wire px_p0, px_p1, px_m0, px_m1, px_bl, px_pf;
 
     tia_player u_p0 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa),
         .dec_close (p0_close), .dec_med (p0_med),
         .dec_far (p0_far), .dec_main (p0_main),
         .nusiz (nusiz0), .reflect (refp0), .vdel (vdelp0),
@@ -367,7 +369,7 @@ module tia (
         .pixel (px_p0), .scan_pos (p0_scan), .fstob (p0_fstob));
 
     tia_player u_p1 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa),
         .dec_close (p1_close), .dec_med (p1_med),
         .dec_far (p1_far), .dec_main (p1_main),
         .nusiz (nusiz1), .reflect (refp1), .vdel (vdelp1),
@@ -375,14 +377,14 @@ module tia (
         .pixel (px_p1), .scan_pos (p1_scan), .fstob (p1_fstob));
 
     tia_missile u_m0 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_m0), .p1 (m0_p1), .p2 (m0_p2),
+        .clk (clk), .rst_n (rst_n), .ce (ce_m0), .p1 (m0_p1), .p2 (m0_p2), .pa (m0_pa),
         .dec_close (m0_close), .dec_med (m0_med),
         .dec_far (m0_far), .dec_main (m0_main),
         .nusiz (nusiz0), .size (msize0), .enam (enam0), .resmp (resmp0),
         .pixel (px_m0));
 
     tia_missile u_m1 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_m1), .p1 (m1_p1), .p2 (m1_p2),
+        .clk (clk), .rst_n (rst_n), .ce (ce_m1), .p1 (m1_p1), .p2 (m1_p2), .pa (m1_pa),
         .dec_close (m1_close), .dec_med (m1_med),
         .dec_far (m1_far), .dec_main (m1_main),
         .nusiz (nusiz1), .size (msize1), .enam (enam1), .resmp (resmp1),
@@ -390,7 +392,7 @@ module tia (
 
     tia_ball u_bl (
         .clk (clk), .rst_n (rst_n), .ce (ce_bl), .p1 (bl_p1), .p2 (bl_p2),
-        .dec_main (bl_main), .reset_now (bl_reset_now), .size (ctrlpf[5:4]),
+        .dec_main (bl_main), .clear_now (bl_clear_now), .size (ctrlpf[5:4]),
         .enabl_new (enabl_new), .enabl_old (enabl_old), .vdel (vdelbl),
         .pixel (px_bl));
 
@@ -415,12 +417,15 @@ module tia (
                CX_BLPF = 12, CX_P0P1 = 13, CX_M0M1 = 14;
 
     // ================================================================ audio
-    tia_audio u_au0 (
-        .clk (clk), .rst_n (rst_n), .aud_ck (aud_ck),
+    // The two channels are not wired quite alike on the die: channel 1 takes
+    // the enable its phase-A latches follow through one more latch. See
+    // tia_audio.v.
+    tia_audio #(.ENABLE_LATCHED(0)) u_au0 (
+        .clk (clk), .rst_n (rst_n), .ph_a (aud_a), .ph_b (aud_b),
         .audc (audc0), .audf (audf0), .audv (audv0), .out (au0));
 
-    tia_audio u_au1 (
-        .clk (clk), .rst_n (rst_n), .aud_ck (aud_ck),
+    tia_audio #(.ENABLE_LATCHED(1)) u_au1 (
+        .clk (clk), .rst_n (rst_n), .ph_a (aud_a), .ph_b (aud_b),
         .audc (audc1), .audf (audf1), .audv (audv1), .out (au1));
 
     // ========================================================= colour output

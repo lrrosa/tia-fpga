@@ -17,6 +17,7 @@ module tia_missile (
     input  wire       ce,            // MOTCK or an HMOVE stuffed pulse
     input  wire       p1,
     input  wire       p2,
+    input  wire       pa,            // the end of H@1, when START decodes are latched
 
     input  wire       dec_close,
     input  wire       dec_med,
@@ -43,7 +44,7 @@ module tia_missile (
     reg start_l;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) start_l <= 1'b0;
-        else if (p1) start_l <= start_dec;
+        else if (pa) start_l <= start_dec;
     end
 
     wire start = p2 & start_l;

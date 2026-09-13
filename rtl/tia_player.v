@@ -28,6 +28,7 @@ module tia_player (
     input  wire       ce,            // MOTCK or an HMOVE stuffed pulse
     input  wire       p1,            // this object's H@1
     input  wire       p2,            // this object's H@2
+    input  wire       pa,            // the end of this object's H@1
 
     input  wire       dec_close,
     input  wire       dec_med,
@@ -55,10 +56,11 @@ module tia_player (
                       (dec_med   & copy_med)   |
                       (dec_far   & copy_far);
 
-    // The decode is clocked into a latch on H@1 and acts on the following
-    // H@2: the 4 CLK delay common to every movable object. Players then take
-    // one more colour clock to latch the START at the scan counter, and
-    // stretched players one more again.
+    // The decode goes through a latch that follows it for all of H@1 and
+    // closes as H@1 ends, and acts on the following H@2: the 4 CLK delay
+    // common to every movable object. Players then take one more colour clock
+    // to latch the START at the scan counter, and stretched players one more
+    // again.
     //
     // start_q and start_q2 are levels one colour clock long; the scan counter
     // is started by a single-clock pulse at the far end of one of them. A
@@ -71,7 +73,7 @@ module tia_player (
             start_q  <= 1'b0;
             start_q2 <= 1'b0;
         end else begin
-            if (p1) start_l  <= start_dec;
+            if (pa) start_l  <= start_dec;
             if (ce) start_q  <= p2 & start_l;
             if (ce) start_q2 <= start_q;
         end
@@ -86,7 +88,7 @@ module tia_player (
             fstob <= 1'b0;
         else if (p2 && dec_main)
             fstob <= 1'b0;
-        else if (p1 && start_dec && !dec_main)
+        else if (pa && start_dec && !dec_main)
             fstob <= 1'b1;
     end
 

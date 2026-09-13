@@ -3,125 +3,124 @@
 // Copyright 2026 Leonardo Roman da Rosa
 // SPDX-License-Identifier: CERN-OHL-S-2.0
 //
-// STATUS: this is the least verified block in the core. Andrew Towers' notes
-// stop short of the audio circuits ("The sound generator has a more complex
-// design involving another polynomial counter or two - I haven't delved into
-// the workings of this one yet"), so what follows is built from the published
-// AUDC mode table rather than read off sheet 4 of the schematics. It produces
-// the right waveform for each mode, but the phase relationships between the
-// polynomial counters have not yet been checked against the die. Compare the
-// AU0/AU1 pads against Sim2600 before trusting it.
+// Read off the 10444D netlist that Sim2600 simulates, and checked against the
+// simulated die tick by tick through the channel's own latches -- the divider,
+// the enable, both polynomial counters -- not only through its pads. The
+// structure is the one Stella uses, after Christian Speckner's analysis: a
+// 5-bit "noise" counter and a 4-bit "pulse" counter stepped together. Where
+// the die disagrees with Stella it says so below.
 //
-// Structure: a divide-by-(AUDF+1) prescaler running at the ~31 kHz audio
-// clock, a 4-bit and a 5-bit polynomial counter, a 9-bit counter formed by
-// chaining them, a divide-by-3 for the /6 family, and an output flip-flop for
-// the pure tone modes. The output bit gates the 4-bit volume into the pad's
-// weighted resistor network.
+// CLOCKS. The horizontal counter gives the audio circuit two ticks a line,
+// and each tick two phases: phase A closes at counts 1 and 19, phase B at
+// counts 9 and 37, both on the sync latch's edge.
 //
-//   AUDC  output
-//   0,B   constant (silence)
-//   1     4-bit poly
-//   2     div31 clocking the 4-bit poly
-//   3     5-bit poly clocking the 4-bit poly
-//   4,5   divide by 2
-//   6,A   div31
-//   7,F   5-bit poly
-//   8     9-bit poly (white noise)
-//   9     5-bit poly
-//   C,D   divide by 6
-//   E     div93
+// PHASE A compares the divider with AUDF and latches the result as the
+// enable for the tick. On an enabled tick it also latches what the coming
+// shift needs, from the counters as they stand and AUDC as it is right then:
+// the noise feedback bit, whether the pulse counter holds, and the noise bit
+// the pulse counter feeds back in AUDC 8-B.
+//
+// PHASE B, on an enabled tick, shifts the noise counter and, unless it holds,
+// the pulse counter. The pads follow the pulse counter's low bit, so this is
+// where the output changes.
+//
+// THE DIVIDER is a 5-bit binary counter compared with AUDF, not loaded from
+// it, and cleared on an enabled tick. Lower AUDF below the count and the
+// counter runs on to 31 and wraps before the channel ticks again.
+//
+// PULSE FEEDBACK has no lockup guards on the die. Stella steers the 4-bit
+// polynomial away from %1010 and the divide-by-6 away from %0000 and %0001;
+// the netlist has neither term, and the simulated die does go from %0000 to
+// %1111 in AUDC C. The noise counter's escapes from all zeros are there.
+//
+// THE CHANNELS ARE NOT IDENTICAL. In channel 0 the enable latched at phase A
+// gates phase A's own latches straight away. Channel 1 passes the enable
+// through one more storage stage, loaded on phase B, so its phase-A latches
+// follow the enable of the tick before -- which is how Stella models both
+// channels. It only shows on the first tick after the divider lets the
+// channel run again with AUDC changed in the meantime. ENABLE_LATCHED selects
+// channel 1's wiring. Whether real chips share the asymmetry, or it came in
+// with the netlist extraction, is an open question.
 
-module tia_audio (
+module tia_audio #(
+    parameter ENABLE_LATCHED = 0
+) (
     input  wire       clk,
     input  wire       rst_n,
-    input  wire       aud_ck,        // two pulses per scanline, 114 CLK apart
+    input  wire       ph_a,          // audio phase A, counts 1 and 19
+    input  wire       ph_b,          // audio phase B, counts 9 and 37
 
     input  wire [3:0] audc,
     input  wire [4:0] audf,
     input  wire [3:0] audv,
 
-    output wire [3:0] out            // volume taps, zero when the tone is low
+    output wire [3:0] out            // volume taps, zero when the output bit is low
 );
 
-    // ---------------------------------------------------------- prescaler
-    reg [4:0] fcnt;
-    wire      f_en = aud_ck & (fcnt == audf);
+    reg  [4:0] div;
+    reg        en;                   // this tick's enable, for phase B
+    reg  [4:0] noise;
+    reg  [3:0] pulse;
+    reg        hold, nfb, bit4;
 
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)       fcnt <= 5'd0;
-        else if (aud_ck)  fcnt <= f_en ? 5'd0 : fcnt + 5'd1;
-    end
+    wire [1:0] lo = audc[1:0];
+    wire [1:0] hi = audc[3:2];
 
-    // The /6 family runs the whole chain three times slower.
-    reg [1:0] d3;
-    wire      d3_en = f_en & (d3 == 2'd2);
+    wire en_now  = (div == audf);
+    wire en_gate = ENABLE_LATCHED ? en : en_now;
 
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)     d3 <= 2'd0;
-        else if (f_en)  d3 <= (d3 == 2'd2) ? 2'd0 : d3 + 2'd1;
-    end
-
-    wire div6_mode = (audc[3:2] == 2'b11);
-    wire tick      = div6_mode ? d3_en : f_en;
-
-    // ------------------------------------------------- polynomial counters
-    // XNOR feedback, shifting right, in the same style as every other counter
-    // in the chip.
-    reg [4:0] p5;
-    reg [3:0] p4;
-    reg [8:0] p9;
-
-    wire p5_fb = ~(p5[0] ^ p5[2]);
-    wire p4_fb = ~(p4[0] ^ p4[1]);
-    wire p9_fb = ~(p9[0] ^ p9[4]);
-
-    // What clocks the 4-bit counter, for the modes that chain them.
-    wire use_div31 = (audc[1:0] == 2'b10);
-    wire use_p5    = (audc[1:0] == 2'b11);
-
-    wire p4_en = use_div31 ? (tick & p5[0]) :
-                 use_p5    ? (tick & p5[0]) : tick;
-
+    // ------------------------------------------------------------- phase A
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            p5 <= 5'h1F;
-            p4 <= 4'hF;
-            p9 <= 9'h1FF;
-        end else begin
-            if (tick)  p5 <= { p5_fb, p5[4:1] };
-            if (p4_en) p4 <= { p4_fb, p4[3:1] };
-            if (tick)  p9 <= { p9_fb, p9[8:1] };
+            div  <= 5'd0;
+            en   <= 1'b0;
+            hold <= 1'b0;
+            nfb  <= 1'b1;
+            bit4 <= 1'b1;
+        end else if (ph_a) begin
+            if (en_gate) begin
+                bit4 <= noise[0];
+                case (lo)
+                2'b10:   hold <= (noise[4:1] != 4'b0001);
+                2'b11:   hold <= ~noise[0];
+                default: hold <= 1'b0;
+                endcase
+                if (lo == 2'b00)
+                    nfb <= (pulse[0] ^ noise[0]) | ((noise == 5'd0) & (pulse == 4'hA)) | (hi == 2'b00);
+                else
+                    nfb <= (noise[2] ^ noise[0]) | (noise == 5'd0);
+            end
+            en  <= en_now;
+            div <= (en_now || div == 5'd31) ? 5'd0 : div + 5'd1;
         end
     end
 
-    // ------------------------------------------------------ output select
-    reg toneff;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)    toneff <= 1'b0;
-        else if (tick) toneff <= ~toneff;
-    end
-
-    reg tone;
+    // ------------------------------------------------------------- phase B
+    reg pfb;
     always @(*) begin
-        case (audc)
-            4'h0, 4'hB: tone = 1'b1;             // constant, no sound
-            4'h1:       tone = p4[0];
-            4'h2:       tone = p4[0];
-            4'h3:       tone = p4[0];
-            4'h4, 4'h5: tone = toneff;
-            4'h6, 4'hA: tone = p5[0];
-            4'h7:       tone = p5[0];
-            4'h8:       tone = p9[0];
-            4'h9:       tone = p5[0];
-            4'hC, 4'hD: tone = toneff;
-            4'hE:       tone = p5[0];
-            4'hF:       tone = p5[0];
-            default:    tone = 1'b1;
+        if (audc == 4'h0)
+            pfb = 1'b0;
+        else case (hi)
+            2'b00:   pfb = pulse[1] ^ pulse[0];     // 4-bit polynomial
+            2'b01:   pfb = ~pulse[3];               // divide by 2
+            2'b10:   pfb = ~bit4;                   // clocked by the noise counter
+            default: pfb = ~pulse[1];               // divide by 6
         endcase
     end
 
-    // AUDC 0 and B hold the output bit high, so the pad sits at the AUDV
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            noise <= 5'h1F;
+            pulse <= 4'h5;
+        end else if (ph_b && en) begin
+            noise <= { nfb, noise[4:1] };
+            if (!hold)
+                pulse <= { pfb, ~pulse[3:1] };
+        end
+    end
+
+    // AUDC 0 and B leave the output bit high, so the pad sits at the AUDV
     // level: a DC offset, not silence. The die does exactly that.
-    assign out = tone ? audv : 4'd0;
+    assign out = pulse[0] ? audv : 4'd0;
 
 endmodule

@@ -10,9 +10,10 @@
 // drawing each time, which is why it gets used for cutting holes in things
 // and for background detail.
 //
-// "Immediately" means when the counter actually clears, four colour clocks
-// after the strobe, not at the strobe itself: started any earlier, every
-// RESBL-triggered ball sits eight half clocks left of the die's.
+// "Immediately" means on the H@2 that clears the counter (see tia_objcnt.v),
+// not at the strobe itself. On the die the clear pulse also runs on through a
+// second latch stage into the ball's START logic; a START on the clearing H@2
+// is what matches the test cartridges.
 //
 // Not yet right: four RESBL strobes nine colour clocks apart with an 8-pixel
 // ball. The die draws one unbroken run; here there is a one-colour-clock gap
@@ -26,7 +27,7 @@ module tia_ball (
     input  wire       p2,
 
     input  wire       dec_main,      // count 39: wrap and start
-    input  wire       reset_now,     // RESBL clearing the counter: also a START
+    input  wire       clear_now,     // the H@2 clearing the counter: also a START
 
     input  wire [1:0] size,          // CTRLPF D5..D4
     input  wire       enabl_new,
@@ -42,7 +43,7 @@ module tia_ball (
         else if (p1) start_l <= dec_main;
     end
 
-    wire start = (p2 & start_l) | reset_now;
+    wire start = (p2 & start_l) | clear_now;
     wire active;
 
     tia_enclock u_width (
