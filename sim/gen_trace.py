@@ -86,8 +86,11 @@ class Probes(object):
         w = tia.getWireIndex
         self.sync_low = w("SYNC_lowCtrl")
         self.blk_low = w("BL_lowCtrl")
-        self.au0 = [w("AU0_30k"), w("AU0_15k"), w("AU0_7.5k"), w("AU0_3.75k")]
-        self.au1 = [w("AU1_30k"), w("AU1_15k"), w("AU1_7.5k"), w("AU1_3.75k")]
+        # Sim2600's names are the other way round from the registers: the
+        # AU1_* taps follow AUDC0/AUDF0/AUDV0 and the AU0_* taps follow
+        # channel 1. A volume ramp on AUDV0 shows up on AU1_* and nowhere else.
+        self.au0 = [w("AU1_30k"), w("AU1_15k"), w("AU1_7.5k"), w("AU1_3.75k")]
+        self.au1 = [w("AU0_30k"), w("AU0_15k"), w("AU0_7.5k"), w("AU0_3.75k")]
 
     def sample(self):
         tia = self.tia

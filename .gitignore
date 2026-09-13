@@ -34,3 +34,6 @@ sim/build/
 # stay on the machine that made them. Traces from the project's own test ROMs
 # live in sim/traces/ and are committed.
 sim/traces/local/
+
+# Cartridges built by sim/roms/make.py
+sim/roms/build/

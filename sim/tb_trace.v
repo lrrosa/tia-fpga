@@ -21,6 +21,7 @@
 //   +first=N        print details of the first N mismatches   (default 20)
 //   +warm=N         do not score the first N records         (default 2000)
 //   +quiet          summary only
+//   +dump=FILE      write the core's lum/col/sync/blank for every scored record
 //
 // WARM-UP. A trace that starts at power-on begins in the middle of the 6507's
 // reset sequence, with the die in whatever state it powered up in. The core
@@ -32,7 +33,7 @@
 
 module tb_trace;
 
-    localparam MAXREC     = 262144;
+    localparam MAXREC     = 1048576;
     localparam OVERSAMPLE = 4;      // system clocks per recorded half clock
     localparam ALIGN_MAX  = 456;    // one scanline of half clocks
     localparam ALIGN_WIN  = 1368;   // records to score during the search
@@ -118,6 +119,9 @@ module tb_trace;
     integer f_ph0, f_rdy, f_sync, f_lum, f_col, f_blk, f_dbdrv;
     reg [8*512-1:0] trace_path;   // Windows paths get long
     reg          detail;
+    reg          dumping = 1'b0;
+    integer      dump_fd = 0;
+    reg [8*512-1:0] dump_path;
 
     // The core needs one line boundary to lock its counters to the trace, so
     // nothing before the first HBLANK edge in the window is counted. That is
@@ -176,6 +180,8 @@ module tb_trace;
 
                 if (k >= warm) begin
                 compared = compared + 1;
+                if (dumping && dump_fd != 0)
+                    $fwrite(dump_fd, "%0d %h %h %b %b %b %h\n", k, lum, col, sync_low, blank, rdy_low, dbdrv_rtl);
 
                 if (ph0       !== t_ph0[k])  begin m_ph0  = m_ph0  + 1; note(k, f_ph0);  end
                 if (rdy_low   !== t_rdy[k])  begin m_rdy  = m_rdy  + 1; note(k, f_rdy);  end
@@ -255,6 +261,8 @@ module tb_trace;
         if (!$value$plusargs("first=%d", first_n)) first_n = 20;
         if (!$value$plusargs("warm=%d", warm_after)) warm_after = 2000;
         quiet = $test$plusargs("quiet");
+        if ($value$plusargs("dump=%s", dump_path))
+            dump_fd = $fopen(dump_path, "w");
 
         load_trace;
         $display("loaded %0d records from %0s", nrec, trace_path);
@@ -284,6 +292,7 @@ module tb_trace;
         end
 
         detail = ~quiet;
+        dumping = 1'b1;
         $display("");
         $display("replaying records %0d .. %0d", best_align, nrec - 1);
         replay(best_align, nrec);
@@ -307,6 +316,7 @@ module tb_trace;
         else
             $display("FAIL");
 
+        if (dump_fd != 0) $fclose(dump_fd);
         $finish;
     end
 

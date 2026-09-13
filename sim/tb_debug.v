@@ -15,7 +15,7 @@
 
 module tb_debug;
 
-    localparam MAXREC     = 262144;
+    localparam MAXREC     = 1048576;
     localparam OVERSAMPLE = 4;
 
     reg        t_clk0 [0:MAXREC-1];
