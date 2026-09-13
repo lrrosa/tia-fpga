@@ -120,10 +120,8 @@ module tia_audio (
         endcase
     end
 
-    // AUDC 0 and B hold the output at a constant level: no current is
-    // switched, so the pad sits at zero rather than at full volume.
-    wire silent = (audc == 4'h0) || (audc == 4'hB);
-
-    assign out = (tone & ~silent) ? audv : 4'd0;
+    // AUDC 0 and B hold the output bit high, so the pad sits at the AUDV
+    // level: a DC offset, not silence. The die does exactly that.
+    assign out = tone ? audv : 4'd0;
 
 endmodule

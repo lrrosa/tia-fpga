@@ -7,11 +7,11 @@
 // scanline (57 * 4 = 228 colour clocks) and its decode matrix produces every
 // horizontal timing signal the TIA has.
 //
-// The counter changes state on the rising edge of H@2, so H@2 marks the start
-// of each count. A decode is clocked into its latch over the following
-// H@1 - H@2 cycle, which is the "delayed 4 CLK" the notes keep mentioning:
-// here that falls out of updating the latches on the same H@2 that advances
-// the counter, one state after the decode went true.
+// The counter changes state on H@2, so H@2 marks the start of each count. A
+// decode is clocked into its latch over the following H@1 - H@2 cycle, which
+// is the "delayed 4 CLK" the notes keep mentioning: here that falls out of
+// updating the latches on the same H@2 that advances the counter, one state
+// after the decode went true.
 //
 // WHICH EDGE OF CLK. Measured against Sim2600: the die's HBLANK latch changes
 // on the FALLING edge of the colour clock, and its sync latch on the RISING
@@ -41,12 +41,17 @@ module tia_hcount (
     output wire       p2,             // H@2
     output reg        hsync,
     output reg        hblank,
+    output reg        hb_normal,      // HBLANK as it would be without HMOVE
     output reg        cburst,
     output wire       shb,            // pulse: start of HBLANK / line reset
     output wire       shb_early,      // one colour clock before shb
+    output wire       rsync_pre,      // one colour clock before an RSYNC restart
     output wire       rhb,            // pulse: HBLANK released this H@2
     output wire       cntd,           // pulse: centre, second half of the PF
-    output wire       aud_ck          // 2 pulses per line, 114 CLK apart
+    output wire       cnt_early,      // one colour clock before cntd
+    output wire       rhb_next,       // level: the coming H@2 releases HBLANK
+    output wire       cnt_next,       // level: the coming H@2 is the centre
+    output wire       aud_ck          // audio clock, two pulses per line
 );
 
     // The LFSR: shift right, bit 5 fed by XNOR of the two bits falling off.
@@ -58,10 +63,10 @@ module tia_hcount (
     //
     // Here is the investigation, from a trace of Donkey Kong's two RSYNCs: the
     // strobe lands at half clock N, and the counter restarts at the first
-    // FALLING colour clock edge at or after N+8 -- four colour clocks later,
-    // rounded up to the counter's own edge. Both RSYNCs in the trace stretch
-    // their scanline from 456 to 514 half clocks, and both leave the counter
-    // grid shifted by two colour clocks, which is what pins the rule down.
+    // FALLING colour clock edge after N+8 -- four colour clocks later, rounded
+    // up to the counter's own edge. Both RSYNCs in the trace stretch their
+    // scanline from 456 to 514 half clocks, and both leave the counter grid
+    // shifted by two colour clocks, which is what pins the rule down.
     //
     // The restart is also a line start: HBLANK comes on, the HMOVE latch is
     // cleared and the CPU clock divider reloads, exactly as at SHB.
@@ -74,7 +79,9 @@ module tia_hcount (
 
     // The counter itself runs on the falling edge of the colour clock; MOTCK,
     // which drives every movable object, is the inverted clock and therefore
-    // runs on the rising edge.
+    // runs on the rising edge. After an RSYNC the divider is left as if an
+    // H@2 had just happened, so the first count after the restart is a full
+    // four colour clocks.
     tia_phase #(.RESET_PHASE(2'd3)) u_phase (
         .clk       (clk),
         .rst_n     (rst_n),
@@ -90,25 +97,37 @@ module tia_hcount (
     wire at_lrhb = (q == `TIA_HC_LRHB) &  hmove_latch;
 
     // Three half clocks before H@2, on the opposite edge of the colour clock.
-    wire sync_ce = ce_rise & (ph == 2'd1);
-    // Two half clocks before H@2. WSYNC releases RDY here, which the die does
-    // one colour clock before HBLANK starts rather than with it.
+    wire sync_ce  = ce_rise & (ph == 2'd1);
+    // Two half clocks before H@2.
     wire early_ce = ce_fall & (ph == 2'd1);
 
     assign shb       = (p2 & at_shb) | rsync_go;
+    // WSYNC releases RDY here, one colour clock before HBLANK starts.
     assign shb_early = early_ce & at_shb;
+    assign rsync_pre = ce_fall & (rs_wait == 4'd2);
     assign rhb       = p2 & (at_rhb | at_lrhb);
     assign cntd      = p2 & (q == `TIA_HC_CNT);
-    assign aud_ck    = (p2 & at_shb) | (p1 & (q == `TIA_HC_AUD));
+    // SCORE mode switches to the right-hand player colour here, one colour
+    // clock before the playfield's second half begins.
+    assign cnt_early = early_ce & (q == `TIA_HC_CNT);
+    assign rhb_next  = at_rhb | at_lrhb;
+    assign cnt_next  = (q == `TIA_HC_CNT);
+
+    // The audio clock. Sim2600's audio pads change 77 and 301 half clocks into
+    // the line -- counts 9 and 37, on the sync latch's phase -- so the two
+    // ticks are 112 and 116 colour clocks apart rather than an even 114. That
+    // is what two decodes of a 57-state counter can give you.
+    assign aud_ck    = sync_ce & ((q == `TIA_HC_AUD1) | (q == `TIA_HC_AUD2));
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            q        <= 6'b000000;
-            hsync    <= 1'b0;
-            hblank   <= 1'b1;
-            cburst   <= 1'b0;
-            rs_wait  <= 4'd0;
-            rs_armed <= 1'b0;
+            q         <= 6'b000000;
+            hsync     <= 1'b0;
+            hblank    <= 1'b1;
+            hb_normal <= 1'b1;
+            cburst    <= 1'b0;
+            rs_wait   <= 4'd0;
+            rs_armed  <= 1'b0;
         end else begin
             if (rsync) begin
                 rs_wait  <= 4'd8;
@@ -121,8 +140,9 @@ module tia_hcount (
             end
 
             if (rsync_go) begin
-                q      <= 6'b000000;
-                hblank <= 1'b1;
+                q         <= 6'b000000;
+                hblank    <= 1'b1;
+                hb_normal <= 1'b1;
             end else if (p2) begin
                 if (at_shb || q == `TIA_LFSR_ERR)
                     q <= 6'b000000;
@@ -131,14 +151,19 @@ module tia_hcount (
 
                 if (at_shb)                  hblank <= 1'b1;
                 else if (at_rhb || at_lrhb)  hblank <= 1'b0;
+
+                // HMOVE's stuffed clocks only count inside this window, which
+                // ends at RHB even when the HMOVE latch holds HBLANK on to LRHB.
+                if (at_shb)                  hb_normal <= 1'b1;
+                else if (q == `TIA_HC_RHB)   hb_normal <= 1'b0;
             end
 
             if (sync_ce) begin
                 if (q == `TIA_HC_SHS) hsync <= 1'b1;
                 if (q == `TIA_HC_RHS) hsync <= 1'b0;
 
-                if (q == `TIA_HC_RCB)                    cburst <= 1'b1;
-                else if (q == `TIA_HC_RHB || q == `TIA_HC_LRHB) cburst <= 1'b0;
+                if (q == `TIA_HC_RCB)                             cburst <= 1'b1;
+                else if (q == `TIA_HC_RHB || q == `TIA_HC_LRHB)   cburst <= 1'b0;
             end
         end
     end

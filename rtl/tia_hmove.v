@@ -20,16 +20,26 @@
 // counter == ~hm_count. D7 is wired backwards in the comparator, which is
 // what turns the programmer's +7..-8 into a plain 0..15 count.
 //
+// ORDER. Towers puts the first compare 15 CLK after the strobe and the first
+// decrement at 17, and that order is not negotiable: if the counter is
+// allowed to step down before its first compare -- which depends only on
+// where in the two-phase cycle STA HMOVE happens to land -- an HMxx of -8
+// never matches, and the object gets sixteen pulses instead of none. The
+// sixteen-value trace shows exactly that until the first decrement waits for
+// the first compare.
+//
 // Two consequences fall straight out of this and neither is a special case:
 //
 //  - Write an HMxx value during the HMOVE such that no remaining counter
 //    state ever satisfies the comparator and the latch is never cleared. The
-//    object then keeps getting a pulse every 4 CLK, through the visible part
-//    of the line and on into following lines, until the next HMOVE. That is
-//    the Cosmic Ark starfield.
+//    object then keeps getting a pulse every 4 CLK until the next HMOVE. That
+//    is the Cosmic Ark starfield.
 //
 //  - The HBLANK-extending latch is cleared when the horizontal counter wraps,
 //    so an HMOVE late in the line stuffs clocks without producing a comb.
+//
+// The pulses only move anything while the plain HBLANK window is open; see
+// tia.v, where they meet MOTCK.
 
 module tia_hmove (
     input  wire        clk,
@@ -52,6 +62,7 @@ module tia_hmove (
 
     reg [3:0] cnt;
     reg [4:0] more;                   // "this object still needs to move"
+    reg       armed;                  // HMOVE strobed, first compare to come
 
     // The stored value with D7 inverted, then bit-inverted again for the
     // comparator: stop when cnt equals this.
@@ -79,21 +90,25 @@ module tia_hmove (
             hmove_latch <= 1'b0;
             cnt         <= 4'd15;
             more        <= 5'd0;
+            armed       <= 1'b0;
         end else begin
             if (hmove) begin
                 hmove_latch <= 1'b1;
                 cnt         <= 4'd15;
                 more        <= 5'b11111;
+                armed       <= 1'b1;
             end else if (shb) begin
                 // Only the HBLANK extension is cleared here. The "more
                 // movement" latches are deliberately left alone.
                 hmove_latch <= 1'b0;
             end
 
-            if (p1 && !hmove)
-                more <= still;
+            if (p1 && !hmove) begin
+                more  <= still;
+                armed <= 1'b0;
+            end
 
-            if (p2 && !hmove)
+            if (p2 && !hmove && !armed)
                 cnt <= cnt - 4'd1;
         end
     end

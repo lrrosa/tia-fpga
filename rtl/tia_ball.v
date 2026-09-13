@@ -7,8 +7,16 @@
 // special effects -- except for one detail Towers singles out: unlike every
 // other object, RESBL does generate a START. The ball can therefore be
 // retriggered as many times as you like across a scanline and it starts
-// drawing immediately each time, which is why it gets used for cutting holes
-// in things and for background detail.
+// drawing each time, which is why it gets used for cutting holes in things
+// and for background detail.
+//
+// "Immediately" means when the counter actually clears, four colour clocks
+// after the strobe, not at the strobe itself: started any earlier, every
+// RESBL-triggered ball sits eight half clocks left of the die's.
+//
+// Not yet right: four RESBL strobes nine colour clocks apart with an 8-pixel
+// ball. The die draws one unbroken run; here there is a one-colour-clock gap
+// between each copy. See sim/README.md.
 
 module tia_ball (
     input  wire       clk,
@@ -18,7 +26,7 @@ module tia_ball (
     input  wire       p2,
 
     input  wire       dec_main,      // count 39: wrap and start
-    input  wire       resbl,         // RESBL strobe, also a START
+    input  wire       reset_now,     // RESBL clearing the counter: also a START
 
     input  wire [1:0] size,          // CTRLPF D5..D4
     input  wire       enabl_new,
@@ -34,7 +42,7 @@ module tia_ball (
         else if (p1) start_l <= dec_main;
     end
 
-    wire start = (p2 & start_l) | resbl;
+    wire start = (p2 & start_l) | reset_now;
     wire active;
 
     tia_enclock u_width (
