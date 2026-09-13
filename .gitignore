@@ -37,3 +37,9 @@ sim/traces/local/
 
 # Cartridges built by sim/roms/make.py
 sim/roms/build/
+
+# Python bytecode from the test cartridge builder
+__pycache__/
+
+# Yosys synthesis check output
+fpga/build/

@@ -432,8 +432,50 @@ def vdel():
     return a.build(reset="reset"), _lines(lines)
 
 
+# --------------------------------------------------------- resets in HBLANK
+def resets_hblank():
+    """RESP0, RESM0 and RESBL at every phase from the start of HBLANK to just past it.
+
+    Games reset objects at the very start of a line all the time, to park them
+    at the left edge. While HBLANK is on MOTCK is stopped, so these resets take
+    a different path through the counters from the ones in the visible line.
+    Each strobe is followed by three lines where the object only draws, so its
+    settled position is unambiguous.
+    """
+    a = Asm()
+    cartridge_start(a)
+    poke(a, COLUP0, 0x1A)
+    poke(a, COLUPF, 0x4E)
+    poke(a, GRP0, 0xF1)
+
+    a.label("frame")
+    lines = 0
+    configs = [(RESP0, NUSIZ0, nusiz) for nusiz in (0x00, 0x05, 0x07)]
+    configs += [(RESM0, NUSIZ0, 0x20), (RESBL, CTRLPF, 0x20)]
+    for strobe, register, value in configs:
+        if strobe == RESM0:
+            poke(a, GRP0, 0x00)
+            poke(a, ENAM0, 0x02)
+        if strobe == RESBL:
+            poke(a, ENAM0, 0x00)
+            poke(a, ENABL, 0x02)
+        poke(a, register, value)
+        for steps in range(9):
+            a.sta_zp(WSYNC)
+            for _ in range(steps):
+                a.bit_zp(0x80)           # 3 cycles = 9 colour clocks, 1 mod 4
+            a.sta_zp(strobe)
+            wait_lines(a, 3)
+            lines += 4
+    poke(a, ENABL, 0x00)
+    poke(a, GRP0, 0xF1)
+    a.jmp("frame")
+    return a.build(reset="reset"), _lines(lines)
+
+
 TESTS = {
     "players": players,
+    "resets_hblank": resets_hblank,
     "playfield": playfield,
     "ball": ball,
     "missiles": missiles,

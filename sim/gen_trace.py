@@ -192,7 +192,7 @@ def main():
 
     elapsed = time.time() - start
 
-    with open(out_path, "w") as f:
+    with open(out_path, "w", newline=chr(10)) as f:
         f.write("# tia-fpga golden trace from Sim2600\n")
         f.write("# rom=%s skip=%d wait=%d count=%d\n"
                 % (args.rom, args.skip, waited, args.count))
