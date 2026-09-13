@@ -240,7 +240,7 @@ output.
 ## The RTL
 
 `rtl/` holds the core: horizontal counter, playfield, two players, two
-missiles, ball, collisions, HMOVE, audio and the bus interface, in twelve files
+missiles, ball, collisions, HMOVE, audio and the bus interface, in eleven files
 of plain Verilog-2005. `sim/` holds the test harness the section below argues
 for, and it is not aspirational: the core is checked against
 [Sim2600](https://github.com/gregjames/Sim2600) half clock by half clock, on a
@@ -251,15 +251,11 @@ that matters.
 python sim/run.py
 ```
 
-Against Donkey Kong from power-on to its first picture, against the playfield
-and vertical-delay cartridges, and against both sound cartridges, the core
-matches the die on every pin at every half clock. On every trace, Φ0, RDY,
-composite sync, blanking and both audio pads match exactly. What is left is a
-handful of object corner cases -- a double-size player reset while a copy is
-on screen, RESBL retriggered inside the ball's own width, an HMxx rewrite at
-the very end of an HMOVE -- each a few pixels on a few lines.
-[`sim/README.md`](sim/README.md) has the table, and every remaining mismatch
-located to the record. (The Donkey Kong traces are regenerated locally rather
+Against Donkey Kong from power-on to its first picture, and against every test
+cartridge -- playfield, players, missiles, ball, collisions, HMOVE with Cosmic
+Ark, resets at every phase of HBLANK, vertical delay and both sound cartridges
+-- the core matches the die on every pin at every half clock.
+[`sim/README.md`](sim/README.md) has the table. (The Donkey Kong traces are regenerated locally rather
 than committed, since they carry the game's artwork.)
 
 Getting there turned up a good deal the published documentation does not say,
@@ -288,14 +284,14 @@ machine it is plugged into.
 - [x] FPGA pin assignment (`fpga/tia_fpga.cst`)
 - [x] PCB layout — rev A routed, ground pour, mounting holes, DRC clean
 - [x] Sim2600 test harness — traces, replay testbench, test cartridges
-- [x] TIA RTL — matches the die on a real game and on most test cartridges
+- [x] TIA RTL — matches the die on a real game and on every test cartridge
 - [x] Audio -- read off the die's netlist; both channels match on every trace
-- [ ] The last object corner cases (listed in `sim/README.md`)
+- [x] Object resets, scan clock, widths and HMOVE timing -- read off the netlist
 - [ ] Board wrapper — pin mapping, PLL, data bus tri-state, audio PWM. Note the
       TIA's audio pad is a 4-bit weighted current DAC and the board gives each
       channel a single 3.3 V pin, so AUDV has to come back as PWM
-- [x] Synthesis check: Yosys `synth_gowin` with no warnings -- 379 flip-flops
-      and about 640 LUTs, some 7 per cent of the GW1NR-9 (`fpga/check_synth.py`)
+- [x] Synthesis check: Yosys `synth_gowin` with no warnings -- 434 flip-flops
+      and about 650 LUTs, some 7 per cent of the GW1NR-9 (`fpga/check_synth.py`)
 - [ ] Gowin EDA build and timing closure
 - [ ] Paddle circuit (still needs pins, see above)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to
@@ -329,7 +325,7 @@ kicad-cli sch erc tia-fpga.kicad_sch -o erc.rpt --severity-error --severity-warn
    HMOVE. HMOVE really is the most treacherous; leave it last.
 3. ~~**Widen the coverage.**~~ Done: the test cartridges in `sim/roms/` cover
    every CTRLPF, NUSIZ, HMOVE and AUDC value, and resets at every phase of
-   HBLANK. Still open: the last few object corner cases.
+   HBLANK, and the core matches the die on all of them.
 4. **Board wrapper and synthesis** -- pin mapping onto `fpga/tia_fpga.cst`, a
    PLL off the console crystal, tri-state on the data bus, audio PWM.
 5. **Run it on the Tang Nano over HDMI** before touching real hardware. This

@@ -28,25 +28,34 @@
 // sixteen-value trace shows exactly that until the first decrement waits for
 // the first compare.
 //
-// Two consequences fall straight out of this and neither is a special case:
+// TIMING, read off the netlist Sim2600 simulates. The motion counter, the
+// comparators and the pulses run 12 half clocks -- a count and a half --
+// behind the horizontal counter's own H@1 and H@2. An HMOVE at the start of a
+// line stuffs its pulses 33, 41, ... 145 half clocks into it, and the window
+// in which they count closes 12 half clocks after RHB. Everything that
+// decides a pulse happens on that later grid, and the HMxx registers are read
+// as they stand at the time.
 //
-//  - Write an HMxx value during the HMOVE such that no remaining counter
-//    state ever satisfies the comparator and the latch is never cleared. The
-//    object then keeps getting a pulse every 4 CLK until the next HMOVE. That
-//    is the Cosmic Ark starfield.
+// That is what Cosmic Ark relies on. Its HMM0 write lands 139 half clocks into
+// the line: after the last pulse the horizontal counter's phases alone would
+// give, but before the die's, whose comparator sees the new value in time to
+// withhold it. Write an HMxx value such that no remaining counter state ever
+// satisfies the comparator and the latch is never cleared at all: the object
+// then keeps getting a pulse every 4 CLK until the next HMOVE -- the
+// starfield.
 //
-//  - The HBLANK-extending latch is cleared when the horizontal counter wraps,
-//    so an HMOVE late in the line stuffs clocks without producing a comb.
-//
-// The pulses only move anything while the plain HBLANK window is open; see
-// tia.v, where they meet MOTCK.
+// The HBLANK extension is not delayed. It follows the strobe, and is cleared
+// when the horizontal counter wraps, so an HMOVE late in the line stuffs
+// clocks without producing a comb.
 
 module tia_hmove (
     input  wire        clk,
     input  wire        rst_n,
+    input  wire        ce_edge,       // either colour clock edge, one per half clock
     input  wire        p1,            // H@1 of the horizontal counter
     input  wire        p2,            // H@2 of the horizontal counter
     input  wire        shb,           // horizontal counter wrapped
+    input  wire        hb_normal,     // HBLANK as it would be without HMOVE
 
     input  wire        hmove,         // HMOVE strobe
 
@@ -57,9 +66,33 @@ module tia_hmove (
     input  wire [3:0]  hmbl,
 
     output reg         hmove_latch,   // extend HBLANK to the LRHB decode
-    output wire [4:0]  stuff          // P0 P1 M0 M1 BL, one colour clock wide
+    output wire [4:0]  stuff          // P0 P1 M0 M1 BL: pulses that count
 );
 
+    // ------------------------------------------------ the later motion grid
+    localparam DELAY = 12;            // half clocks
+
+    reg [DELAY-1:0] p1_sr, p2_sr, hmove_sr, window_sr;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            p1_sr     <= {DELAY{1'b0}};
+            p2_sr     <= {DELAY{1'b0}};
+            hmove_sr  <= {DELAY{1'b0}};
+            window_sr <= {DELAY{1'b0}};
+        end else if (ce_edge) begin
+            p1_sr     <= { p1_sr[DELAY-2:0],     p1 };
+            p2_sr     <= { p2_sr[DELAY-2:0],     p2 };
+            hmove_sr  <= { hmove_sr[DELAY-2:0],  hmove };
+            window_sr <= { window_sr[DELAY-2:0], hb_normal };
+        end
+    end
+
+    wire m_p1    = ce_edge & p1_sr[DELAY-1];
+    wire m_p2    = ce_edge & p2_sr[DELAY-1];
+    wire m_hmove = ce_edge & hmove_sr[DELAY-1];
+    wire window  = window_sr[DELAY-1];
+
+    // ----------------------------------------------- counter and comparators
     reg [3:0] cnt;
     reg [4:0] more;                   // "this object still needs to move"
     reg       armed;                  // HMOVE strobed, first compare to come
@@ -83,7 +116,7 @@ module tia_hmove (
     // value is -8 (a count of zero) never receives one.
     wire [4:0] still = more & ~hit;
 
-    assign stuff = {5{p1}} & still;
+    assign stuff = {5{m_p1 & window}} & still;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -92,23 +125,23 @@ module tia_hmove (
             more        <= 5'd0;
             armed       <= 1'b0;
         end else begin
-            if (hmove) begin
-                hmove_latch <= 1'b1;
-                cnt         <= 4'd15;
-                more        <= 5'b11111;
-                armed       <= 1'b1;
-            end else if (shb) begin
-                // Only the HBLANK extension is cleared here. The "more
-                // movement" latches are deliberately left alone.
-                hmove_latch <= 1'b0;
+            // Only the HBLANK extension is cleared at the wrap. The "more
+            // movement" latches are deliberately left alone.
+            if (hmove)     hmove_latch <= 1'b1;
+            else if (shb)  hmove_latch <= 1'b0;
+
+            if (m_hmove) begin
+                cnt   <= 4'd15;
+                more  <= 5'b11111;
+                armed <= 1'b1;
             end
 
-            if (p1 && !hmove) begin
+            if (m_p1 && !m_hmove) begin
                 more  <= still;
                 armed <= 1'b0;
             end
 
-            if (p2 && !hmove && !armed)
+            if (m_p2 && !m_hmove && !armed)
                 cnt <= cnt - 4'd1;
         end
     end

@@ -10,24 +10,27 @@
 // drawing each time, which is why it gets used for cutting holes in things
 // and for background detail.
 //
-// "Immediately" means on the H@2 that clears the counter (see tia_objcnt.v),
-// not at the strobe itself. On the die the clear pulse also runs on through a
-// second latch stage into the ball's START logic; a START on the clearing H@2
-// is what matches the test cartridges.
+// On the die the ball's START is its counter's clear pulse -- one count long,
+// from the H@2 that clears the counter to the next, whether the clear came
+// from RESBL or from the wrap after count 39 -- and a second latch stage holds
+// a copy of it for the count after. Width picks from the two, which is the
+// "AND -> OR -> AND -> OR -> out arrangement" Towers describes:
 //
-// Not yet right: four RESBL strobes nine colour clocks apart with an 8-pixel
-// ball. The die draws one unbroken run; here there is a one-colour-clock gap
-// between each copy. See sim/README.md.
+//   CTRLPF D5 D4 = 00  the first colour clock of the START count  -> 1 pixel
+//                  01  its first two colour clocks                -> 2 pixels
+//                  10  the START count                            -> 4 pixels
+//                  11  the START count and the count after it     -> 8 pixels
+//
+// Strobe RESBL again while the second count is running and the two chain into
+// one unbroken run, which is what the die draws. A width counter reloaded on
+// every START, which is otherwise indistinguishable, leaves a gap there.
 
 module tia_ball (
     input  wire       clk,
     input  wire       rst_n,
-    input  wire       ce,            // MOTCK or an HMOVE stuffed pulse
-    input  wire       p1,
     input  wire       p2,
-
-    input  wire       dec_main,      // count 39: wrap and start
-    input  wire       clear_now,     // the H@2 clearing the counter: also a START
+    input  wire [1:0] ph,            // counter divider: 3 for the colour clock after H@2
+    input  wire       clear_now,     // the H@2 that clears the counter
 
     input  wire [1:0] size,          // CTRLPF D5..D4
     input  wire       enabl_new,
@@ -37,23 +40,26 @@ module tia_ball (
     output wire       pixel
 );
 
-    reg start_l;
+    reg first, second;               // the START count, and the count after it
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) start_l <= 1'b0;
-        else if (p1) start_l <= dec_main;
+        if (!rst_n) begin
+            first  <= 1'b0;
+            second <= 1'b0;
+        end else if (p2) begin
+            first  <= clear_now;
+            second <= first;
+        end
     end
 
-    wire start = (p2 & start_l) | clear_now;
-    wire active;
-
-    tia_enclock u_width (
-        .clk    (clk),
-        .rst_n  (rst_n),
-        .ce     (ce),
-        .start  (start),
-        .size   (size),
-        .active (active)
-    );
+    reg active;
+    always @(*) begin
+        case (size)
+        2'b00:   active = first & (ph == 2'd3);
+        2'b01:   active = first & ((ph == 2'd3) | (ph == 2'd0));
+        2'b10:   active = first;
+        default: active = first | second;
+        endcase
+    end
 
     assign pixel = active & (vdel ? enabl_old : enabl_new);
 

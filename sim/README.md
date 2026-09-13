@@ -38,28 +38,27 @@ commands under *Generating a trace*.
 
 ## Current results
 
-Mismatched half clocks, against every half clock scored in each trace. Φ0,
-RDY, composite sync, blanking, the data bus and both audio pads are **zero on
-every trace** and are left out.
+Every trace matches the die on **every pin at every half clock scored**: Φ0,
+RDY, composite sync, blanking, luminance, colour, the data bus drivers and
+both audio pads.
 
-| trace | what it exercises | scored | lum/col |
-|---|---|---:|---:|
-| `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 | **0** |
-| `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 | **0** |
-| `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 | **0** |
-| `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 | **0** |
-| `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 | **0** |
-| `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 | **0** |
-| `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 | 6 |
-| `missiles` | widths, copies, RESMP at every player size | 55,887 | 8 |
-| `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 | 8 |
-| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | 12 |
-| `players` | every NUSIZ mode at all four sub-count phases | 46,767 | 12 |
-| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 | 28 |
+| trace | what it exercises | half clocks scored |
+|---|---|---:|
+| `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 |
+| `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 |
+| `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 |
+| `players` | every NUSIZ mode at all four sub-count phases | 46,767 |
+| `missiles` | widths, copies, RESMP at every player size | 55,887 |
+| `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 |
+| `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 |
+| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 |
+| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 |
+| `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 |
+| `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 |
+| `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 |
 
-Every remaining mismatch is located and described under *Known gaps*. The suite
-reports FAIL for every trace that still has one, and it should keep doing so
-until each is fixed rather than being papered over with a tolerance.
+The suite reports FAIL on a single mismatched half clock, with no tolerance
+anywhere, so a regression on any pin of any trace shows at once.
 
 ## What you need
 
@@ -325,11 +324,21 @@ die*
 - **In HBLANK the ring cannot move**, because MOTCK is stopped: a reset there
   waits in H@1 for the first colour clock of the visible line and clears the
   counter on the second.
-- **RESBL starts the ball on the H@2 that clears the counter**, not at the
-  strobe.
+- **The ball's START is its counter's clear pulse, and its width is that pulse
+  plus a delayed copy.** The clear, whether from RESBL or from the wrap, lasts
+  one count, and a second latch stage repeats it for the count after. One and
+  two pixels are the first colour clocks of the first count, four is that
+  count, eight is both. Strobe RESBL again while the copy is running and the
+  die draws one unbroken run, which a width counter reloaded on every START
+  cannot do. Missiles take their width the same way.
 - **Double- and quad-size players start one colour clock later than
-  single-size ones**, and their scan counter is clocked from H@1 alone (4×) or
-  both phases (2×), so the first stretched pixel is as wide as the rest.
+  single-size ones**, and their first stretched pixel is as wide as the rest.
+  The scan counter itself counts every colour clock, behind a gate that holds
+  it back after a half clock in neither phase (2×) or in anything but H@2
+  (4×). The gate sees NUSIZ two colour clocks after it is written, and a
+  reset's hold in H@1 leaves it nothing to block on the following clock, so a
+  double-size copy reset while it is being drawn takes an extra step there.
+- **RESMP's lock is decoded at scan position 1** of the player's main copy.
 
 **HMOVE**
 
@@ -337,10 +346,15 @@ die*
   counter steps down first depends only on where in the two-phase cycle
   `STA HMOVE` lands; when it does, an HMxx of −8 never matches, and the object
   receives sixteen pulses instead of none.
-- **Stuffed pulses only count before RHB.** After that they coincide with
-  MOTCK and are absorbed: an HMOVE in the middle of the visible line moves
-  nothing, and one strobed late in HBLANK loses every pulse past RHB — even
-  though the HMOVE latch holds HBLANK on until LRHB.
+- **The motion process runs 12 half clocks behind the horizontal counter.**
+  An HMOVE at the start of a line stuffs its pulses 33, 41, … 145 half clocks
+  into it, and they only count inside a window that closes 12 half clocks
+  after RHB. Past it they coincide with MOTCK and are absorbed: an HMOVE in
+  the middle of the visible line moves nothing, and one strobed late in HBLANK
+  loses every pulse past the window — even though the HMOVE latch holds
+  HBLANK on until LRHB. The comparators read the HMxx registers on that later
+  grid, which is why Cosmic Ark's HMM0 write, 139 half clocks into the line,
+  still withholds the missile's last pulse.
 
 **Audio** — also read off the netlist, then checked tick by tick against the
 die's own divider and counters, not just its pads
@@ -371,39 +385,20 @@ die's own divider and counters, not just its pads
 
 ## Known gaps
 
-Located divergences, largest first:
+None on the committed traces: every one matches the die on every pin at every
+half clock. What is left is one question the simulator cannot answer, and
+gaps in coverage rather than in the core:
 
-- **A double-size player reset while a copy is being drawn** (`players`, 12,
-  and 16 of `resets_hblank`'s 28). With NUSIZ0 = %101, a RESP0 landing inside
-  a copy -- or right as HBLANK ends, 139 or 157 half clocks into the line --
-  leaves the core holding one stretched pixel four half clocks longer than the
-  die, and the rest of that copy lands four half clocks late. Single- and
-  quad-size players reset the same way already match, which points at the
-  double-size scan clock around the strobe rather than at the counter.
-- **The ball's START around a clear** (`ball`, 6, and 12 of `resets_hblank`).
-  Four RESBL strobes nine colour clocks apart with an 8-pixel ball: the die
-  draws one unbroken run, the core four with gaps between them. And around a
-  RESBL at the very start of a line: on the line before it the die draws a
-  one-pixel ball at the left edge that the core does not, and after it one
-  twelve-half-clock run where the core draws two and eight. The netlist shows
-  what the core lacks: on the die the clear pulse runs on through a second
-  latch stage into the ball's START logic.
-- **HMM0 rewritten at the very end of an HMOVE** (`hmove`, 12) — the Cosmic Ark
-  trick. Afterwards the core's missile sits one pixel left of the die's.
-- **Missiles** (`missiles`, 8): a copy wrapping into the start of the next line
-  that the core does not draw, and the pixel where RESMP0 lets go of a missile.
-- **NUSIZ changed while a copy is on screen** (`collisions`, 8): a player
-  switched from 1× to 4× part way through a copy, which the core draws eight
-  half clocks too wide.
-
-And gaps in coverage rather than in the core:
-
+- **Whether real chips share the audio channels' asymmetry** (see *Audio*
+  above), or it came in with the extraction of the netlist. Sim2600 is the
+  only oracle there is, so the core follows it, and `tia_audio.v` keeps the
+  difference to one parameter.
 - Nothing drives the joystick or console switches. Sim2600 holds I0-I5 high,
   so the trigger latch has never been exercised.
 - One cartridge revision. There are at least twelve NTSC TIA revisions with
   observable differences, and Sim2600's netlist is the 10444D.
 - The core has been synthesised with Yosys (`fpga/check_synth.py`: no warnings,
-  379 flip-flops, about 640 LUTs) but never built with Gowin EDA, and there is
+  434 flip-flops, about 650 LUTs) but never built with Gowin EDA, and there is
   no board-level wrapper yet: no pin mapping onto `fpga/tia_fpga.cst`, no PLL, no tri-state on the
   data bus. Note also that the TIA's audio pad is a four-bit weighted current
   DAC — that is what `au0` and `au1` are — while the board gives each channel a

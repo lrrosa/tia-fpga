@@ -282,20 +282,24 @@ module tia (
     // wrap-around comes from, and it is also what lets HMOVE stuff extra
     // pulses down the same lines without fighting anything.
     //
-    // Those pulses only count inside the plain HBLANK window. Once the
-    // counter passes RHB they coincide with MOTCK and are absorbed: an HMOVE
-    // in the middle of the visible line moves nothing, and one strobed late
-    // in HBLANK loses every pulse past RHB -- even while the HMOVE latch is
-    // still holding HBLANK on until LRHB.
+    // Those pulses only count inside a window that closes 12 half clocks
+    // after RHB, because the motion process runs that far behind the
+    // horizontal counter; tia_hmove.v gates them. Past it they coincide with
+    // MOTCK and are absorbed: an HMOVE in the middle of the visible line
+    // moves nothing, and one strobed late in HBLANK loses every pulse past the
+    // window -- even while the HMOVE latch is still holding HBLANK on until
+    // LRHB.
     wire       motck = ce_rise & ~hblank;
     wire [4:0] stuff;
 
     tia_hmove u_hmove (
         .clk         (clk),
         .rst_n       (rst_n),
+        .ce_edge     (ce_rise | ce_fall),
         .p1          (hc_p1),
         .p2          (hc_p2),
         .shb         (shb),
+        .hb_normal   (hb_normal),
         .hmove       (hmove_s),
         .hmp0        (hmp0),
         .hmp1        (hmp1),
@@ -306,62 +310,65 @@ module tia (
         .stuff       (stuff)
     );
 
-    wire ce_p0 = motck | (stuff[4] & hb_normal);
-    wire ce_p1 = motck | (stuff[3] & hb_normal);
-    wire ce_m0 = motck | (stuff[2] & hb_normal);
-    wire ce_m1 = motck | (stuff[1] & hb_normal);
-    wire ce_bl = motck | (stuff[0] & hb_normal);
+    wire ce_p0 = motck | stuff[4];
+    wire ce_p1 = motck | stuff[3];
+    wire ce_m0 = motck | stuff[2];
+    wire ce_m1 = motck | stuff[1];
+    wire ce_bl = motck | stuff[0];
 
     // ============================================================== objects
     wire p0_p1, p0_p2, p1_p1, p1_p2;
-    wire p0_pa, p1_pa, m0_pa, m1_pa, bl_pa;
-    wire m0_p1, m0_p2, m1_p1, m1_p2, bl_p1, bl_p2;
+    wire p0_pa, p1_pa, m0_pa, m1_pa;
+    wire [1:0] m0_ph, m1_ph, bl_ph;
+    wire p0_after_hold, p1_after_hold;
+    wire m0_p2, m1_p2, bl_p2;
     wire p0_close, p0_med, p0_far, p0_main;
     wire p1_close, p1_med, p1_far, p1_main;
     wire m0_close, m0_med, m0_far, m0_main;
     wire m1_close, m1_med, m1_far, m1_main;
-    wire bl_main, bl_clear_now;
+    wire bl_clear_now;
     wire [2:0] p0_scan, p1_scan;
     wire p0_fstob, p1_fstob;
 
-    // RESMP parks a missile in the middle of its player's main copy.
-    wire m0_lock = resmp0 & (p0_scan == 3'b100) & ~p0_fstob;
-    wire m1_lock = resmp1 & (p1_scan == 3'b100) & ~p1_fstob;
+    // RESMP parks a missile in the middle of its player's main copy. The die
+    // decodes the lock at scan position 1 of that copy.
+    wire m0_lock = resmp0 & (p0_scan == 3'd1) & ~p0_fstob;
+    wire m1_lock = resmp1 & (p1_scan == 3'd1) & ~p1_fstob;
 
     tia_objcnt u_p0_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_p0), .ce_free (ce_rise), .reset (resp0_s),
         .q (), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .ph (),
         .dec_close (p0_close), .dec_med (p0_med),
-        .dec_far (p0_far), .dec_main (p0_main), .clear_now ());
+        .dec_far (p0_far), .dec_main (p0_main), .clear_now (), .after_hold (p0_after_hold));
 
     tia_objcnt u_p1_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_p1), .ce_free (ce_rise), .reset (resp1_s),
         .q (), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .ph (),
         .dec_close (p1_close), .dec_med (p1_med),
-        .dec_far (p1_far), .dec_main (p1_main), .clear_now ());
+        .dec_far (p1_far), .dec_main (p1_main), .clear_now (), .after_hold (p1_after_hold));
 
     tia_objcnt u_m0_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_m0), .ce_free (ce_rise), .reset (resm0_s | m0_lock),
-        .q (), .p1 (m0_p1), .p2 (m0_p2), .pa (m0_pa), .ph (),
+        .q (), .p1 (), .p2 (m0_p2), .pa (m0_pa), .ph (m0_ph),
         .dec_close (m0_close), .dec_med (m0_med),
-        .dec_far (m0_far), .dec_main (m0_main), .clear_now ());
+        .dec_far (m0_far), .dec_main (m0_main), .clear_now (), .after_hold ());
 
     tia_objcnt u_m1_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_m1), .ce_free (ce_rise), .reset (resm1_s | m1_lock),
-        .q (), .p1 (m1_p1), .p2 (m1_p2), .pa (m1_pa), .ph (),
+        .q (), .p1 (), .p2 (m1_p2), .pa (m1_pa), .ph (m1_ph),
         .dec_close (m1_close), .dec_med (m1_med),
-        .dec_far (m1_far), .dec_main (m1_main), .clear_now ());
+        .dec_far (m1_far), .dec_main (m1_main), .clear_now (), .after_hold ());
 
     tia_objcnt u_bl_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_bl), .ce_free (ce_rise), .reset (resbl_s),
-        .q (), .p1 (bl_p1), .p2 (bl_p2), .pa (bl_pa), .ph (),
-        .dec_close (), .dec_med (), .dec_far (), .dec_main (bl_main),
-        .clear_now (bl_clear_now));
+        .q (), .p1 (), .p2 (bl_p2), .pa (), .ph (bl_ph),
+        .dec_close (), .dec_med (), .dec_far (), .dec_main (),
+        .clear_now (bl_clear_now), .after_hold ());
 
     wire px_p0, px_p1, px_m0, px_m1, px_bl, px_pf;
 
     tia_player u_p0 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .after_hold (p0_after_hold),
         .dec_close (p0_close), .dec_med (p0_med),
         .dec_far (p0_far), .dec_main (p0_main),
         .nusiz (nusiz0), .reflect (refp0), .vdel (vdelp0),
@@ -369,7 +376,7 @@ module tia (
         .pixel (px_p0), .scan_pos (p0_scan), .fstob (p0_fstob));
 
     tia_player u_p1 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .after_hold (p1_after_hold),
         .dec_close (p1_close), .dec_med (p1_med),
         .dec_far (p1_far), .dec_main (p1_main),
         .nusiz (nusiz1), .reflect (refp1), .vdel (vdelp1),
@@ -377,22 +384,22 @@ module tia (
         .pixel (px_p1), .scan_pos (p1_scan), .fstob (p1_fstob));
 
     tia_missile u_m0 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_m0), .p1 (m0_p1), .p2 (m0_p2), .pa (m0_pa),
+        .clk (clk), .rst_n (rst_n), .p2 (m0_p2), .pa (m0_pa), .ph (m0_ph),
         .dec_close (m0_close), .dec_med (m0_med),
         .dec_far (m0_far), .dec_main (m0_main),
         .nusiz (nusiz0), .size (msize0), .enam (enam0), .resmp (resmp0),
         .pixel (px_m0));
 
     tia_missile u_m1 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_m1), .p1 (m1_p1), .p2 (m1_p2), .pa (m1_pa),
+        .clk (clk), .rst_n (rst_n), .p2 (m1_p2), .pa (m1_pa), .ph (m1_ph),
         .dec_close (m1_close), .dec_med (m1_med),
         .dec_far (m1_far), .dec_main (m1_main),
         .nusiz (nusiz1), .size (msize1), .enam (enam1), .resmp (resmp1),
         .pixel (px_m1));
 
     tia_ball u_bl (
-        .clk (clk), .rst_n (rst_n), .ce (ce_bl), .p1 (bl_p1), .p2 (bl_p2),
-        .dec_main (bl_main), .clear_now (bl_clear_now), .size (ctrlpf[5:4]),
+        .clk (clk), .rst_n (rst_n), .p2 (bl_p2), .ph (bl_ph),
+        .clear_now (bl_clear_now), .size (ctrlpf[5:4]),
         .enabl_new (enabl_new), .enabl_old (enabl_old), .vdel (vdelbl),
         .pixel (px_bl));
 

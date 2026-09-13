@@ -21,6 +21,18 @@
 //    scan counter is clocked from the object's two-phase lines -- both of
 //    them for 2x, H@1 alone for 4x -- and the extra colour clock is what puts
 //    the start on H@1, so the first stretched pixel is not cut short.
+//
+// And from the netlist:
+//
+//  - The die's scan counter counts every colour clock, and for stretched
+//    players a gate holds it back. The gate sees NUSIZ two colour clocks
+//    after it is written, so a size change in the middle of a copy stretches
+//    it from a pixel later than the register alone would.
+//
+//  - A RESPn strobe holds the object's two-phase clock in H@1 (tia_objcnt.v).
+//    For a double-size player that leaves the gate nothing to block on the
+//    colour clock after the hold, so the scan counter takes a step there that
+//    a counter clocked from H@1 and H@2 alone would miss.
 
 module tia_player (
     input  wire       clk,
@@ -29,6 +41,7 @@ module tia_player (
     input  wire       p1,            // this object's H@1
     input  wire       p2,            // this object's H@2
     input  wire       pa,            // the end of this object's H@1
+    input  wire       after_hold,    // the first clock after a reset's hold
 
     input  wire       dec_close,
     input  wire       dec_med,
@@ -92,9 +105,22 @@ module tia_player (
             fstob <= 1'b1;
     end
 
-    // Stretch: 4x lets one clock through every four, 2x one every two.
-    wire scan_ce = (nusiz == 3'b111) ? p1 :
-                   (nusiz == 3'b101) ? (p1 | p2) : ce;
+    // Stretch: 4x lets one clock through every four, 2x one every two plus
+    // the one a reset's hold leaves unblocked. The size is the one written two
+    // object colour clocks ago.
+    reg [2:0] nusiz_d1, nusiz_d2;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            nusiz_d1 <= 3'd0;
+            nusiz_d2 <= 3'd0;
+        end else if (ce) begin
+            nusiz_d1 <= nusiz;
+            nusiz_d2 <= nusiz_d1;
+        end
+    end
+
+    wire scan_ce = (nusiz_d2 == 3'b111) ? p1 :
+                   (nusiz_d2 == 3'b101) ? (p1 | p2 | after_hold) : ce;
 
     reg [2:0] scan;
     reg       scan_en;
