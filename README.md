@@ -54,7 +54,8 @@ This revision solves (2) and leaves (1) for later.
 
 Video and audio signals (`F_CSYNC`, `F_LUM0..2`, `F_COL`, `F_AU0`, `F_AU1`) run
 straight from the FPGA to the socket pins — no level translator in the path,
-because they feed resistor networks rather than logic inputs.
+because they feed resistor networks rather than logic inputs. That turned out
+to be only half the story: see *Pads and levels* below.
 
 Pin 6 (`BLK`) is not connected on the CX-2600A. Pin 10 (`DEL`) is the colour
 trim pot, which has no function in a replacement. Both are marked no-connect.
@@ -223,6 +224,40 @@ existing video path does the rest.
   not a clash.
 - The four paddle inputs still do not fit — see the pin budget above.
 - No ground pour on F.Cu; only B.Cu is poured.
+- The video and sound pins do not reproduce the TIA's levels — see *Pads and
+  levels*.
+
+### Pads and levels
+
+Reading the die's netlist for the RTL settled something the schematic had
+assumed. **Every video and sound pad on the TIA — SYNC, LUM0–2, COL, AUD0,
+AUD1, and BLK and RDY too — is a pull-down transistor and nothing else.** None
+of them can drive high; the console supplies the pull-ups (3.3 kΩ on the luma
+lines, by the accounts of people who restore these consoles). Φ0 is the only
+output with a real driver on both sides.
+
+That has three consequences for rev A:
+
+- **Levels.** The FPGA drives these pins push-pull at 3.3 V. That keeps its
+  pins inside their ratings — the console's pull-ups push a little current back
+  into the 3.3 V rail, and nothing climbs above it — but "high" becomes 3.3 V
+  rather than wherever the console's pull-up would take the line, so the video
+  levels will not be the original ones. Letting the pins float instead would
+  give the right levels and put 5 V on 3.3 V inputs. **Rev B should put a
+  74LVC07A** — open-drain outputs, 5 V tolerant — between the FPGA and these
+  socket pins; the RTL already treats them as open-drain pad levels and would
+  not change.
+- **The two sound pins are joined.** On an unmodified 2600 a trace ties AUD0
+  and AUD1 together. Two push-pull pins driving different waveforms into that
+  trace would short against each other, so by default `tia_board.v` puts the
+  *same* pulse-width mix of both channels on both pins. For a console modified
+  for stereo, `AUDIO_STEREO = 1` gives each pin its own channel, in
+  non-overlapping halves of the pulse frame so the two still add correctly
+  wherever they meet through open-drain buffers.
+- **The standalone network is wrong.** R5–R8 are drawn as 3.3 kΩ to ground.
+  For pads that can only pull down, those should be pull-ups. This only affects
+  breadboard use — in a console R1–R9 stay unfitted — and it should be checked
+  against the console schematic before rev B changes it.
 
 ## Two ways to use this
 
@@ -241,8 +276,9 @@ output.
 
 `rtl/` holds the core: horizontal counter, playfield, two players, two
 missiles, ball, collisions, HMOVE, audio and the bus interface, in eleven files
-of plain Verilog-2005. `sim/` holds the test harness the section below argues
-for, and it is not aspirational: the core is checked against
+of plain Verilog-2005, plus `tia_board.v`, which puts it on this board. `sim/`
+holds the test harness the section below argues for, and it is not
+aspirational: the core is checked against
 [Sim2600](https://github.com/gregjames/Sim2600) half clock by half clock, on a
 real game and on test cartridges written to hit each feature from every phase
 that matters.
@@ -257,6 +293,24 @@ Ark, resets at every phase of HBLANK, vertical delay and both sound cartridges
 -- the core matches the die on every pin at every half clock.
 [`sim/README.md`](sim/README.md) has the table. (The Donkey Kong traces are regenerated locally rather
 than committed, since they carry the game's artwork.)
+
+**Sim2600 wires one clock wrong, and both wirings are now in the suite.**
+Upstream Sim2600 feeds the TIA's Φ2 input from the 6507's Φ1 output, the
+inverse of what the console does. The die only looks at that pin through
+write strobes, so everything still worked, but every write landed on the other
+half of the colour clock from where a real console puts it. With the console's
+wiring (`sim/patches/sim2600-phi2.patch`, traces in `sim/traces/phi2/`), three
+of the core's timing rules turned out to have been fitted to the wrong side
+and were re-read from the netlist — RSYNC's restart, RDY's release and how
+long a reset holds an object's clock. The core now matches both sets, apart
+from a few dozen half clocks in two narrow cases that are still open.
+
+**The board.** `rtl/tia_board.v` is everything between the core and rev A's
+pins: the core's clock from a PLL locked to the console's crystal, Φ2 rebuilt
+from the Φ0 the board makes itself, the data bus, chroma as that clock shifted
+in phase by hue, and sound as pulse width. `fpga/tia_fpga_top.v` adds the Gowin
+PLL, bus buffers and chroma ODDR. `sim/tb_board.v` replays the console-wired
+traces into the board logic and checks every pin it drives.
 
 Getting there turned up a good deal the published documentation does not say,
 all of it now in the source: which edge of the colour clock each latch runs on;
@@ -287,12 +341,20 @@ machine it is plugged into.
 - [x] TIA RTL — matches the die on a real game and on every test cartridge
 - [x] Audio -- read off the die's netlist; both channels match on every trace
 - [x] Object resets, scan clock, widths and HMOVE timing -- read off the netlist
-- [ ] Board wrapper — pin mapping, PLL, data bus tri-state, audio PWM. Note the
-      TIA's audio pad is a 4-bit weighted current DAC and the board gives each
-      channel a single 3.3 V pin, so AUDV has to come back as PWM
-- [x] Synthesis check: Yosys `synth_gowin` with no warnings -- 434 flip-flops
-      and about 650 LUTs, some 7 per cent of the GW1NR-9 (`fpga/check_synth.py`)
-- [ ] Gowin EDA build and timing closure
+- [x] Board wrapper — `rtl/tia_board.v` and `fpga/tia_fpga_top.v`: PLL off the
+      console's crystal, Φ2 rebuilt from Φ0, data bus tri-state, chroma through
+      an ODDR, sound as pulse width. Checked pin by pin against the traces by
+      `sim/tb_board.v`
+- [x] Traces with the console's wiring of Φ2 — Sim2600 feeds the TIA the
+      6507's Φ1; `sim/patches/sim2600-phi2.patch` fixes that and
+      `sim/traces/phi2/` holds the re-recorded set
+- [x] Synthesis check: Yosys `synth_gowin` with no warnings — the core is
+      457 flip-flops and 649 LUTs, the whole board top 566 and 678, under
+      9 per cent of the GW1NR-9 (`fpga/check_synth.py`)
+- [ ] Gowin EDA build and timing closure (`fpga/build_gowin.tcl`, not yet run)
+- [ ] A few edge cases with the console's wiring: double- and quad-size players
+      reset while they are being drawn, and HMOVE strobed mid-line
+      (`sim/README.md`, *Known gaps*)
 - [ ] Paddle circuit (still needs pins, see above)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to
       synthesise the 15 subcarrier phases)
@@ -326,8 +388,8 @@ kicad-cli sch erc tia-fpga.kicad_sch -o erc.rpt --severity-error --severity-warn
 3. ~~**Widen the coverage.**~~ Done: the test cartridges in `sim/roms/` cover
    every CTRLPF, NUSIZ, HMOVE and AUDC value, and resets at every phase of
    HBLANK, and the core matches the die on all of them.
-4. **Board wrapper and synthesis** -- pin mapping onto `fpga/tia_fpga.cst`, a
-   PLL off the console crystal, tri-state on the data bus, audio PWM.
+4. ~~**Board wrapper and synthesis**~~ -- done: `rtl/tia_board.v`,
+   `fpga/tia_fpga_top.v`, `fpga/tia_fpga.sdc`, `fpga/build_gowin.tcl`.
 5. **Run it on the Tang Nano over HDMI** before touching real hardware. This
    separates bugs in the TIA from bugs in your bench wiring.
 6. **This board** -- TIA-only, with a real 6507.
