@@ -8,8 +8,11 @@ SPDX-License-Identifier: CERN-OHL-S-2.0
     python make.py --roms-only                     # just the .bin files
     python make.py --sim2600 ../../../Sim2600      # every test, in parallel
     python make.py --sim2600 ../../../Sim2600 players
+    python make.py --sim2600 ../../../Sim2600-phi2 --traces ../traces/phi2
 
-Cartridges go to sim/roms/build/, traces to sim/traces/. These traces come from
+Cartridges go to sim/roms/build/, traces to sim/traces/ unless --traces says
+otherwise -- sim/traces/phi2/ holds the set recorded with the console's wiring
+of CLK2 (see sim/README.md). These traces come from
 cartridges written for this project, so unlike traces of commercial games they
 are committed.
 """
@@ -34,6 +37,7 @@ def main():
     ap.add_argument("--list", action="store_true", help="list the tests and stop")
     ap.add_argument("--roms-only", action="store_true", help="build cartridges only")
     ap.add_argument("--sim2600", help="path to a patched Sim2600 checkout")
+    ap.add_argument("--traces", help="directory for the traces (default: sim/traces)")
     ap.add_argument("--jobs", type=int, default=4,
                     help="Sim2600 runs in parallel (default 4)")
     args = ap.parse_args()
@@ -62,7 +66,7 @@ def main():
     if not args.sim2600:
         sys.exit("--sim2600 is needed to record traces (or use --roms-only)")
 
-    traces = os.path.join(SIM, "traces")
+    traces = os.path.abspath(args.traces) if args.traces else os.path.join(SIM, "traces")
     os.makedirs(traces, exist_ok=True)
 
     running = []

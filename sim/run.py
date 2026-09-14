@@ -68,9 +68,12 @@ def main():
     ap.add_argument("--quiet", action="store_true", help="summary only")
     args = ap.parse_args()
 
-    traces = args.traces or sorted(
-        glob.glob(os.path.join(HERE, "traces", "*.trace")) +
-        glob.glob(os.path.join(HERE, "traces", "local", "*.trace")))
+    # Sim2600's own wiring of CLK2 first, then the console's (traces/phi2/).
+    traces = args.traces or (
+        sorted(glob.glob(os.path.join(HERE, "traces", "*.trace")) +
+               glob.glob(os.path.join(HERE, "traces", "local", "*.trace"))) +
+        sorted(glob.glob(os.path.join(HERE, "traces", "phi2", "*.trace")) +
+               glob.glob(os.path.join(HERE, "traces", "local", "phi2", "*.trace"))))
     if not traces:
         sys.exit("no traces. Make one with gen_trace.py -- see README.md.")
 

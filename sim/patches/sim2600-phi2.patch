@@ -1,0 +1,40 @@
+Feed the TIA the 6507's PHI2, as the console does.
+
+Sim2600 is Copyright (c) 2014 Greg James, Visual6502.org, and MIT licensed.
+This patch modifies it and is offered under the same terms.
+SPDX-License-Identifier: MIT
+
+Upstream wires the TIA's CLK2 pad (pin 26) to the 6507's CLK1OUT. On the
+console, pin 26 is the 6507's PHI2 output -- CLK2OUT, the other polarity --
+and PHI2 falls before the 6507 moves its address and R/W. This patch takes
+CLK2 from CLK2OUT and updates it first in each half clock.
+
+Apply after sim2600-py3.patch -- see sim/README.md.
+
+diff --git a/sim2600Console.py b/sim2600Console.py
+--- a/sim2600Console.py
++++ b/sim2600Console.py
+@@ -322,6 +322,12 @@ class Sim2600Console:
+         tia.setPulledHigh(tia.padIndDEL)
+         tia.recalcWire(tia.padIndDEL)
+     
++        # tia-fpga: on the console, TIA pin 26 is the 6507's PHI2 output
++        # (CLK2OUT), not CLK1OUT, and PHI2 falls before the 6507 moves its
++        # address and R/W. So update CLK2 first, from CLK2OUT.
++        tia.setPulled(tia.padIndCLK2, cpu.isHigh(cpu.getWireIndex('CLK2OUT')))
++        tia.recalcWire(tia.padIndCLK2)
++
+         # TIA 6x45 control ROM will change when R/W goes HI to LOW only if
+         # the TIA CLK2 is LOW, so update R/W first, then CLK2.
+         # R/W is high when 6502 is reading, low when 6502 is writing
+@@ -360,10 +366,6 @@ class Sim2600Console:
+     
+         self.updateDataBus()
+ 
+-        # Advance the TIA 2nd input clock that is controlled
+-        # by the 6507's clock generator.
+-        tia.setPulled(tia.padIndCLK2, cpu.isHigh(cpu.padIndCLK1Out))
+-        tia.recalcWire(tia.padIndCLK2)
+     
+         #print('TIA sim num wires added to groups %d, num ant %d'%
+         #      (tia.numAddWireToGroup, tia.numAddWireTransistor))

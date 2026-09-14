@@ -27,35 +27,42 @@ python sim/run.py
 ```
 
 That builds the core with Icarus Verilog and replays every trace in
-`sim/traces/` and `sim/traces/local/`. It takes a few minutes.
+`sim/traces/` and `sim/traces/local/`, then the same cartridges recorded with
+the console's wiring of the TIA's Φ2 pin, in `sim/traces/phi2/` and
+`sim/traces/local/phi2/` (see *Which clock the TIA sees*). It takes a few
+minutes; `--align 0` skips the alignment search and makes it quicker.
 
-The two directories are different on purpose. `sim/traces/` holds traces of
-the project's own test cartridges and is committed. `sim/traces/local/` holds
-traces recorded from commercial cartridges and is ignored by git: even with the
-bus scrubbed (see *Trace format*), what a game writes into GRP0 and PF0-PF2 is
-its artwork, and that is not ours to publish. Regenerate those locally with the
-commands under *Generating a trace*.
+The `local` directories are different on purpose. `sim/traces/` holds traces
+of the project's own test cartridges and is committed. `sim/traces/local/`
+holds traces recorded from commercial cartridges and is ignored by git: even
+with the bus scrubbed (see *Trace format*), what a game writes into GRP0 and
+PF0-PF2 is its artwork, and that is not ours to publish. Regenerate those
+locally with the commands under *Generating a trace*.
 
 ## Current results
 
-Every trace matches the die on **every pin at every half clock scored**: Φ0,
-RDY, composite sync, blanking, luminance, colour, the data bus drivers and
-both audio pads.
+Every trace is recorded twice from the same cartridge: once with Sim2600 as it
+comes, and once with CLK2 wired the way the console wires it. "Match" means
+every pin at every half clock scored — Φ0, RDY, composite sync, blanking,
+luminance, colour, the data bus drivers and both audio pads.
 
-| trace | what it exercises | half clocks scored |
-|---|---|---:|
-| `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 |
-| `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 |
-| `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 |
-| `players` | every NUSIZ mode at all four sub-count phases | 46,767 |
-| `missiles` | widths, copies, RESMP at every player size | 55,887 |
-| `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 |
-| `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 |
-| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 |
-| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 |
-| `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 |
-| `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 |
-| `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 |
+| trace | what it exercises | half clocks scored | Sim2600's wiring | console's wiring |
+|---|---|---:|:---:|:---:|
+| `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 | match | match |
+| `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 | match | — |
+| `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 | match | match |
+| `players` | every NUSIZ mode at all four sub-count phases | 46,767 | match | 14 differ |
+| `missiles` | widths, copies, RESMP at every player size | 55,887 | match | match |
+| `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 | match | match |
+| `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 | match | match |
+| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | match | 30 differ |
+| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 | match | 50 differ |
+| `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 | match | match |
+| `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 | match | match |
+| `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 | match | match |
+
+The console-wired mismatches are all luminance and colour, in two narrow cases
+that are still open — see *Known gaps*.
 
 The suite reports FAIL on a single mismatched half clock, with no tolerance
 anywhere, so a regression on any pin of any trace shows at once.
@@ -81,6 +88,17 @@ git checkout af3bc453e253172503967ffb826377517b95a62a
 git apply ../tia-fpga/sim/patches/sim2600-py3.patch
 ```
 
+For the console's wiring, make a second checkout the same way and apply one
+more patch on top:
+
+```bash
+git clone -c core.autocrlf=false https://github.com/gregjames/Sim2600.git Sim2600-phi2
+cd Sim2600-phi2
+git checkout af3bc453e253172503967ffb826377517b95a62a
+git apply ../tia-fpga/sim/patches/sim2600-py3.patch
+git apply ../tia-fpga/sim/patches/sim2600-phi2.patch
+```
+
 **`core.autocrlf=false` is not optional on Windows.** `chips/net_TIA.pkl` is a
 protocol-0 pickle, which is mostly ASCII, so git's autocrlf heuristic decides
 it is a text file and rewrites every `\n` in it as `\r\n`. The file still looks
@@ -99,9 +117,42 @@ where every reader says `pia.timerValue`, so the PIA timer never actually
 loaded its initial value. That does not change the shape of the comparison (the
 trace is replayed either way) but it makes the oracle a more faithful 2600.
 
-Sim2600 is MIT licensed, and the patch is a modification of it, so the patch
-is offered under the MIT licence too, not the CERN-OHL-S that covers the rest
-of this repository. Its header says so.
+`sim2600-phi2.patch` is the clock wiring, explained in the next section.
+
+Sim2600 is MIT licensed, and the patches are modifications of it, so they are
+offered under the MIT licence too, not the CERN-OHL-S that covers the rest of
+this repository. Their headers say so.
+
+## Which clock the TIA sees
+
+Upstream `sim2600Console.py` drives the TIA's CLK2 pad from the 6507's
+**CLK1OUT**. On the console, TIA pin 26 is wired to the 6507's Φ2 output — in
+the visual6502 netlist, **CLK2OUT**, the other polarity. The traces say so too:
+in an upstream trace `clk2` is the inverse of `ph0` one half clock later, and
+the 6507 puts a new address on the bus as that pad rises, its write data as it
+falls. On a 6502 the address comes out in phase 1 and the data in phase 2, so
+the pad the die was given is high in phase 1.
+
+The die only looks at that pin through its bus strobes, so the simulation ran
+happily either way. What changes is where every write lands against the colour
+clock: each write strobe on the die is high for the three half clocks CLK2 is
+low after the write, and with the wiring flipped those three half clocks sit
+on the other side of PH0 and start on the other edge of the colour clock. Any
+rule this core had fitted from one wiring alone could have been fitted to the
+wrong side, and three were: RSYNC's restart, RDY's release, and how long a
+reset holds an object's clock (all below, as read off the netlist).
+
+`sim2600-phi2.patch` takes CLK2 from CLK2OUT, and updates it at the start of
+each half clock, before the bus, because on the console Φ2 falls before the
+6507 moves its address. `sim/traces/phi2/` was recorded with it.
+
+Two things in the harness follow from that order. A trace record shows the bus
+*after* the 6507 moved it, so with the console's wiring the record in which
+CLK2 falls already shows the next cycle, while the die latched the old one.
+`tb_trace.v` therefore tells the two wirings apart by how `clk2` follows `ph0`
+and, for the console's, holds the bus while CLK2 is low, which is what the
+die's own latch does. And the board has no Φ2 pin at all — it rebuilds Φ2 from
+the Φ0 it makes — so `tb_board.v` checks the rebuilt one against these traces.
 
 ## Test cartridges
 
@@ -121,6 +172,7 @@ of this repository. Its header says so.
 python sim/roms/make.py --list
 python sim/roms/make.py --sim2600 ../Sim2600                 # every test
 python sim/roms/make.py --sim2600 ../Sim2600 players hmove   # just these
+python sim/roms/make.py --sim2600 ../Sim2600-phi2 --traces sim/traces/phi2
 ```
 
 Every cartridge starts by clearing zero page, which writes every TIA register —
@@ -147,6 +199,9 @@ python sim/gen_trace.py --sim2600 ../Sim2600 --rom DonkeyKong.bin --quiet \
 python sim/gen_trace.py --sim2600 ../Sim2600 --rom DonkeyKong.bin --quiet \
        --skip 0 --count 6000 \
        --out sim/traces/local/donkeykong-power-on.trace
+python sim/gen_trace.py --sim2600 ../Sim2600-phi2 --rom DonkeyKong.bin --quiet \
+       --skip 0 --count 54000 \
+       --out sim/traces/local/phi2/donkeykong-boot-to-picture.trace
 ```
 
 Sim2600 settles roughly ten thousand transistors per half clock, so it runs at
@@ -182,10 +237,25 @@ python sim/run.py --debug --from 53668 --to 53700 \
 
 `--debug` switches to `tb_debug.v`, which prints the core's internal state
 beside the die's pins for a window of records. `tb_trace.v` also takes
-`+dump=FILE`, which writes the core's luminance, colour, sync, blank, RDY and
-data bus drive for every scored record; comparing that with the trace a
-scanline at a time is the fastest way to see *how* something diverges — a
-constant offset, a pixel too wide, a copy missing.
+`+dump=FILE`, which writes the core's luminance, colour, sync, blank, RDY, data
+bus drive and colour burst for every scored record; comparing that with the
+trace a scanline at a time is the fastest way to see *how* something diverges —
+a constant offset, a pixel too wide, a copy missing.
+
+### The board around the core
+
+`tb_board.v` replays a console-wired trace into `rtl/tia_board.v` instead —
+the logic between the core and rev A's pins — and checks what the board
+drives: the colour clock counted out of the PLL clock and CLK2 rebuilt from
+Φ0, record for record against the trace; Φ0, RDY, sync and luma on the pins;
+D7/D6 wherever the die drove them, with A5-A0 beneath; the chroma waveform's
+phase for every hue, measured against the burst's; and the pulse widths on
+both sound pins, for both settings of `AUDIO_STEREO` at once.
+
+```bash
+iverilog -g2005 -I rtl -s tb_board -o tb_board.vvp sim/tb_board.v rtl/*.v
+vvp tb_board.vvp +trace=sim/traces/phi2/ball.trace
+```
 
 ### Alignment
 
@@ -261,7 +331,9 @@ to the latches it forces; find a register's bits by correlating every wire
 with a model's state, since a real bit agrees on every sample; read where each
 clock sits in the line with `waves`; then read the logic with `tree`. Where a
 model still disagreed with the die, the die's own latches showed which tick
-went wrong.
+went wrong. With two wirings to record, one more trick earns its keep: probe
+the same cartridge through both checkouts and print the same wires around the
+same write side by side.
 
 ## What the traces have settled
 
@@ -280,20 +352,30 @@ implements it.
 - **Φ0 is a 50 per cent square wave**, three half colour clocks high and three
   low, so the die divides by three on both edges. **The horizontal counter
   reloads it:** it rises on exactly the half clock where HBLANK starts, every
-  line, and an RSYNC cuts its high half short one colour clock before the
-  counter restarts.
-- **RSYNC restarts the counter four colour clocks after the strobe, rounded up
-  to the counter's own falling edge.** Towers left it as "requires more
-  investigation". Both RSYNCs in the Donkey Kong trace stretch their scanline
-  from 456 to 514 half clocks and shift the counter grid by two colour clocks.
+  line, with either wiring.
+- **RSYNC restarts the counter seven half clocks after the last half clock its
+  strobe shares with PH0 low.** RSYNC's decode is a NOR that takes PH0 as one of
+  its inputs, so of the three half clocks its strobe is high, only those with
+  PH0 low count. HBLANK comes on at the restart and Φ0 reloads, which cuts both
+  its halves to two half clocks with Sim2600's wiring and cuts nothing with the
+  console's. Towers left RSYNC as "requires more investigation"; counting from
+  the write instead, as this core first did, fits one wiring and misses the
+  other by four half clocks.
 
 **The bus**
 
-- **The data bus drivers are enabled only while Φ2 is high** — three half
-  clocks of the six-half-clock bus cycle — on every selected read, including
-  the two read addresses with no register behind them, which read as zeros.
-- **WSYNC releases RDY one colour clock before HBLANK starts**, and a WSYNC
-  whose phase 2 contains that release is ignored: the release wins.
+- **The data bus drivers are enabled only while the die's CLK2 pad is high** —
+  three half clocks of the six-half-clock bus cycle, Φ2 on a console — on every
+  selected read, including the two read addresses with no register behind
+  them, which read as zeros.
+- **Every write strobe is high for the three half clocks CLK2 is low after the
+  write.** The decode is latched while CLK2 is high; the strobe follows.
+- **RDY is released by a pulse eight half clocks long, starting three half
+  clocks before HBLANK.** WSYNC's strobe sets a latch that pulls RDY low; the
+  pulse clears it in whichever of its half clocks the colour clock is low, the
+  first of them one colour clock before HBLANK. The same pulse is an input to
+  WSYNC's decode, so a strobe that overlaps it only sets RDY once it ends, and
+  a strobe entirely inside it is lost.
 
 **The picture**
 
@@ -307,20 +389,37 @@ implements it.
 - **SCORE switches to the right-hand colour one colour clock before the second
   half starts, and the priority bit turns SCORE off** — with PFP set the
   playfield keeps COLUPF.
+- **The colour pad carries the colour clock itself, and is released when there
+  is no colour.** For hues 1-15 it toggles every half clock; for hue 0, and
+  through blanking, it is left alone. The burst runs from RHS to RCB — Towers'
+  "reset colour burst" — starting one half clock after the sync pulse ends,
+  and it is not sent on lines VBLANK blanks.
+
+**The pads**
+
+- **Every video and sound pad is a pull-down transistor and nothing else**:
+  SYNC, LUM0-2, COL, AUD0, AUD1, BLK and RDY. The console supplies the
+  pull-ups. Φ0 is the only output driven both ways.
 
 **Objects** — read off the netlist, with the tools under *Looking inside the
 die*
 
 - **A RESxx strobe does not reset the counter. It holds the object's
   two-phase clock in H@1 and sets a latch.** The two-phase clock is a ring of
-  four half-clock stages. For as long as the strobe is high the ring is forced
-  into H@1; on the next H@2 the latch lets go and starts a pulse one count long
-  that forces every stage of the counter to zero. The counter therefore clears
-  on the first H@2 after the strobe and counts on from there.
-- **That is why a copy already on its way survives a reset.** START decodes
+  four half-clock stages. For as long as the strobe is high the ring is cleared
+  and read as H@1; on the next H@2 the latch lets go and starts a pulse one
+  count long that forces every stage of the counter to zero. The counter
+  therefore clears on the first H@2 after the strobe and counts on from there.
+- **How many object clocks the hold swallows depends on where the strobe
+  falls.** Its three half clocks cover one MOTCK phase with Sim2600's wiring
+  and two with the console's. On this core's clock grid, which runs three half
+  clocks behind the die's ring, the hold is the strobe's window three half
+  clocks later.
+- **That is why a copy already on its way can survive a reset.** START decodes
   pass through a latch that follows them for all of H@1, so holding the ring
   in H@1 catches a START decoded just before the strobe and clocks it out on
-  the new phase.
+  the new phase — if the decode is still true when the held H@1 ends, which
+  with the console's wiring it more often is not.
 - **In HBLANK the ring cannot move**, because MOTCK is stopped: a reset there
   waits in H@1 for the first colour clock of the visible line and clears the
   counter on the second.
@@ -336,8 +435,9 @@ die*
   The scan counter itself counts every colour clock, behind a gate that holds
   it back after a half clock in neither phase (2×) or in anything but H@2
   (4×). The gate sees NUSIZ two colour clocks after it is written, and a
-  reset's hold in H@1 leaves it nothing to block on the following clock, so a
-  double-size copy reset while it is being drawn takes an extra step there.
+  reset's hold opens it: reset a double-size copy while it is being drawn and
+  one of its pixels comes out half width with Sim2600's wiring, three with the
+  console's.
 - **RESMP's lock is decoded at scan position 1** of the player's main copy.
 
 **HMOVE**
@@ -375,8 +475,9 @@ die's own divider and counters, not just its pads
   the enable latched in that same phase; channel 1 takes the enable through one
   more latch and follows the tick before, which is how Stella models both.
   The difference only shows on the first tick after the divider lets a
-  channel run again with AUDC changed in the meantime. Whether real chips
-  share it, or it came in with the extraction of the netlist, is open.
+  channel run again with AUDC changed in the meantime — one period of one
+  channel, which on a console that joins the two sound pins, as an unmodified
+  2600 does, is lost in the mix.
 - **AUDC 0 and B hold the output at the AUDV level** — a DC offset, not silence.
 
 **Inputs**
@@ -385,22 +486,21 @@ die's own divider and counters, not just its pads
 
 ## Known gaps
 
-None on the committed traces: every one matches the die on every pin at every
-half clock. What is left is one question the simulator cannot answer, and
-gaps in coverage rather than in the core:
-
-- **Whether real chips share the audio channels' asymmetry** (see *Audio*
-  above), or it came in with the extraction of the netlist. Sim2600 is the
-  only oracle there is, so the core follows it, and `tia_audio.v` keeps the
-  difference to one parameter.
+- **Two cases with the console's wiring.** A double- or quad-size player reset
+  while one of its copies is being drawn (`players`, `resets_hblank`): the
+  hold opens the size gate for longer than the core lets its scan counter
+  step. And HMOVE strobed in the middle of the line, or an HMxx write during
+  the move (`hmove`). Both still match with Sim2600's wiring; together they
+  are 94 half clocks out of about 160,000 scored on those three traces.
+- **Whether real chips share the audio channels' asymmetry** (see *Audio*), or
+  it came in with the extraction of the netlist. Sim2600 is the only oracle,
+  so the core follows it and `tia_audio.v` keeps the difference to one
+  parameter; on an unmodified console it is inaudible either way.
 - Nothing drives the joystick or console switches. Sim2600 holds I0-I5 high,
   so the trigger latch has never been exercised.
-- One cartridge revision. There are at least twelve NTSC TIA revisions with
+- One die revision. There are at least twelve NTSC TIA revisions with
   observable differences, and Sim2600's netlist is the 10444D.
-- The core has been synthesised with Yosys (`fpga/check_synth.py`: no warnings,
-  434 flip-flops, about 650 LUTs) but never built with Gowin EDA, and there is
-  no board-level wrapper yet: no pin mapping onto `fpga/tia_fpga.cst`, no PLL, no tri-state on the
-  data bus. Note also that the TIA's audio pad is a four-bit weighted current
-  DAC — that is what `au0` and `au1` are — while the board gives each channel a
-  single 3.3 V pin, so AUDV has to come back as PWM or sigma-delta on the way
-  out.
+- The board wrapper has been simulated and synthesised with Yosys
+  (`fpga/check_synth.py`), but not built with Gowin EDA or run on hardware,
+  and rev A's video and sound pins cannot reproduce the TIA's levels — see
+  *Pads and levels* in the project README.

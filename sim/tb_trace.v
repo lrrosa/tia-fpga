@@ -116,6 +116,8 @@ module tb_trace;
     // --------------------------------------------------------------- replay
     integer align, shown, first_n, best_align, best_score, score;
     integer quiet, forced_align, stop, warm_after;
+    integer phi2_votes, k;
+    reg     phi2_wiring = 1'b0;
     integer f_ph0, f_rdy, f_sync, f_lum, f_col, f_blk, f_dbdrv;
     reg [8*512-1:0] trace_path;   // Windows paths get long
     reg          detail;
@@ -168,11 +170,17 @@ module tb_trace;
             for (k = start; k < last; k = k + 1) begin
                 clk0  = t_clk0[k];
                 clk2  = t_clk2[k];
-                rw    = t_rw[k];
-                cs0_n = t_cs0[k];
-                cs3_n = t_cs3[k];
-                ab    = t_ab[k];
-                db_in = t_db[k];
+                // With the console's wiring PHI2 falls before the 6507 moves
+                // the bus, and the die's bus latch closes on the old cycle; a
+                // record only shows the bus after the move. Hold it while CLK2
+                // is low, as the latch does.
+                if (!phi2_wiring || t_clk2[k]) begin
+                    rw    = t_rw[k];
+                    cs0_n = t_cs0[k];
+                    cs3_n = t_cs3[k];
+                    ab    = t_ab[k];
+                    db_in = t_db[k];
+                end
                 inpt  = t_inpt[k];
 
                 repeat (OVERSAMPLE) @(posedge clk);
@@ -181,7 +189,7 @@ module tb_trace;
                 if (k >= warm) begin
                 compared = compared + 1;
                 if (dumping && dump_fd != 0)
-                    $fwrite(dump_fd, "%0d %h %h %b %b %b %h\n", k, lum, col, sync_low, blank, rdy_low, dbdrv_rtl);
+                    $fwrite(dump_fd, "%0d %h %h %b %b %b %h %b\n", k, lum, col, sync_low, blank, rdy_low, dbdrv_rtl, cburst);
 
                 if (ph0       !== t_ph0[k])  begin m_ph0  = m_ph0  + 1; note(k, f_ph0);  end
                 if (rdy_low   !== t_rdy[k])  begin m_rdy  = m_rdy  + 1; note(k, f_rdy);  end
@@ -266,6 +274,15 @@ module tb_trace;
 
         load_trace;
         $display("loaded %0d records from %0s", nrec, trace_path);
+
+        // Which way the trace was wired: on the console CLK2 is PHI2, one
+        // record behind PH0; upstream Sim2600 feeds it CLK1OUT, its inverse.
+        phi2_votes = 0;
+        for (k = 1; k < nrec && k < 4000; k = k + 1)
+            if (t_clk2[k] === t_ph0[k-1]) phi2_votes = phi2_votes + 1;
+        phi2_wiring = (2 * phi2_votes > (nrec < 4000 ? nrec : 4000));
+        $display("clock wiring: %0s", phi2_wiring ? "PHI2 on CLK2, as on the console"
+                                                  : "CLK1OUT on CLK2, as upstream Sim2600");
 
         detail = 1'b0;
 

@@ -14,10 +14,10 @@
 // happens here on the first system clock after that edge, as a clock enable.
 //
 // That costs one system clock of latency against the die and buys a single
-// clock domain, single edge, no gated clocks. On the rev A board `clk` comes
-// from a PLL and `clk0` from the console's own 3.579545 MHz crystal by way of
-// U4, so the core stays locked to the machine it is plugged into rather than
-// free-running.
+// clock domain, single edge, no gated clocks. On the rev A board both come
+// from the console's own 3.579545 MHz crystal -- a PLL multiplies it into
+// `clk` and tia_board.v counts that back down into `clk0` -- so the core stays
+// locked to the machine it is plugged into rather than free-running.
 //
 // PADS. Only D7 and D6 are ever driven by the chip; the other six data lines
 // are inputs, which is why reads of the collision and input registers leave
@@ -85,11 +85,12 @@ module tia (
     // every line without exception. So the horizontal counter reloads the
     // divider, and the CPU phase cannot drift against the picture.
     //
-    // RSYNC is the one exception. Both RSYNCs in the Donkey Kong trace cut the
-    // high half of PH0 short -- two half clocks instead of three -- one colour
-    // clock before the counter restarts, and the restart then reloads the
-    // divider as at any line start. A strobe from the 6507 always lands on the
-    // same PH0 phase, so two samples cover every RSYNC a real CPU can make.
+    // RSYNC is the one exception. Its restart comes seven half clocks after
+    // the last half clock its strobe shares with PH0 low (tia_hcount.v), and
+    // the divider is cleared one colour clock before that, then reloaded at
+    // the restart as at any line start. With Sim2600's wiring of CLK2 that
+    // cuts both halves of PH0 to two half clocks; with the console's the
+    // restart falls where PH0 was due to rise anyway and nothing is cut.
     wire      shb, rsync_pre;              // from the horizontal counter
     reg [2:0] div6;
     always @(posedge clk or negedge rst_n) begin
@@ -109,7 +110,7 @@ module tia (
         else        clk2_d <= clk2;
     end
     wire clk2_fall = ~clk2 &  clk2_d;
-    wire clk2_rise =  clk2 & ~clk2_d;
+    wire ce_any    = ce_rise | ce_fall;
 
     // The 6507 holds address and data valid through phase 2; the TIA takes
     // them on its falling edge.
@@ -226,8 +227,8 @@ module tia (
     end
 
     // ================================================== horizontal counter
-    wire        hblank, hsync, hb_normal;
-    wire        hc_p1, hc_p2, shb_early, rhb, cntd, cnt_early, aud_a, aud_b;
+    wire        hblank, hsync, hb_normal, hc_cburst;
+    wire        hc_p1, hc_p2, rhb, cntd, cnt_early, aud_a, aud_b, rdy_rel;
     wire        rhb_next, cnt_next;
     wire        hmove_latch;
     wire [5:0]  hc_q;
@@ -238,6 +239,7 @@ module tia (
         .ce_rise     (ce_rise),
         .ce_fall     (ce_fall),
         .rsync       (rsync_s),
+        .ph0         (ph0),
         .hmove_latch (hmove_latch),
         .q           (hc_q),
         .p1          (hc_p1),
@@ -245,9 +247,9 @@ module tia (
         .hsync       (hsync),
         .hblank      (hblank),
         .hb_normal   (hb_normal),
-        .cburst      (cburst),
+        .cburst      (hc_cburst),
         .shb         (shb),
-        .shb_early   (shb_early),
+        .rdy_rel     (rdy_rel),
         .rsync_pre   (rsync_pre),
         .rhb         (rhb),
         .cntd        (cntd),
@@ -258,21 +260,35 @@ module tia (
         .aud_b       (aud_b)
     );
 
-    // WSYNC holds the 6507 until one colour clock before the next line. A
-    // write strobe is live for all of phase 2, not just its falling edge, and
-    // when the release lands inside that window the release wins and the
-    // write is lost: a traced WSYNC written right at a line start leaves RDY
-    // alone, and the one after it takes.
-    reg rdy_low_r, rdy_released;
+    // RDY. WSYNC's strobe -- high for the three half clocks CLK2 is low
+    // after the write -- sets a latch that pulls RDY low. What lets go of it
+    // is a pulse the horizontal counter makes, eight half clocks long from
+    // three before HBLANK starts: it clears the latch in whichever of those
+    // half clocks the colour clock is low, the first of them one colour clock
+    // before HBLANK. The same pulse is an input to WSYNC's own decode, so a
+    // strobe overlapping it only takes once the pulse ends, and a strobe
+    // entirely inside it is lost. Sim2600 names neither wire; the pulse is
+    // N232.
+    reg       rdy_low_r;
+    reg [2:0] rel_cnt;
+    reg [1:0] ws_cnt;
+    wire      rel_now = rdy_rel | (rel_cnt != 3'd0);
+    wire      ws_now  = wsync_s | (ws_cnt != 2'd0);
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)          rdy_released <= 1'b0;
-        else if (clk2_rise)  rdy_released <= shb_early;
-        else if (shb_early)  rdy_released <= 1'b1;
-    end
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)                          rdy_low_r <= 1'b0;
-        else if (shb_early)                  rdy_low_r <= 1'b0;
-        else if (wsync_s && !rdy_released)   rdy_low_r <= 1'b1;
+        if (!rst_n) begin
+            rel_cnt   <= 3'd0;
+            ws_cnt    <= 2'd0;
+            rdy_low_r <= 1'b0;
+        end else begin
+            if (rdy_rel)                         rel_cnt <= 3'd7;
+            else if (ce_any && rel_cnt != 3'd0)  rel_cnt <= rel_cnt - 3'd1;
+            if (wsync_s)                         ws_cnt  <= 2'd2;
+            else if (ce_any && ws_cnt != 2'd0)   ws_cnt  <= ws_cnt - 2'd1;
+            if (ce_any) begin
+                if (rel_now && ce_fall)          rdy_low_r <= 1'b0;
+                else if (ws_now && !rel_now)     rdy_low_r <= 1'b1;
+            end
+        end
     end
     assign rdy_low = rdy_low_r;
 
@@ -336,31 +352,31 @@ module tia (
     wire m1_lock = resmp1 & (p1_scan == 3'd1) & ~p1_fstob;
 
     tia_objcnt u_p0_cnt (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .ce_free (ce_rise), .reset (resp0_s),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .ce_free (ce_rise), .ce_any (ce_any), .reset (resp0_s), .lock (1'b0),
         .q (), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .ph (),
         .dec_close (p0_close), .dec_med (p0_med),
         .dec_far (p0_far), .dec_main (p0_main), .clear_now (), .after_hold (p0_after_hold));
 
     tia_objcnt u_p1_cnt (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .ce_free (ce_rise), .reset (resp1_s),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .ce_free (ce_rise), .ce_any (ce_any), .reset (resp1_s), .lock (1'b0),
         .q (), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .ph (),
         .dec_close (p1_close), .dec_med (p1_med),
         .dec_far (p1_far), .dec_main (p1_main), .clear_now (), .after_hold (p1_after_hold));
 
     tia_objcnt u_m0_cnt (
-        .clk (clk), .rst_n (rst_n), .ce (ce_m0), .ce_free (ce_rise), .reset (resm0_s | m0_lock),
+        .clk (clk), .rst_n (rst_n), .ce (ce_m0), .ce_free (ce_rise), .ce_any (ce_any), .reset (resm0_s), .lock (m0_lock),
         .q (), .p1 (), .p2 (m0_p2), .pa (m0_pa), .ph (m0_ph),
         .dec_close (m0_close), .dec_med (m0_med),
         .dec_far (m0_far), .dec_main (m0_main), .clear_now (), .after_hold ());
 
     tia_objcnt u_m1_cnt (
-        .clk (clk), .rst_n (rst_n), .ce (ce_m1), .ce_free (ce_rise), .reset (resm1_s | m1_lock),
+        .clk (clk), .rst_n (rst_n), .ce (ce_m1), .ce_free (ce_rise), .ce_any (ce_any), .reset (resm1_s), .lock (m1_lock),
         .q (), .p1 (), .p2 (m1_p2), .pa (m1_pa), .ph (m1_ph),
         .dec_close (m1_close), .dec_med (m1_med),
         .dec_far (m1_far), .dec_main (m1_main), .clear_now (), .after_hold ());
 
     tia_objcnt u_bl_cnt (
-        .clk (clk), .rst_n (rst_n), .ce (ce_bl), .ce_free (ce_rise), .reset (resbl_s),
+        .clk (clk), .rst_n (rst_n), .ce (ce_bl), .ce_free (ce_rise), .ce_any (ce_any), .reset (resbl_s), .lock (1'b0),
         .q (), .p1 (), .p2 (bl_p2), .pa (), .ph (bl_ph),
         .dec_close (), .dec_med (), .dec_far (), .dec_main (),
         .clear_now (bl_clear_now), .after_hold ());
@@ -438,6 +454,11 @@ module tia (
     // ========================================================= colour output
     wire blanked = hblank | vblank_r;
     assign blank = blanked;
+
+    // The colour pad carries the burst on every line except those VBLANK
+    // blanks: in the probed die it toggles through the burst window on all
+    // the visible lines and on none of the vertically blanked ones.
+    assign cburst = hc_cburst & ~vblank_r;
 
     // Objects and the colour registers reach the pads through a latch on the
     // falling colour clock edge. The playfield and blanking do not: both are

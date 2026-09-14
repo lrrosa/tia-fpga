@@ -24,7 +24,7 @@
 // ---------------------------------------------------------------- horizontal
 `define TIA_HC_SHS   6'b111100   // 4   set HSYNC
 `define TIA_HC_RHS   6'b110111   // 8   reset HSYNC
-`define TIA_HC_RCB   6'b001111   // 12  colour burst
+`define TIA_HC_RCB   6'b001111   // 12  reset colour burst
 `define TIA_HC_RHB   6'b011100   // 16  reset HBLANK
 `define TIA_HC_LRHB  6'b010111   // 18  late reset HBLANK (after HMOVE)
 `define TIA_HC_CNT   6'b101100   // 36  centre: second half of the playfield

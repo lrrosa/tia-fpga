@@ -33,7 +33,8 @@ module tia_hcount (
     input  wire       ce_rise,        // colour clock rising edge
     input  wire       ce_fall,        // colour clock falling edge
 
-    input  wire       rsync,          // RSYNC strobe
+    input  wire       rsync,          // RSYNC write, as CLK2 falls
+    input  wire       ph0,            // the CPU clock this chip drives
     input  wire       hmove_latch,    // HMOVE seen this line: use LRHB not RHB
 
     output reg  [5:0] q,              // counter state, Towers' notation
@@ -44,7 +45,7 @@ module tia_hcount (
     output reg        hb_normal,      // HBLANK as it would be without HMOVE
     output reg        cburst,
     output wire       shb,            // pulse: start of HBLANK / line reset
-    output wire       shb_early,      // one colour clock before shb
+    output wire       rdy_rel,        // three half clocks before shb: RDY's release opens
     output wire       rsync_pre,      // one colour clock before an RSYNC restart
     output wire       rhb,            // pulse: HBLANK released this H@2
     output wire       cntd,           // pulse: centre, second half of the PF
@@ -62,19 +63,25 @@ module tia_hcount (
     // counter is also reset to 000000 and HBlank is turned on. This one
     // requires more investigation."
     //
-    // Here is the investigation, from a trace of Donkey Kong's two RSYNCs: the
-    // strobe lands at half clock N, and the counter restarts at the first
-    // FALLING colour clock edge after N+8 -- four colour clocks later, rounded
-    // up to the counter's own edge. Both RSYNCs in the trace stretch their
-    // scanline from 456 to 514 half clocks, and both leave the counter grid
-    // shifted by two colour clocks, which is what pins the rule down.
+    // The netlist settles it. Like every write strobe, RSYNC's is high for
+    // the three half clocks CLK2 is low after the write -- but it is also a
+    // NOR with PH0, so only those of the three in which PH0 is low count.
+    // HBLANK comes on seven half clocks after the last of them, and the
+    // counter restarts with it. PH0 is reloaded there as at any line start,
+    // which cuts its previous half short when the two disagree.
+    //
+    // Counted from the write instead, the delay depends on where PH0 stands,
+    // and that is the same for every write a given CPU wiring makes -- so one
+    // wiring alone cannot tell the two rules apart. The console's wiring and
+    // Sim2600's put PH0 on opposite sides of the write; this rule matches the
+    // traces of both.
     //
     // The restart is also a line start: HBLANK comes on, the HMOVE latch is
     // cleared and the CPU clock divider reloads, exactly as at SHB.
-    reg [3:0] rs_wait;
-    reg       rs_armed;
+    reg [1:0] rs_win;      // half clocks of the strobe still to look at
+    reg [2:0] rs_wait;     // counts down to the restart
     wire      ce_any   = ce_rise | ce_fall;
-    wire      rsync_go = rs_armed & ce_fall;
+    wire      rsync_go = ce_any & (rs_wait == 3'd1);
 
     wire [1:0] ph;
 
@@ -103,9 +110,8 @@ module tia_hcount (
     wire early_ce = ce_fall & (ph == 2'd1);
 
     assign shb       = (p2 & at_shb) | rsync_go;
-    // WSYNC releases RDY here, one colour clock before HBLANK starts.
-    assign shb_early = early_ce & at_shb;
-    assign rsync_pre = ce_fall & (rs_wait == 4'd2);
+    assign rdy_rel   = sync_ce & at_shb;
+    assign rsync_pre = ce_any & (rs_wait == 3'd3);
     assign rhb       = p2 & (at_rhb | at_lrhb);
     assign cntd      = p2 & (q == `TIA_HC_CNT);
     // SCORE mode switches to the right-hand player colour here, one colour
@@ -130,17 +136,20 @@ module tia_hcount (
             hblank    <= 1'b1;
             hb_normal <= 1'b1;
             cburst    <= 1'b0;
-            rs_wait   <= 4'd0;
-            rs_armed  <= 1'b0;
+            rs_win    <= 2'd0;
+            rs_wait   <= 3'd0;
         end else begin
+            // At each half clock, ph0 still holds the one just ended.
             if (rsync) begin
-                rs_wait  <= 4'd8;
-                rs_armed <= 1'b0;
-            end else if (rs_wait != 4'd0 && ce_any) begin
-                rs_wait <= rs_wait - 4'd1;
-                if (rs_wait == 4'd1) rs_armed <= 1'b1;
-            end else if (rsync_go) begin
-                rs_armed <= 1'b0;
+                rs_win  <= 2'd3;
+                rs_wait <= 3'd0;
+            end else if (ce_any) begin
+                if (rs_win != 2'd0)
+                    rs_win <= rs_win - 2'd1;
+                if (rs_win != 2'd0 && !ph0)
+                    rs_wait <= 3'd6;
+                else if (rs_wait != 3'd0)
+                    rs_wait <= rs_wait - 3'd1;
             end
 
             if (rsync_go) begin
@@ -165,9 +174,15 @@ module tia_hcount (
             if (sync_ce) begin
                 if (q == `TIA_HC_SHS) hsync <= 1'b1;
                 if (q == `TIA_HC_RHS) hsync <= 1'b0;
+            end
 
-                if (q == `TIA_HC_RCB)                             cburst <= 1'b1;
-                else if (q == `TIA_HC_RHB || q == `TIA_HC_LRHB)   cburst <= 1'b0;
+            // The colour burst runs from RHS to RCB -- Towers' "reset colour
+            // burst" -- starting one half clock after the sync pulse ends. No
+            // pin in a trace shows it, so it was placed from the probed die:
+            // its colour pad toggles for exactly these 32 half clocks.
+            if (early_ce) begin
+                if (q == `TIA_HC_RHS)       cburst <= 1'b1;
+                else if (q == `TIA_HC_RCB)  cburst <= 1'b0;
             end
         end
     end

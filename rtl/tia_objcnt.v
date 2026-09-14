@@ -35,12 +35,14 @@
 //    in H@1 until the first colour clock of the visible line, and the counter
 //    clears on the second.
 //
-// ON THIS CORE'S CLOCK GRID the object clock enable lands a couple of half
-// clocks after the die's ring steps, so the strobe reaches the ring one
-// colour clock after the bus write: the colour clock that coincides with the
-// write still counts, the next one is the one the strobe swallows. A strobe
-// taken at the write itself, or two colour clocks after it, misplaces objects
-// on every test cartridge.
+// ON THIS CORE'S CLOCK GRID the object clock enable lands three half clocks
+// after the die's ring steps. The write strobe is high for the three half
+// clocks CLK2 is low after the write, so here the ring is held through the
+// same three half clocks, three later: an object clock inside that window is
+// swallowed and leaves the ring in H@1. Where the window falls against the
+// colour clock decides whether that is one object clock or two -- one with
+// Sim2600's wiring of CLK2, two with the console's -- and a hold counted in
+// colour clocks from the write, as this core first had, fits only one of them.
 
 `include "tia_defs.vh"
 
@@ -49,7 +51,9 @@ module tia_objcnt (
     input  wire       rst_n,
     input  wire       ce,            // MOTCK or an HMOVE stuffed pulse
     input  wire       ce_free,       // colour clock, runs through HBLANK too
-    input  wire       reset,         // RESP0/RESP1/RESM0/RESM1/RESBL strobe, or the RESMP lock
+    input  wire       ce_any,        // either colour clock edge
+    input  wire       reset,         // RESP0/RESP1/RESM0/RESM1/RESBL write, as CLK2 falls
+    input  wire       lock,          // the RESMP lock, a level
 
     output reg  [5:0] q,
     output wire       p1,            // H@1 begins
@@ -66,20 +70,29 @@ module tia_objcnt (
 
     wire [5:0] q_next = { ~(q[1] ^ q[0]), q[5:1] };
 
-    // The strobe, kept until a colour clock takes it, then one colour clock
-    // later as it reaches the ring. A level (the RESMP lock) passes straight
-    // through, delayed the same.
-    reg strobe, held;
+    // The write strobe's three half clocks, and the same three half clocks
+    // later as they reach the ring. The RESMP lock is a level, not a write:
+    // a colour clock takes it and it holds the ring for as long as it stays.
+    reg  [1:0] ws_cnt;
+    reg  [2:0] window_d;
+    reg        lk, lk_held;
+    wire       window = reset | (ws_cnt != 2'd0);
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            strobe <= 1'b0;
-            held   <= 1'b0;
+            ws_cnt   <= 2'd0;
+            window_d <= 3'd0;
+            lk       <= 1'b0;
+            lk_held  <= 1'b0;
         end else begin
-            if (reset)         strobe <= 1'b1;
-            else if (ce_free)  strobe <= 1'b0;
-            if (ce_free)       held   <= strobe;
+            if (reset)                          ws_cnt   <= 2'd2;
+            else if (ce_any && ws_cnt != 2'd0)  ws_cnt   <= ws_cnt - 2'd1;
+            if (ce_any)                         window_d <= {window_d[1:0], window};
+            if (lock)                           lk       <= 1'b1;
+            else if (ce_free)                   lk       <= 1'b0;
+            if (ce_free)                        lk_held  <= lk;
         end
     end
+    wire held = window_d[2] | lk_held;
 
     // The ring, as a divider: 0 is the clock that starts H@1, 1 the one that
     // ends it, 2 the one that starts H@2. Held, it waits at 1.
