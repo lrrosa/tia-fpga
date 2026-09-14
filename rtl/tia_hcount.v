@@ -42,7 +42,6 @@ module tia_hcount (
     output wire       p2,             // H@2
     output reg        hsync,
     output reg        hblank,
-    output reg        hb_normal,      // HBLANK as it would be without HMOVE
     output reg        cburst,
     output wire       shb,            // pulse: start of HBLANK / line reset
     output wire       rdy_rel,        // three half clocks before shb: RDY's release opens
@@ -134,7 +133,6 @@ module tia_hcount (
             q         <= 6'b000000;
             hsync     <= 1'b0;
             hblank    <= 1'b1;
-            hb_normal <= 1'b1;
             cburst    <= 1'b0;
             rs_win    <= 2'd0;
             rs_wait   <= 3'd0;
@@ -155,7 +153,6 @@ module tia_hcount (
             if (rsync_go) begin
                 q         <= 6'b000000;
                 hblank    <= 1'b1;
-                hb_normal <= 1'b1;
             end else if (p2) begin
                 if (at_shb || q == `TIA_LFSR_ERR)
                     q <= 6'b000000;
@@ -164,11 +161,6 @@ module tia_hcount (
 
                 if (at_shb)                  hblank <= 1'b1;
                 else if (at_rhb || at_lrhb)  hblank <= 1'b0;
-
-                // HMOVE's stuffed clocks only count inside this window, which
-                // ends at RHB even when the HMOVE latch holds HBLANK on to LRHB.
-                if (at_shb)                  hb_normal <= 1'b1;
-                else if (q == `TIA_HC_RHB)   hb_normal <= 1'b0;
             end
 
             if (sync_ce) begin

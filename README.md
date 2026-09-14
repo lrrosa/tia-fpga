@@ -336,12 +336,14 @@ Upstream Sim2600 feeds the TIA's Φ2 input from the 6507's Φ1 output, the
 inverse of what the console does. The die only looks at that pin through
 write strobes, so everything still worked, but every write landed on the other
 half of the colour clock from where a real console puts it. With the console's
-wiring (`sim/patches/sim2600-phi2.patch`, traces in `sim/traces/phi2/`), three
+wiring (`sim/patches/sim2600-phi2.patch`, traces in `sim/traces/phi2/`), five
 of the core's timing rules turned out to have been fitted to the wrong side
 and were re-read from the netlist — RSYNC's restart, RDY's release, how
 long a reset holds an object's clock, the size gate of stretched players and
-when HMOVE's comparators see a new value. The core now matches both sets,
-apart from ten half clocks of one HMOVE case that is still open.
+when HMOVE's comparators see a new value. The last mismatch was a mechanism
+no rule had covered: HMOVE pulses in the visible line merge into the object
+clocks and show on the pads half a colour clock early. The core now matches
+both sets on every pin of every trace.
 
 **The board.** `rtl/tia_board.v` is everything between the core and rev A's
 pins: the core's clock from a PLL locked to the console's crystal, Φ2 rebuilt
@@ -387,14 +389,11 @@ machine it is plugged into.
       6507's Φ1; `sim/patches/sim2600-phi2.patch` fixes that and
       `sim/traces/phi2/` holds the re-recorded set
 - [x] Synthesis check: Yosys `synth_gowin` with no warnings — the core is
-      497 flip-flops and 668 LUTs, the whole board top 606 and 683, under
+      514 flip-flops and 695 LUTs, the whole board top 623 and 711, under
       10 per cent of the GW1NR-9 (`fpga/check_synth.py`)
 - [ ] Gowin EDA build and timing closure (`fpga/build_gowin.tcl`, not yet run)
-- [x] Stretched players reset mid-copy, and Cosmic Ark, with the console's
-      wiring
-- [ ] One edge case left with the console's wiring: HMOVE pulses crossing an
-      object in the visible line, ten half clocks of one trace
-      (`sim/README.md`, *Known gaps*)
+- [x] Stretched players reset mid-copy, Cosmic Ark and HMOVE pulses in the
+      visible line, with the console's wiring — every trace matches
 - [ ] Paddle circuit (still needs pins, see above)
 - [ ] `BLK` on pin 6 (also needs a pin; see *Pads and levels*)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to

@@ -55,14 +55,11 @@ luminance, colour, the data bus drivers and both audio pads.
 | `missiles` | widths, copies, RESMP at every player size | 55,887 | match | match |
 | `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 | match | match |
 | `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 | match | match |
-| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | match | 10 differ |
+| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | match | match |
 | `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 | match | match |
 | `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 | match | match |
 | `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 | match | match |
 | `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 | match | match |
-
-The ten half clocks left on `hmove` are one narrow case, still open — see
-*Known gaps*.
 
 The suite reports FAIL on a single mismatched half clock, with no tolerance
 anywhere, so a regression on any pin of any trace shows at once.
@@ -452,13 +449,11 @@ die*
   receives sixteen pulses instead of none.
 - **The motion process runs 12 half clocks behind the horizontal counter.**
   An HMOVE at the start of a line stuffs its pulses 33, 41, … 145 half clocks
-  into it, and they only count inside a window that closes 12 half clocks
-  after RHB. Past it they coincide with MOTCK and are absorbed: an HMOVE in
-  the middle of the visible line moves nothing, and one strobed late in HBLANK
-  loses every pulse past the window — even though the HMOVE latch holds
-  HBLANK on until LRHB. The comparators read the HMxx registers on that later
-  grid, which is why Cosmic Ark's HMM0 write, 139 half clocks into the line,
-  still withholds the missile's last pulse.
+  into it, and they count while HBLANK is on — through the HMOVE latch's
+  extension to LRHB too, since that is when MOTCK is stopped. The comparators
+  read the HMxx registers on that later grid, which is why Cosmic Ark's HMM0
+  write, 139 half clocks into the line, still withholds the missile's last
+  pulse.
 - **The comparators look a little early, and the counter stops at zero.** The
   die catches each compare in a latch on the motion clock and acts on it half
   a count later, so a new HMxx value only counts if it was written a few half
@@ -467,6 +462,18 @@ die*
   cleared, the motion counter sits at zero instead of wrapping round to match
   again, and the missile moves on every line until the next HMOVE — the
   starfield proper.
+- **Past HBLANK a pulse merges into MOTCK, and the pads see it.** The motion
+  clock never stops, and each object's clock is MOTCK OR (its latch AND the
+  motion clock), so in the visible line a pulse fills in a low half of MOTCK.
+  That gains no count — an HMOVE in the middle of the line moves nothing —
+  but Sim2600 settles MOTCK's fall before the motion clock's rise, and in that
+  instant the object's latches step: the probe shows M0's slave latch
+  changing on a half clock that ends with its clock high, which only a
+  momentary low can do. The object shows its next state half a colour clock
+  early, on exactly the half clock the pads latch it, and its next MOTCK
+  finds nothing left to do. That is how a one-pixel missile beside its player
+  vanishes after a mid-line HMOVE, and how Cosmic Ark's moving missile loses
+  or gains a pixel on some lines.
 
 **Audio** — also read off the netlist, then checked tick by tick against the
 die's own divider and counters, not just its pads
@@ -498,12 +505,10 @@ die's own divider and counters, not just its pads
 
 ## Known gaps
 
-- **One case with the console's wiring: HMOVE pulses in the visible line.**
-  The die's motion pulses do not stop at HBLANK; outside it they merge into
-  MOTCK. Where they cross an object being drawn, a missile ends up a pixel
-  off the core's: after an HMOVE strobed in the middle of the line, and on
-  the lines Cosmic Ark keeps its missile moving. Ten half clocks of `hmove`,
-  still unexplained in detail; everything else matches with both wirings.
+- **Merged HMOVE pulses are a race.** On the die MOTCK falls as the motion
+  clock rises; Sim2600 settles the fall first and the core follows it (see
+  *HMOVE*). A real chip may not glitch at all, and no trace reads collisions
+  while a pulse merges.
 - **Whether real chips share the audio channels' asymmetry** (see *Audio*), or
   it came in with the extraction of the netlist. Sim2600 is the only oracle,
   so the core follows it and `tia_audio.v` keeps the difference to one

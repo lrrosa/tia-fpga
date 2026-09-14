@@ -44,7 +44,7 @@ module tia_player (
     input  wire       p1,            // this object's H@1
     input  wire       p2,            // this object's H@2
     input  wire       pa,            // the end of this object's H@1
-    input  wire       motck,         // MOTCK alone, without HMOVE's pulses
+    input  wire       motck,         // this object's MOTCK: merged HMOVE pulses in, stuffed ones out
     input  wire       ce_any,        // either colour clock edge
     input  wire       phase_a,       // this object's H@1, or held there by a reset
     input  wire       phase_b,       // this object's H@2

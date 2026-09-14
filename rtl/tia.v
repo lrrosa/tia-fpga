@@ -227,7 +227,7 @@ module tia (
     end
 
     // ================================================== horizontal counter
-    wire        hblank, hsync, hb_normal, hc_cburst;
+    wire        hblank, hsync, hc_cburst;
     wire        hc_p1, hc_p2, rhb, cntd, cnt_early, aud_a, aud_b, rdy_rel;
     wire        rhb_next, cnt_next;
     wire        hmove_latch;
@@ -246,7 +246,6 @@ module tia (
         .p2          (hc_p2),
         .hsync       (hsync),
         .hblank      (hblank),
-        .hb_normal   (hb_normal),
         .cburst      (hc_cburst),
         .shb         (shb),
         .rdy_rel     (rdy_rel),
@@ -298,15 +297,15 @@ module tia (
     // wrap-around comes from, and it is also what lets HMOVE stuff extra
     // pulses down the same lines without fighting anything.
     //
-    // Those pulses only count inside a window that closes 12 half clocks
-    // after RHB, because the motion process runs that far behind the
-    // horizontal counter; tia_hmove.v gates them. Past it they coincide with
-    // MOTCK and are absorbed: an HMOVE in the middle of the visible line
-    // moves nothing, and one strobed late in HBLANK loses every pulse past the
-    // window -- even while the HMOVE latch is still holding HBLANK on until
-    // LRHB.
+    // Those pulses count while HBLANK is on, the HMOVE latch's extension to
+    // LRHB included. Past it they merge into MOTCK (see tia_hmove.v): no
+    // count, but the object steps on the falling edge the pads take it on,
+    // half a colour clock ahead of its next MOTCK, and that MOTCK is
+    // absorbed. An HMOVE in the middle of the visible line moves nothing, yet
+    // at every one of its pulses the pads see the object a step ahead.
     wire       motck = ce_rise & ~hblank;
-    wire [4:0] stuff;
+    wire [4:0] stuff, merge;
+    wire       hblank_next = shb ? 1'b1 : rhb ? 1'b0 : hblank;
 
     tia_hmove u_hmove (
         .clk         (clk),
@@ -315,7 +314,7 @@ module tia (
         .p1          (hc_p1),
         .p2          (hc_p2),
         .shb         (shb),
-        .hb_normal   (hb_normal),
+        .hblank_next (hblank_next),
         .hmove       (hmove_s),
         .hmp0        (hmp0),
         .hmp1        (hmp1),
@@ -323,14 +322,24 @@ module tia (
         .hmm1        (hmm1),
         .hmbl        (hmbl),
         .hmove_latch (hmove_latch),
-        .stuff       (stuff)
+        .stuff       (stuff),
+        .merge       (merge)
     );
 
-    wire ce_p0 = motck | stuff[4];
-    wire ce_p1 = motck | stuff[3];
-    wire ce_m0 = motck | stuff[2];
-    wire ce_m1 = motck | stuff[1];
-    wire ce_bl = motck | stuff[0];
+    // Each object's own MOTCK: a merged pulse steps it early, and the MOTCK
+    // after it is absorbed.
+    reg  [4:0] merged;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)  merged <= 5'd0;
+        else         merged <= merge | (motck ? 5'd0 : merged);
+    end
+    wire [4:0] mot_obj = ({5{motck}} & ~merged) | merge;
+
+    wire ce_p0 = mot_obj[4] | stuff[4];
+    wire ce_p1 = mot_obj[3] | stuff[3];
+    wire ce_m0 = mot_obj[2] | stuff[2];
+    wire ce_m1 = mot_obj[1] | stuff[1];
+    wire ce_bl = mot_obj[0] | stuff[0];
 
     // ============================================================== objects
     wire p0_p1, p0_p2, p1_p1, p1_p2;
@@ -384,7 +393,7 @@ module tia (
     wire px_p0, px_p1, px_m0, px_m1, px_bl, px_pf;
 
     tia_player u_p0 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .motck (motck), .ce_any (ce_any), .phase_a (p0_phase_a), .phase_b (p0_phase_b),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .motck (mot_obj[4]), .ce_any (ce_any), .phase_a (p0_phase_a), .phase_b (p0_phase_b),
         .dec_close (p0_close), .dec_med (p0_med),
         .dec_far (p0_far), .dec_main (p0_main),
         .nusiz (nusiz0), .reflect (refp0), .vdel (vdelp0),
@@ -392,7 +401,7 @@ module tia (
         .pixel (px_p0), .scan_pos (p0_scan), .fstob (p0_fstob));
 
     tia_player u_p1 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .motck (motck), .ce_any (ce_any), .phase_a (p1_phase_a), .phase_b (p1_phase_b),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .motck (mot_obj[3]), .ce_any (ce_any), .phase_a (p1_phase_a), .phase_b (p1_phase_b),
         .dec_close (p1_close), .dec_med (p1_med),
         .dec_far (p1_far), .dec_main (p1_main),
         .nusiz (nusiz1), .reflect (refp1), .vdel (vdelp1),
@@ -466,18 +475,31 @@ module tia (
     // shows them on the same half clock. Latching those too puts the
     // playfield one colour clock right of the die and lets the last pixel of
     // every line leak one colour clock into HBLANK.
+    //
+    // An object that takes a merged HMOVE pulse steps on that same falling
+    // edge, and the die's pads already show the step; its pixel is taken one
+    // system clock later, once the step has happened.
     reg        p0_q, p1_q, m0_q, m1_q, bl_q;
     reg  [7:0] colup0_q, colup1_q, colupf_q, colubk_q;
     reg        score_q, pfp_q;
+    reg  [4:0] merge_d;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             p0_q <= 1'b0; p1_q <= 1'b0; m0_q <= 1'b0; m1_q <= 1'b0; bl_q <= 1'b0;
             colup0_q <= 8'h00; colup1_q <= 8'h00; colupf_q <= 8'h00; colubk_q <= 8'h00;
             score_q <= 1'b0; pfp_q <= 1'b0;
-        end else if (ce_fall) begin
-            p0_q <= px_p0; p1_q <= px_p1; m0_q <= px_m0; m1_q <= px_m1; bl_q <= px_bl;
-            colup0_q <= colup0; colup1_q <= colup1; colupf_q <= colupf; colubk_q <= colubk;
-            score_q <= ctrlpf[1]; pfp_q <= ctrlpf[2];
+            merge_d <= 5'd0;
+        end else begin
+            merge_d <= merge;
+            if (ce_fall) begin
+                colup0_q <= colup0; colup1_q <= colup1; colupf_q <= colupf; colubk_q <= colubk;
+                score_q <= ctrlpf[1]; pfp_q <= ctrlpf[2];
+            end
+            if (ce_fall ? !merge[4] : merge_d[4]) p0_q <= px_p0;
+            if (ce_fall ? !merge[3] : merge_d[3]) p1_q <= px_p1;
+            if (ce_fall ? !merge[2] : merge_d[2]) m0_q <= px_m0;
+            if (ce_fall ? !merge[1] : merge_d[1]) m1_q <= px_m1;
+            if (ce_fall ? !merge[0] : merge_d[0]) bl_q <= px_bl;
         end
     end
 

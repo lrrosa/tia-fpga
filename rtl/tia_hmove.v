@@ -31,8 +31,7 @@
 // TIMING, read off the netlist Sim2600 simulates. The motion counter, the
 // comparators and the pulses run 12 half clocks -- a count and a half --
 // behind the horizontal counter's own H@1 and H@2. An HMOVE at the start of a
-// line stuffs its pulses 33, 41, ... 145 half clocks into it, and the window
-// in which they count closes 12 half clocks after RHB. Everything that
+// line stuffs its pulses 33, 41, ... 145 half clocks into it. Everything that
 // decides a pulse happens on that later grid, and the HMxx registers are read
 // as they stand at the time.
 //
@@ -47,6 +46,20 @@
 // Sim2600's wiring of CLK2, in time to stop the missile; with the console's it
 // lands at 142, too late, and the missile keeps moving.
 //
+// MERGED PULSES. A pulse counts while HBLANK is on, through the HMOVE latch's
+// extension to LRHB as well, because only then is MOTCK stopped. The motion
+// clock itself never stops, and each object's clock on the die is MOTCK OR
+// (its latch AND the motion clock), so past HBLANK a pulse lands across a low
+// half of MOTCK and fills it in. That gains no count -- an HMOVE in the
+// visible line moves nothing -- but Sim2600 settles MOTCK's fall before the
+// motion clock's rise, and in that instant the object's latches step: half a
+// colour clock early, so the MOTCK edge that follows finds nothing to do. The
+// pads latch objects on exactly that half clock and show the object one step
+// ahead there. A missile's only pixel vanishes, or a wider one loses or gains
+// a pixel, which is part of what Cosmic Ark's moving missile looks like.
+// Whether a real chip glitches the same way turns on which of the two clocks
+// wins; this core follows the simulated die.
+//
 // The HBLANK extension is not delayed. It follows the strobe, and is cleared
 // when the horizontal counter wraps, so an HMOVE late in the line stuffs
 // clocks without producing a comb.
@@ -58,7 +71,7 @@ module tia_hmove (
     input  wire        p1,            // H@1 of the horizontal counter
     input  wire        p2,            // H@2 of the horizontal counter
     input  wire        shb,           // horizontal counter wrapped
-    input  wire        hb_normal,     // HBLANK as it would be without HMOVE
+    input  wire        hblank_next,   // HBLANK as it stands after this half clock
 
     input  wire        hmove,         // HMOVE strobe
 
@@ -69,31 +82,29 @@ module tia_hmove (
     input  wire [3:0]  hmbl,
 
     output reg         hmove_latch,   // extend HBLANK to the LRHB decode
-    output wire [4:0]  stuff          // P0 P1 M0 M1 BL: pulses that count
+    output wire [4:0]  stuff,         // P0 P1 M0 M1 BL: pulses that count
+    output wire [4:0]  merge          // pulses MOTCK absorbs, as the pads see them
 );
 
     // ------------------------------------------------ the later motion grid
     localparam DELAY = 12;            // half clocks
 
-    reg [DELAY-1:0] p1_sr, p2_sr, hmove_sr, window_sr;
+    reg [DELAY-1:0] p1_sr, p2_sr, hmove_sr;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            p1_sr     <= {DELAY{1'b0}};
-            p2_sr     <= {DELAY{1'b0}};
-            hmove_sr  <= {DELAY{1'b0}};
-            window_sr <= {DELAY{1'b0}};
+            p1_sr    <= {DELAY{1'b0}};
+            p2_sr    <= {DELAY{1'b0}};
+            hmove_sr <= {DELAY{1'b0}};
         end else if (ce_edge) begin
-            p1_sr     <= { p1_sr[DELAY-2:0],     p1 };
-            p2_sr     <= { p2_sr[DELAY-2:0],     p2 };
-            hmove_sr  <= { hmove_sr[DELAY-2:0],  hmove };
-            window_sr <= { window_sr[DELAY-2:0], hb_normal };
+            p1_sr    <= { p1_sr[DELAY-2:0],    p1 };
+            p2_sr    <= { p2_sr[DELAY-2:0],    p2 };
+            hmove_sr <= { hmove_sr[DELAY-2:0], hmove };
         end
     end
 
     wire m_p1    = ce_edge & p1_sr[DELAY-1];
     wire m_p2    = ce_edge & p2_sr[DELAY-1];
     wire m_hmove = ce_edge & hmove_sr[DELAY-1];
-    wire window  = window_sr[DELAY-1];
 
     // ----------------------------------------------- counter and comparators
     reg [3:0] cnt;
@@ -128,7 +139,19 @@ module tia_hmove (
     // value is -8 (a count of zero) never receives one.
     wire [4:0] still = more & ~hit;
 
-    assign stuff = {5{m_p1 & window}} & still;
+    // m_p1 falls on an H@2 of the horizontal counter, where HBLANK changes,
+    // so HBLANK as it stands after this half clock decides the whole pulse:
+    // stuffed while it is on, merged into MOTCK once it is off.
+    assign stuff = {5{m_p1 &  hblank_next}} & still;
+    wire [4:0] merge_now = {5{m_p1 & ~hblank_next}} & still;
+
+    // The pads take a merged pulse four half clocks after this grid does.
+    reg [19:0] merge_sr;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)        merge_sr <= 20'd0;
+        else if (ce_edge)  merge_sr <= {merge_sr[14:0], merge_now};
+    end
+    assign merge = {5{ce_edge}} & merge_sr[19:15];
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
