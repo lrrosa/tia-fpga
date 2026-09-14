@@ -57,8 +57,11 @@ straight from the FPGA to the socket pins — no level translator in the path,
 because they feed resistor networks rather than logic inputs. That turned out
 to be only half the story: see *Pads and levels* below.
 
-Pin 6 (`BLK`) is not connected on the CX-2600A. Pin 10 (`DEL`) is the colour
-trim pot, which has no function in a replacement. Both are marked no-connect.
+Pin 6 (`BLK`) and pin 10 (`DEL`) are marked no-connect. `DEL` is the colour
+trim pot, which has no function in a replacement. `BLK` is only unused on
+revisions 14 and 15 of the 2600A; the original 2600 and later 2600As wire it
+into the colour network, and rev A has no pin left for it — see *Pads and
+levels*.
 
 Neither of the 245's control lines comes from the FPGA. The A side faces the
 FPGA, so `DIR` can be driven straight from the buffered R/W (`DIR`=1, a read,
@@ -224,29 +227,45 @@ existing video path does the rest.
   not a clash.
 - The four paddle inputs still do not fit — see the pin budget above.
 - No ground pour on F.Cu; only B.Cu is poured.
-- The video and sound pins do not reproduce the TIA's levels — see *Pads and
-  levels*.
+- The video and sound pins do not reproduce the TIA's levels, and pin 6
+  (`BLK`) is left open, which makes the colour burst too strong on the
+  original 2600 and on 2600As from rev 16 — see *Pads and levels*.
 
 ### Pads and levels
 
 Reading the die's netlist for the RTL settled something the schematic had
 assumed. **Every video and sound pad on the TIA — SYNC, LUM0–2, COL, AUD0,
 AUD1, and BLK and RDY too — is a pull-down transistor and nothing else.** None
-of them can drive high; the console supplies the pull-ups (3.3 kΩ on the luma
-lines, by the accounts of people who restore these consoles). Φ0 is the only
-output with a real driver on both sides.
+of them can drive high. Φ0 is the only output with a real driver on both
+sides.
 
-That has three consequences for rev A:
+The console schematics show the other half:
+
+| | 2600A, rev 16 | 2600 (the original board) |
+|---|---|---|
+| LUM0–2, SYNC | R218–R221, 3.3–4.7 kΩ to +5 V, straight into the summing resistors (R214–R217: 27, 47, 110, 24 kΩ) | R218–R221, 3.3 kΩ to +5 V, into a CD4050 run from a divider off +5 V (R231, R232: about 3.6 V), then the summing resistors (R222–R224, R234: 12, 24, 47, 10 kΩ) |
+| COL | R228, 1 kΩ to +5 V; C210, 47 pF, to a second 1 kΩ pull-up (R211); 6.8 kΩ and 22 pF into the sum | R212, 1 kΩ to +5 V; C212, 47 pF, to a second 1 kΩ pull-up (R214); 22 pF and 6.8 kΩ into the sum |
+| BLK | R234, 820 Ω, into the COL node (revs 14 and 15: not connected) | R213, 680 Ω, into the COL node |
+| AUD0, AUD1 | joined; R206, 1 kΩ to +5 V; 0.1 µF and 18 kΩ into the sound oscillator | joined; R208, 1 kΩ to +5 V; the same coupling |
+
+PAL consoles use a different TIA (C011903): one sound pad, AUD on pin 13 with
+its own 1 kΩ pull-up, while pins 12 and 8 carry the PAL signals. This board is
+for the NTSC chip.
+
+That has four consequences for rev A:
 
 - **Levels.** The FPGA drives these pins push-pull at 3.3 V. That keeps its
-  pins inside their ratings — the console's pull-ups push a little current back
-  into the 3.3 V rail, and nothing climbs above it — but "high" becomes 3.3 V
-  rather than wherever the console's pull-up would take the line, so the video
-  levels will not be the original ones. Letting the pins float instead would
-  give the right levels and put 5 V on 3.3 V inputs. **Rev B should put a
-  74LVC07A** — open-drain outputs, 5 V tolerant — between the FPGA and these
-  socket pins; the RTL already treats them as open-drain pad levels and would
-  not change.
+  pins inside their ratings — the pull-ups push current back into the 3.3 V
+  rail, about 1.7 mA from the 1 kΩ on the sound pins and under 5 mA in all,
+  and nothing climbs above 3.3 V — but "high" becomes 3.3 V rather than the
+  5 V the pull-up would give. On the original 2600 that only matters for
+  colour and sound, since its CD4050 runs from about 3.6 V, reads 3.3 V as a
+  solid high and sets the luma levels itself; on a 2600A it shifts the luma
+  levels as well. Letting the pins
+  float instead would give the right levels and put 5 V on 3.3 V inputs.
+  **Rev B should put a 74LVC07A** — open-drain outputs, 5 V tolerant — between
+  the FPGA and these socket pins; the RTL already treats them as open-drain
+  pad levels and would not change.
 - **The two sound pins are joined.** On an unmodified 2600 a trace ties AUD0
   and AUD1 together. Two push-pull pins driving different waveforms into that
   trace would short against each other, so by default `tia_board.v` puts the
@@ -254,17 +273,35 @@ That has three consequences for rev A:
   for stereo, `AUDIO_STEREO = 1` gives each pin its own channel, in
   non-overlapping halves of the pulse frame so the two still add correctly
   wherever they meet through open-drain buffers.
-- **The standalone network is wrong.** R5–R8 are drawn as 3.3 kΩ to ground.
-  For pads that can only pull down, those should be pull-ups. This only affects
-  breadboard use — in a console R1–R9 stay unfitted — and it should be checked
-  against the console schematic before rev B changes it.
+- **Pin 6 is open.** `BLK` pulls down for the whole blanking interval, and on
+  the original 2600 (through 680 Ω) and the 2600A from rev 16 (820 Ω) it drags
+  the colour node down with it: against the 1 kΩ pull-up that node only
+  reaches about 2 V while blanking, instead of 5 V. The only colour sent in
+  blanking is the burst, so those consoles give the burst well under half the
+  swing of the picture's colour. With pin 6 open the burst gets the full
+  swing, and a TV that sets its colour gain from the burst turns the picture's
+  colour down to match — paler colours. On revs 14 and 15 of the 2600A `BLK`
+  is not connected, so there it makes no difference. Rev B should give `BLK`
+  a pin, open-drain like the others. On rev A, `tia_board.v` could weaken the
+  burst instead by narrowing its pulses, since the colour network is
+  AC-coupled; that is not done or tested.
+- **The standalone network is wrong.** R1–R8 copy Atari's CX-2600A service
+  drawing of 1982 — 27, 56, 27 and 110 kΩ into the video sum, and a 3.3 kΩ
+  resistor on each line — but R5–R8 go to ground, where every drawing has
+  them as pull-ups to +5 V. The 2600A boards themselves (revs 14 to 16) use
+  24 and 47 kΩ where that drawing has 27 and 56, for SYNC and LUM1. R9 feeds
+  COL straight into the sum through 9.1 kΩ, where every drawing AC-couples it
+  (1 kΩ pull-up, 47 pF, a second 1 kΩ pull-up, then 6.8 kΩ and 22 pF). This
+  only affects breadboard use — in a console R1–R9 stay unfitted — but rev B
+  should copy one board revision's network whole, `BLK` resistor included.
 
 ## Two ways to use this
 
 **Reviving a dead console.** Pull the failed TIA, drop this in its socket, and
 keep the 2600's own RF modulator or composite mod. Chroma, luma, sync and audio
-all come out of the socket pins exactly as the original chip drove them, so the
-console's video path is untouched. Leave R1–R9 unpopulated.
+come out on the same socket pins the original chip used, so the console's video
+path is untouched — with the differences in level, and the open `BLK` pin,
+described under *Pads and levels*. Leave R1–R9 unpopulated.
 
 **As a development target.** Plug it into a breadboard next to a real 6507 and
 take colour video out of the Tang Nano's HDMI connector instead — that costs no
@@ -301,9 +338,10 @@ write strobes, so everything still worked, but every write landed on the other
 half of the colour clock from where a real console puts it. With the console's
 wiring (`sim/patches/sim2600-phi2.patch`, traces in `sim/traces/phi2/`), three
 of the core's timing rules turned out to have been fitted to the wrong side
-and were re-read from the netlist — RSYNC's restart, RDY's release and how
-long a reset holds an object's clock. The core now matches both sets, apart
-from a few dozen half clocks in two narrow cases that are still open.
+and were re-read from the netlist — RSYNC's restart, RDY's release, how
+long a reset holds an object's clock, the size gate of stretched players and
+when HMOVE's comparators see a new value. The core now matches both sets,
+apart from ten half clocks of one HMOVE case that is still open.
 
 **The board.** `rtl/tia_board.v` is everything between the core and rev A's
 pins: the core's clock from a PLL locked to the console's crystal, Φ2 rebuilt
@@ -349,13 +387,16 @@ machine it is plugged into.
       6507's Φ1; `sim/patches/sim2600-phi2.patch` fixes that and
       `sim/traces/phi2/` holds the re-recorded set
 - [x] Synthesis check: Yosys `synth_gowin` with no warnings — the core is
-      457 flip-flops and 649 LUTs, the whole board top 566 and 678, under
-      9 per cent of the GW1NR-9 (`fpga/check_synth.py`)
+      497 flip-flops and 668 LUTs, the whole board top 606 and 683, under
+      10 per cent of the GW1NR-9 (`fpga/check_synth.py`)
 - [ ] Gowin EDA build and timing closure (`fpga/build_gowin.tcl`, not yet run)
-- [ ] A few edge cases with the console's wiring: double- and quad-size players
-      reset while they are being drawn, and HMOVE strobed mid-line
+- [x] Stretched players reset mid-copy, and Cosmic Ark, with the console's
+      wiring
+- [ ] One edge case left with the console's wiring: HMOVE pulses crossing an
+      object in the visible line, ten half clocks of one trace
       (`sim/README.md`, *Known gaps*)
 - [ ] Paddle circuit (still needs pins, see above)
+- [ ] `BLK` on pin 6 (also needs a pin; see *Pads and levels*)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to
       synthesise the 15 subcarrier phases)
 

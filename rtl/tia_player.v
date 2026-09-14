@@ -17,22 +17,25 @@
 // And from the traces:
 //
 //  - Double- and quad-size players start ANOTHER colour clock later than
-//    single-size ones, and their first pixel is as wide as the rest. Their
-//    scan counter is clocked from the object's two-phase lines -- both of
-//    them for 2x, H@1 alone for 4x -- and the extra colour clock is what puts
-//    the start on H@1, so the first stretched pixel is not cut short.
+//    single-size ones, and their first pixel is as wide as the rest. In
+//    steady state their scan counter steps with the object's two-phase lines
+//    -- both of them for 2x, H@1 alone for 4x -- and the extra colour clock
+//    is what keeps the first stretched pixel from being cut short.
 //
 // And from the netlist:
 //
-//  - The die's scan counter counts every colour clock, and for stretched
-//    players a gate holds it back. The gate sees NUSIZ two colour clocks
-//    after it is written, so a size change in the middle of a copy stretches
-//    it from a pixel later than the register alone would.
+//  - The die's scan counter is clocked by MOTCK, and for stretched players a
+//    gate holds it back. The gate is the object's two-phase state -- blocking
+//    in neither phase for 2x, outside H@2 for 4x -- caught by a pair of
+//    latches on MOTCK, so a MOTCK edge steps the counter only if the object
+//    was unblocked at the MOTCK before it. Through HBLANK, where MOTCK stops,
+//    the pair keeps what it had.
 //
-//  - A RESPn strobe holds the object's two-phase clock in H@1 (tia_objcnt.v).
-//    For a double-size player that leaves the gate nothing to block on the
-//    colour clock after the hold, so the scan counter takes a step there that
-//    a counter clocked from H@1 and H@2 alone would miss.
+//  - A RESPn strobe holds the object's two-phase clock in H@1 (tia_objcnt.v),
+//    which opens a double-size player's gate and closes a quad-size one's.
+//    Reset a stretched copy while it is being drawn and some of its pixels
+//    come out short -- one with Sim2600's wiring of CLK2, three with the
+//    console's, where the hold covers two MOTCKs.
 
 module tia_player (
     input  wire       clk,
@@ -41,7 +44,10 @@ module tia_player (
     input  wire       p1,            // this object's H@1
     input  wire       p2,            // this object's H@2
     input  wire       pa,            // the end of this object's H@1
-    input  wire       after_hold,    // the first clock after a reset's hold
+    input  wire       motck,         // MOTCK alone, without HMOVE's pulses
+    input  wire       ce_any,        // either colour clock edge
+    input  wire       phase_a,       // this object's H@1, or held there by a reset
+    input  wire       phase_b,       // this object's H@2
 
     input  wire       dec_close,
     input  wire       dec_med,
@@ -105,22 +111,29 @@ module tia_player (
             fstob <= 1'b1;
     end
 
-    // Stretch: 4x lets one clock through every four, 2x one every two plus
-    // the one a reset's hold leaves unblocked. The size is the one written two
-    // object colour clocks ago.
-    reg [2:0] nusiz_d1, nusiz_d2;
+    // The size gate. The size is taken two half clocks late, which puts a
+    // NUSIZ write on the same grid as the object's two-phase clock here.
+    reg [2:0] size_1, size_2;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            nusiz_d1 <= 3'd0;
-            nusiz_d2 <= 3'd0;
-        end else if (ce) begin
-            nusiz_d1 <= nusiz;
-            nusiz_d2 <= nusiz_d1;
+            size_1 <= 3'd0;
+            size_2 <= 3'd0;
+        end else if (ce_any) begin
+            size_1 <= nusiz;
+            size_2 <= size_1;
         end
     end
 
-    wire scan_ce = (nusiz_d2 == 3'b111) ? p1 :
-                   (nusiz_d2 == 3'b101) ? (p1 | p2 | after_hold) : ce;
+    wire block = (size_2 == 3'b111) ? ~phase_b :
+                 (size_2 == 3'b101) ? ~(phase_a | phase_b) : 1'b0;
+
+    reg gate;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)      gate <= 1'b0;
+        else if (motck)  gate <= block;
+    end
+
+    wire scan_ce = ce & ~gate;
 
     reg [2:0] scan;
     reg       scan_en;

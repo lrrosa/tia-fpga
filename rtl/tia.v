@@ -336,7 +336,7 @@ module tia (
     wire p0_p1, p0_p2, p1_p1, p1_p2;
     wire p0_pa, p1_pa, m0_pa, m1_pa;
     wire [1:0] m0_ph, m1_ph, bl_ph;
-    wire p0_after_hold, p1_after_hold;
+    wire p0_phase_a, p0_phase_b, p1_phase_a, p1_phase_b;
     wire m0_p2, m1_p2, bl_p2;
     wire p0_close, p0_med, p0_far, p0_main;
     wire p1_close, p1_med, p1_far, p1_main;
@@ -355,36 +355,36 @@ module tia (
         .clk (clk), .rst_n (rst_n), .ce (ce_p0), .ce_free (ce_rise), .ce_any (ce_any), .reset (resp0_s), .lock (1'b0),
         .q (), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .ph (),
         .dec_close (p0_close), .dec_med (p0_med),
-        .dec_far (p0_far), .dec_main (p0_main), .clear_now (), .after_hold (p0_after_hold));
+        .dec_far (p0_far), .dec_main (p0_main), .clear_now (), .phase_a (p0_phase_a), .phase_b (p0_phase_b));
 
     tia_objcnt u_p1_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_p1), .ce_free (ce_rise), .ce_any (ce_any), .reset (resp1_s), .lock (1'b0),
         .q (), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .ph (),
         .dec_close (p1_close), .dec_med (p1_med),
-        .dec_far (p1_far), .dec_main (p1_main), .clear_now (), .after_hold (p1_after_hold));
+        .dec_far (p1_far), .dec_main (p1_main), .clear_now (), .phase_a (p1_phase_a), .phase_b (p1_phase_b));
 
     tia_objcnt u_m0_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_m0), .ce_free (ce_rise), .ce_any (ce_any), .reset (resm0_s), .lock (m0_lock),
         .q (), .p1 (), .p2 (m0_p2), .pa (m0_pa), .ph (m0_ph),
         .dec_close (m0_close), .dec_med (m0_med),
-        .dec_far (m0_far), .dec_main (m0_main), .clear_now (), .after_hold ());
+        .dec_far (m0_far), .dec_main (m0_main), .clear_now (), .phase_a (), .phase_b ());
 
     tia_objcnt u_m1_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_m1), .ce_free (ce_rise), .ce_any (ce_any), .reset (resm1_s), .lock (m1_lock),
         .q (), .p1 (), .p2 (m1_p2), .pa (m1_pa), .ph (m1_ph),
         .dec_close (m1_close), .dec_med (m1_med),
-        .dec_far (m1_far), .dec_main (m1_main), .clear_now (), .after_hold ());
+        .dec_far (m1_far), .dec_main (m1_main), .clear_now (), .phase_a (), .phase_b ());
 
     tia_objcnt u_bl_cnt (
         .clk (clk), .rst_n (rst_n), .ce (ce_bl), .ce_free (ce_rise), .ce_any (ce_any), .reset (resbl_s), .lock (1'b0),
         .q (), .p1 (), .p2 (bl_p2), .pa (), .ph (bl_ph),
         .dec_close (), .dec_med (), .dec_far (), .dec_main (),
-        .clear_now (bl_clear_now), .after_hold ());
+        .clear_now (bl_clear_now), .phase_a (), .phase_b ());
 
     wire px_p0, px_p1, px_m0, px_m1, px_bl, px_pf;
 
     tia_player u_p0 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .after_hold (p0_after_hold),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p0), .p1 (p0_p1), .p2 (p0_p2), .pa (p0_pa), .motck (motck), .ce_any (ce_any), .phase_a (p0_phase_a), .phase_b (p0_phase_b),
         .dec_close (p0_close), .dec_med (p0_med),
         .dec_far (p0_far), .dec_main (p0_main),
         .nusiz (nusiz0), .reflect (refp0), .vdel (vdelp0),
@@ -392,7 +392,7 @@ module tia (
         .pixel (px_p0), .scan_pos (p0_scan), .fstob (p0_fstob));
 
     tia_player u_p1 (
-        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .after_hold (p1_after_hold),
+        .clk (clk), .rst_n (rst_n), .ce (ce_p1), .p1 (p1_p1), .p2 (p1_p2), .pa (p1_pa), .motck (motck), .ce_any (ce_any), .phase_a (p1_phase_a), .phase_b (p1_phase_b),
         .dec_close (p1_close), .dec_med (p1_med),
         .dec_far (p1_far), .dec_main (p1_main),
         .nusiz (nusiz1), .reflect (refp1), .vdel (vdelp1),

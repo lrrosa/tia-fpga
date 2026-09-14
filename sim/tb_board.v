@@ -133,7 +133,7 @@ module tb_board;
         if ({burst_q2, hue_q2} != last_state) steady = 0;
         else                                  steady = steady + 1;
         last_state = {burst_q2, hue_q2};
-        if (burst_q2 || hue_q2 != 4'd0) n_colour = n_colour + 1;
+        if (!burst_q2 && hue_q2 != 4'd0) n_colour = n_colour + 1;
 
         if (!burst_q2 && hue_q2 == 4'd0 && col !== 2'b11)
             m_leak = m_leak + 1;

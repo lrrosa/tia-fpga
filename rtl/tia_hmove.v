@@ -36,13 +36,16 @@
 // decides a pulse happens on that later grid, and the HMxx registers are read
 // as they stand at the time.
 //
-// That is what Cosmic Ark relies on. Its HMM0 write lands 139 half clocks into
-// the line: after the last pulse the horizontal counter's phases alone would
-// give, but before the die's, whose comparator sees the new value in time to
-// withhold it. Write an HMxx value such that no remaining counter state ever
-// satisfies the comparator and the latch is never cleared at all: the object
-// then keeps getting a pulse every 4 CLK until the next HMOVE -- the
-// starfield.
+// That is what Cosmic Ark relies on. Write an HMxx value such that no
+// remaining counter state satisfies the comparator, and the latch is never
+// cleared: the counter stops at zero rather than wrapping, so the object keeps
+// getting a pulse every 4 CLK until the next HMOVE -- the starfield. Whether a
+// given write makes it depends on when the comparator looks. The die catches
+// the compare in a latch on the motion clock and passes it on half a count
+// later, so here the comparators see HMxx as it stood a few half clocks before
+// the pulse. Cosmic Ark's HMM0 write lands 139 half clocks into the line with
+// Sim2600's wiring of CLK2, in time to stop the missile; with the console's it
+// lands at 142, too late, and the missile keeps moving.
 //
 // The HBLANK extension is not delayed. It follows the strobe, and is cleared
 // when the horizontal counter wraps, so an HMOVE late in the line stuffs
@@ -106,11 +109,20 @@ module tia_hmove (
         end
     endfunction
 
-    wire [4:0] hit = { (cnt == stop_at(hmp0)),
-                       (cnt == stop_at(hmp1)),
-                       (cnt == stop_at(hmm0)),
-                       (cnt == stop_at(hmm1)),
-                       (cnt == stop_at(hmbl)) };
+    // HMxx as the comparators see it, two half clocks behind: a write counts
+    // at a compare only if it came three or more half clocks before it.
+    reg [39:0] hm_sr;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)        hm_sr <= 40'd0;
+        else if (ce_edge)  hm_sr <= {hm_sr[19:0], hmp0, hmp1, hmm0, hmm1, hmbl};
+    end
+    wire [19:0] hm_seen = hm_sr[39:20];
+
+    wire [4:0] hit = { (cnt == stop_at(hm_seen[19:16])),
+                       (cnt == stop_at(hm_seen[15:12])),
+                       (cnt == stop_at(hm_seen[11:8])),
+                       (cnt == stop_at(hm_seen[7:4])),
+                       (cnt == stop_at(hm_seen[3:0])) };
 
     // The compare is sampled before the pulse goes out, so an object whose
     // value is -8 (a count of zero) never receives one.
@@ -141,7 +153,7 @@ module tia_hmove (
                 armed <= 1'b0;
             end
 
-            if (m_p2 && !m_hmove && !armed)
+            if (m_p2 && !m_hmove && !armed && cnt != 4'd0)
                 cnt <= cnt - 4'd1;
         end
     end

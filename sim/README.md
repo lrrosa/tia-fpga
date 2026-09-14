@@ -51,18 +51,18 @@ luminance, colour, the data bus drivers and both audio pads.
 | `local/donkeykong-boot-to-picture` | a real game, power-on to its first picture | 51,657 | match | match |
 | `local/donkeykong-power-on` | the first 6,000 half clocks, both RSYNCs | 3,657 | match | — |
 | `playfield` | every CTRLPF mode, mid-line PF writes | 54,063 | match | match |
-| `players` | every NUSIZ mode at all four sub-count phases | 46,767 | match | 14 differ |
+| `players` | every NUSIZ mode at all four sub-count phases | 46,767 | match | match |
 | `missiles` | widths, copies, RESMP at every player size | 55,887 | match | match |
 | `ball` | widths at every phase, RESBL retriggering, VDELBL | 44,031 | match | match |
 | `collisions` | everything overlapping, all eight CX reads, input ports | 34,911 | match | match |
-| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | match | 30 differ |
-| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 | match | 50 differ |
+| `hmove` | all sixteen values, HMOVE late and mid-line, Cosmic Ark | 28,983 | match | 10 differ |
+| `resets_hblank` | RESP0 at three sizes, RESM0 and RESBL, at every phase of HBLANK | 85,071 | match | match |
 | `vdel` | VDELP0 and VDELP1 in all four combinations | 17,583 | match | match |
 | `audio` | the volume DAC, and every AUDC mode on both channels | 90,543 | match | match |
 | `audio_modes` | each AUDC mode for 80 ticks, the 9-bit polynomial for a whole period, the divider | 457,167 | match | match |
 
-The console-wired mismatches are all luminance and colour, in two narrow cases
-that are still open — see *Known gaps*.
+The ten half clocks left on `hmove` are one narrow case, still open — see
+*Known gaps*.
 
 The suite reports FAIL on a single mismatched half clock, with no tolerance
 anywhere, so a regression on any pin of any trace shows at once.
@@ -139,8 +139,10 @@ clock: each write strobe on the die is high for the three half clocks CLK2 is
 low after the write, and with the wiring flipped those three half clocks sit
 on the other side of PH0 and start on the other edge of the colour clock. Any
 rule this core had fitted from one wiring alone could have been fitted to the
-wrong side, and three were: RSYNC's restart, RDY's release, and how long a
-reset holds an object's clock (all below, as read off the netlist).
+wrong side, and several were: RSYNC's restart, RDY's release, how long a
+reset holds an object's clock, the size gate of stretched players, and when
+HMOVE's comparators see a new HMxx value (all below, as read off the
+netlist).
 
 `sim2600-phi2.patch` takes CLK2 from CLK2OUT, and updates it at the start of
 each half clock, before the bus, because on the console Φ2 falls before the
@@ -434,10 +436,12 @@ die*
   single-size ones**, and their first stretched pixel is as wide as the rest.
   The scan counter itself counts every colour clock, behind a gate that holds
   it back after a half clock in neither phase (2×) or in anything but H@2
-  (4×). The gate sees NUSIZ two colour clocks after it is written, and a
-  reset's hold opens it: reset a double-size copy while it is being drawn and
-  one of its pixels comes out half width with Sim2600's wiring, three with the
-  console's.
+  (4×). The gate is the object's two-phase state caught by a pair of latches
+  on MOTCK — the same latches START goes through — so it holds its value
+  through HBLANK and follows a NUSIZ write one MOTCK late. A reset's hold reads
+  as H@1, which opens a double-size player's gate and closes a quad-size
+  one's: reset a stretched copy while it is being drawn and one of its pixels
+  comes out half width with Sim2600's wiring, three with the console's.
 - **RESMP's lock is decoded at scan position 1** of the player's main copy.
 
 **HMOVE**
@@ -455,6 +459,14 @@ die*
   HBLANK on until LRHB. The comparators read the HMxx registers on that later
   grid, which is why Cosmic Ark's HMM0 write, 139 half clocks into the line,
   still withholds the missile's last pulse.
+- **The comparators look a little early, and the counter stops at zero.** The
+  die catches each compare in a latch on the motion clock and acts on it half
+  a count later, so a new HMxx value only counts if it was written a few half
+  clocks before the compare. With the console's wiring Cosmic Ark's write
+  lands at 142 half clocks, just too late: the missile's latch is never
+  cleared, the motion counter sits at zero instead of wrapping round to match
+  again, and the missile moves on every line until the next HMOVE — the
+  starfield proper.
 
 **Audio** — also read off the netlist, then checked tick by tick against the
 die's own divider and counters, not just its pads
@@ -486,12 +498,12 @@ die's own divider and counters, not just its pads
 
 ## Known gaps
 
-- **Two cases with the console's wiring.** A double- or quad-size player reset
-  while one of its copies is being drawn (`players`, `resets_hblank`): the
-  hold opens the size gate for longer than the core lets its scan counter
-  step. And HMOVE strobed in the middle of the line, or an HMxx write during
-  the move (`hmove`). Both still match with Sim2600's wiring; together they
-  are 94 half clocks out of about 160,000 scored on those three traces.
+- **One case with the console's wiring: HMOVE pulses in the visible line.**
+  The die's motion pulses do not stop at HBLANK; outside it they merge into
+  MOTCK. Where they cross an object being drawn, a missile ends up a pixel
+  off the core's: after an HMOVE strobed in the middle of the line, and on
+  the lines Cosmic Ark keeps its missile moving. Ten half clocks of `hmove`,
+  still unexplained in detail; everything else matches with both wirings.
 - **Whether real chips share the audio channels' asymmetry** (see *Audio*), or
   it came in with the extraction of the netlist. Sim2600 is the only oracle,
   so the core follows it and `tia_audio.v` keeps the difference to one

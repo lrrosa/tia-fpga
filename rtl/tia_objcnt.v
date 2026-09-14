@@ -65,7 +65,8 @@ module tia_objcnt (
     output wire       dec_far,       // count 15
     output wire       dec_main,      // count 39, also wraps the counter
     output wire       clear_now,     // the H@2 that clears the counter
-    output wire       after_hold     // the first ring clock after a strobe's hold
+    output wire       phase_a,       // in H@1, or held there by a reset
+    output wire       phase_b        // in H@2
 );
 
     wire [5:0] q_next = { ~(q[1] ^ q[0]), q[5:1] };
@@ -132,16 +133,10 @@ module tia_objcnt (
 
     assign clear_now = p2 & clear_l;
 
-    // The first ring clock after a strobe's hold: a double-size player's scan
-    // counter steps on it (see tia_player.v).
-    reg was_held;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)        was_held <= 1'b0;
-        else if (held)     was_held <= 1'b1;
-        else if (ce_ring)  was_held <= 1'b0;
-    end
-
-    assign after_hold = ce_ring & was_held;
+    // Which half of the two-phase cycle the ring is in, for a player's size
+    // gate (tia_player.v). A reset's hold reads as H@1.
+    assign phase_a = held | (div == 2'd1);
+    assign phase_b = (div == 2'd3);
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n)   q <= 6'b000000;
