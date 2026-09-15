@@ -98,13 +98,22 @@ module tia_board #(
     end
 
     // ========================================================= colour clock
-    reg [PW-1:0] osc_ph;
+    // clk0 comes straight from a flip-flop, set from the counter's next value
+    // so that it still reads osc_ph < OSC_MULT / 2 on every clock. All of the
+    // core's clock enables start from it, and a compare in front of that
+    // fanout was the longest path in the design.
+    reg  [PW-1:0] osc_ph;
+    reg           clk0;
+    wire [PW-1:0] osc_next = (osc_ph == OSC_MULT - 1) ? {PW{1'b0}} : osc_ph + 1'b1;
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)                       osc_ph <= {PW{1'b0}};
-        else if (osc_ph == OSC_MULT - 1)  osc_ph <= {PW{1'b0}};
-        else                              osc_ph <= osc_ph + 1'b1;
+        if (!rst_n) begin
+            osc_ph <= {PW{1'b0}};
+            clk0   <= 1'b1;
+        end else begin
+            osc_ph <= osc_next;
+            clk0   <= (osc_next < OSC_MULT / 2);
+        end
     end
-    wire clk0 = (osc_ph < OSC_MULT / 2);
 
     // ============================================================ bus inputs
     // Everything from the 6507 is resampled twice before the core sees it.
@@ -205,7 +214,7 @@ module tia_board #(
     end
 
     // =============================================================== chroma
-    localparam SLOTS = 2 * OSC_MULT;
+    localparam [PW+1:0] SLOTS = 2 * OSC_MULT;
 
     // How many slots each hue lags the burst, to the nearest slot.
     function [PW:0] hue_lag;

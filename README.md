@@ -350,15 +350,18 @@ pins: the core's clock from a PLL locked to the console's crystal, Φ2 rebuilt
 from the Φ0 the board makes itself, the data bus, chroma as that clock shifted
 in phase by hue, and sound as pulse width. `fpga/tia_fpga_top.v` adds the Gowin
 PLL, bus buffers and chroma ODDR. `sim/tb_board.v` replays the console-wired
-traces into the board logic and checks every pin it drives.
+traces into the board logic and checks every pin it drives, and
+`fpga/build_gowin.tcl` builds the bitstream with Gowin EDA — from a directory
+whose path has no spaces, since Gowin's place and route will not run in one
+that does.
 
 Getting there turned up a good deal the published documentation does not say,
 all of it now in the source: which edge of the colour clock each latch runs on;
 that Φ0 is a 50 per cent square wave reloaded by the horizontal counter; what
 RSYNC actually does, which Towers left as "requires more investigation"; that
 HMOVE's first compare must come before its first decrement, or an HMxx of -8
-moves an object sixteen pixels the wrong way; that stuffed pulses stop counting
-at RHB although HBLANK runs on to LRHB; and exactly when a mid-line playfield
+moves an object sixteen pixels the wrong way; that HMOVE's pulses past HBLANK
+merge into the object clocks instead of counting; and exactly when a mid-line playfield
 write reaches the screen. Once the harness could record the die's internal
 wires as well as its pins, the netlist itself settled the rest: how a RESxx
 strobe really resets an object -- by holding its clock, not by zeroing its
@@ -389,9 +392,11 @@ machine it is plugged into.
       6507's Φ1; `sim/patches/sim2600-phi2.patch` fixes that and
       `sim/traces/phi2/` holds the re-recorded set
 - [x] Synthesis check: Yosys `synth_gowin` with no warnings — the core is
-      514 flip-flops and 695 LUTs, the whole board top 623 and 711, under
+      514 flip-flops and 692 LUTs, the whole board top 624 and 708, under
       10 per cent of the GW1NR-9 (`fpga/check_synth.py`)
-- [ ] Gowin EDA build and timing closure (`fpga/build_gowin.tcl`, not yet run)
+- [x] Gowin EDA build (V1.9.11.03 Education): bitstream, no setup or hold
+      violations at the slow corner, 65.8 MHz Fmax against the 57.27 MHz
+      clock (`fpga/build_gowin.tcl`)
 - [x] Stretched players reset mid-copy, Cosmic Ark and HMOVE pulses in the
       visible line, with the console's wiring — every trace matches
 - [ ] Paddle circuit (still needs pins, see above)

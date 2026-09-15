@@ -517,7 +517,7 @@ die's own divider and counters, not just its pads
   so the trigger latch has never been exercised.
 - One die revision. There are at least twelve NTSC TIA revisions with
   observable differences, and Sim2600's netlist is the 10444D.
-- The board wrapper has been simulated and synthesised with Yosys
-  (`fpga/check_synth.py`), but not built with Gowin EDA or run on hardware,
+- The board wrapper has been simulated, synthesised with Yosys
+  (`fpga/check_synth.py`) and built with Gowin EDA, but not run on hardware,
   and rev A's video and sound pins cannot reproduce the TIA's levels — see
   *Pads and levels* in the project README.
