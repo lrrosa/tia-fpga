@@ -21,12 +21,10 @@
 #     openFPGALoader -b tangnano9k -f impl/pnr/tia_fpga.fs
 #
 # Checked with Gowin EDA V1.9.11.03 Education: no setup or hold violations at
-# the slow corner, 65.8 MHz Fmax against the 57.27 MHz clock. One warning is
-# expected, PR1014: the console's colour clock reaches the PLL through a
-# general-purpose pin, because no clock pin is on the headers. When the
-# sources' own path has spaces in it, two CM1010 "Unknown option '-'"
-# warnings come too, from how the place and route command line is built;
-# the constraint files are still read whole.
+# the slow corner, 67.1 MHz Fmax against the 57.27 MHz clock. When the sources'
+# own path has spaces in it, place and route prints two CM1010 "Unknown option
+# '-'" warnings, from how its command line is built; the constraint files are
+# still read whole, and from a path without spaces there are no warnings.
 
 set root [file normalize [file join [file dirname [info script]] ..]]
 

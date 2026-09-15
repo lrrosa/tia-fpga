@@ -1,6 +1,6 @@
 # Should the FPGA go straight on the board?
 
-Rev A hangs a Sipeed Tang Nano 9K module off two socket strips. The alternative
+The board hangs a Sipeed Tang Nano 9K module off two socket strips. The alternative
 is a bare FPGA soldered to the board. This note is the reasoning, so the decision
 does not have to be made twice.
 
@@ -11,14 +11,14 @@ For hand-built prototypes, the module is the right call and you already own one.
 
 ## The module's pin count has shaped every compromise in this design
 
-That is not a figure of speech. Go through what rev A gives up, and every item
+That is not a figure of speech. Go through what the board gives up, and every item
 traces to the same 29 usable GPIO:
 
 | Compromise | Why |
 |---|---|
 | Φ2 is not read by the FPGA | Its pin was traded for chroma. There was no third option |
 | The four paddles are not implemented | No pins left at all |
-| U5 exists | A whole extra gate, purely so `/OE` and `DIR` do not cost FPGA pins |
+| U5 exists | An extra gate, so the 245's `/OE` costs no FPGA pin and the two chip selects cost one |
 | 8 header pins are stranded | J6/2–9 are a 1.8 V bank; unusable without a second rail |
 | GND reaches the module on one pin | J6/23 is the only ground the headers expose |
 
@@ -76,11 +76,12 @@ pushes assembly toward reflow.
 ## What does not change
 
 **The level translators stay.** U1–U4 exist because no modern FPGA is 5 V
-tolerant and the NMOS 6507 needs V<sub>IH</sub> = V<sub>cc</sub> − 0.2 V on Φ0.
-That is a property of the 6507, not of the module, and no FPGA choice fixes it.
-Anyone hoping a bare FPGA collapses this into a one-chip board will be
-disappointed — it is a five-chip board either way, and U1 remains the part the
-whole design hinges on.
+tolerant and the NMOS 6507 needs V<sub>IH</sub> = V<sub>cc</sub> − 0.2 V on Φ0,
+and U6–U9 because the console pulls the TIA's video and sound pads up to 5 V.
+Those are properties of the 6507 and the console, not of the module, and no
+FPGA choice fixes them. Anyone hoping a bare FPGA collapses this into a
+one-chip board will be disappointed — it is a board of level translators
+either way, and U1 remains the part the whole design hinges on.
 
 The analogue chroma problem does not change either. Having the `F_COL` pin is
 necessary but not sufficient; the RTL still has to synthesise the subcarrier
@@ -97,5 +98,5 @@ phases through the PLL.
 
 The sensible order is the one already underway: prove the RTL on the module,
 where mistakes are cheap, then respin the board around a bare MachXO2 once the
-logic is known good. Rev A is the development vehicle. It was never going to be
+logic is known good. The module board is the development vehicle. It was never going to be
 the thing that ships inside somebody's console.

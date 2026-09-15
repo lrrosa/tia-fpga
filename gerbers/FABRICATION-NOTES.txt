@@ -1,4 +1,4 @@
-tia-fpga rev A - fabrication notes
+tia-fpga rev B - fabrication notes
 ==================================
 
 FPGA replacement for the Atari 2600 TIA (C010444).
@@ -39,8 +39,9 @@ ASSEMBLY NOTE (not the fab's problem, but it matters)
   TIA's DIP-40 socket. J1 and J4 are sockets on the FRONT, facing UP. Use ROUND
   MACHINED pins for J2/J3: square header pins damage a DIP socket.
 
-  R1-R9 are for standalone use only. Leave them unpopulated when the board goes
-  into a real 2600, which already has that resistor ladder.
+  U6-U9 (SOT-23-6) and C7-C10 sit in the top margin of the front. Their
+  designators are on the BACK silkscreen, right behind each part: there is no
+  room for them beside the parts.
 
 DRC
-  Verified with KiCad 10.0.4: 0 clearance, 0 unconnected, 0 shorts.
+  Verified with KiCad 10.0.4: 0 violations, 0 unconnected pads.

@@ -5,13 +5,13 @@
       "Application": "Pcbnew",
       "Version": "10.0.4"
     },
-    "CreationDate": "2026-09-12T00:26:13-03:00"
+    "CreationDate": "2026-09-14T23:59:08-03:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "tia-fpga",
       "GUID": "7469612d-6670-4676-912e-6b696361645f",
-      "Revision": "rev?"
+      "Revision": "B"
     },
     "Size": {
       "X": 70.1,

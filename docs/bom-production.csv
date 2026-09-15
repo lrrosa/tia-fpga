@@ -1,16 +1,13 @@
 Reference,Qty,Value,Footprint,Description,Suggested_Part,Notes
-"C1,C2,C3,C4,C6",5,100n,C_0805_2012Metric,Ceramic capacitor 100 nF 50 V X7R,generic 0805 X7R,"Decoupling, one per IC."
+"C1,C2,C3,C4,C6",5,100n,C_0805_2012Metric,Ceramic capacitor 100 nF 50 V X7R,generic 0805 X7R,"Decoupling for U1-U5, in the bottom margin."
+"C7,C8,C9,C10",4,100n,C_0805_2012Metric,Ceramic capacitor 100 nF 50 V X7R,generic 0805 X7R,"Decoupling for U6-U9, one beside each in the top margin. Designators on the back silkscreen."
 C5,1,10u,C_0805_2012Metric,Ceramic capacitor 10 uF 16 V X5R,generic 0805 X5R,Bulk on the +5 V rail.
 J1,1,Tang Nano 9K - mates J5,PinSocket_1x24_P2.54mm_Vertical,"Socket strip, 1x24, 2.54 mm, vertical",generic 1x24 female header,Receives the Tang Nano 9K. Mounts on the FRONT.
 J2,1,TIA pins 1-20,PinHeader_1x20_P2.54mm_Vertical,"Pin strip, 1x20, 2.54 mm, vertical","turned/machined round pin, 1x20","Goes into the TIA socket. Mounts on the BACK, pins pointing DOWN. Use ROUND MACHINED pins: square header pins damage a DIP socket."
 J3,1,TIA pins 21-40,PinHeader_1x20_P2.54mm_Vertical,"Pin strip, 1x20, 2.54 mm, vertical","turned/machined round pin, 1x20","Goes into the TIA socket. Mounts on the BACK, pins pointing DOWN. Use ROUND MACHINED pins: square header pins damage a DIP socket."
 J4,1,Tang Nano 9K - mates J6,PinSocket_1x24_P2.54mm_Vertical,"Socket strip, 1x24, 2.54 mm, vertical",generic 1x24 female header,Receives the Tang Nano 9K. Mounts on the FRONT.
-"R1,R3",2,27k,R_0805_2012Metric,Resistor 27 k 1%,generic 0805 1%,Video ladder - SEE NOTE.
-R2,1,56k,R_0805_2012Metric,Resistor 56 k 1%,generic 0805 1%,Video ladder - SEE NOTE.
-R4,1,110k,R_0805_2012Metric,Resistor 110 k 1%,generic 0805 1%,Video ladder - SEE NOTE.
-"R5,R6,R7,R8",4,3k3,R_0805_2012Metric,Resistor 3.3 k 1%,generic 0805 1%,Video ladder - SEE NOTE.
-R9,1,9k1,R_0805_2012Metric,Resistor 9.1 k 1%,generic 0805 1%,Chroma - SEE NOTE.
 U1,1,74AHCT125,SOIC-14_3.9x8.7mm_P1.27mm,"Quad buffer, 3-state, TTL-compatible inputs",SN74AHCT125D,"CRITICAL. Runs from +5 V. Level-shifts PHI0 and RDY: the NMOS 6507 needs VIH = Vcc-0.2 V on its clock, which 3.3 V cannot meet."
 U2,1,74LVC245A,SOIC-20W_7.5x12.8mm_P1.27mm,"Octal bus transceiver, 5 V tolerant inputs",SN74LVC245ADW,"Vcc = 3.3 V. DIR from buffered R/W, /OE from U5."
 "U3,U4",2,74LVC541A,SOIC-20W_7.5x12.8mm_P1.27mm,"Octal buffer, 5 V tolerant inputs",SN74LVC541ADW,Vcc = 3.3 V. Permanently enabled (G1 = G2 = GND).
-U5,1,74LVC1G32,SOT-23-5,Single 2-input OR gate,SN74LVC1G32DBVR,/OE for U2 = /CS0 OR /CS3.
+U5,1,74LVC1G32,SOT-23-5,Single 2-input OR gate,SN74LVC1G32DBVR,"/CS0 OR /CS3: /OE for U2, and the FPGA's chip select."
+"U6,U7,U8,U9",4,74LVC2G07,SOT-23-6,"Dual buffer, open-drain outputs, 5 V tolerant",SN74LVC2G07DBVR,"Vcc = 3.3 V. Drive SYNC, LUM0-2, COL, BLK, AUD0 and AUD1 the way the TIA's own pull-down pads do. Designators on the back silkscreen."

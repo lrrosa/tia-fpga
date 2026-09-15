@@ -14,7 +14,7 @@
 // happens here on the first system clock after that edge, as a clock enable.
 //
 // That costs one system clock of latency against the die and buys a single
-// clock domain, single edge, no gated clocks. On the rev A board both come
+// clock domain, single edge, no gated clocks. On the board both come
 // from the console's own 3.579545 MHz crystal -- a PLL multiplies it into
 // `clk` and tia_board.v counts that back down into `clk0` -- so the core stays
 // locked to the machine it is plugged into rather than free-running.
@@ -229,7 +229,7 @@ module tia (
     // ================================================== horizontal counter
     wire        hblank, hsync, hc_cburst;
     wire        hc_p1, hc_p2, rhb, cntd, cnt_early, aud_a, aud_b, rdy_rel;
-    wire        rhb_next, cnt_next;
+    wire        rhb_next, cnt_next, shb_next;
     wire        hmove_latch;
     wire [5:0]  hc_q;
 
@@ -254,6 +254,7 @@ module tia (
         .cntd        (cntd),
         .cnt_early   (cnt_early),
         .rhb_next    (rhb_next),
+        .shb_next    (shb_next),
         .cnt_next    (cnt_next),
         .aud_a       (aud_a),
         .aud_b       (aud_b)
@@ -305,7 +306,15 @@ module tia (
     // at every one of its pulses the pads see the object a step ahead.
     wire       motck = ce_rise & ~hblank;
     wire [4:0] stuff, merge;
-    wire       hblank_next = shb ? 1'b1 : rhb ? 1'b0 : hblank;
+
+    // HBLANK as it stands after this half clock. HMOVE's grid only asks on an
+    // H@2 of the horizontal counter, where HBLANK changes, so the counter's
+    // own decodes answer it without waiting for the H@2 pulse -- which keeps
+    // the phase divider out of every object's clock enable. An RSYNC restart
+    // can land on the grid anywhere, so shb_next includes it. For the twelve
+    // half clocks after one, the grid still falls where the old H@2s were,
+    // but the counter has only just restarted and none of its decodes match.
+    wire       hblank_next = shb_next ? 1'b1 : rhb_next ? 1'b0 : hblank;
 
     tia_hmove u_hmove (
         .clk         (clk),

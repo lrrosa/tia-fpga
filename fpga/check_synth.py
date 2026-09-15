@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synthesise the TIA core and the rev A board top for the GW1NR-9 with Yosys.
+"""Synthesise the TIA core and the board top for the GW1NR-9 with Yosys.
 
 Copyright 2026 Leonardo Roman da Rosa
 SPDX-License-Identifier: CERN-OHL-S-2.0

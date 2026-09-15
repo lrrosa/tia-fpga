@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: CERN-OHL-S-2.0
 //
 // tb_trace.v checks the core. This checks what rtl/tia_board.v puts around it
-// on rev A: the colour clock counted out of the PLL clock, PHI2 rebuilt from
+// on the board: the colour clock counted out of the PLL clock, PHI2 rebuilt from
 // PHI0 with the bus taken ahead of it, the data bus, the pulse-width sound
 // pins and the chroma phases. The board has no PHI2 pin, so the trace's clk2
 // column is not an input here: it is what the rebuilt CLK2 is checked against.
@@ -51,31 +51,31 @@ module tb_board;
     reg        clk = 1'b0;
     reg        locked = 1'b0;
     reg  [5:0] a = 6'd0;
-    reg        cs0_n = 1'b1, cs3_n = 1'b1, rw = 1'b1;
+    reg        cs_n = 1'b1, rw = 1'b1;
     reg  [7:0] d_in = 8'd0;
     reg  [1:0] trig = 2'b11;
 
     wire [7:0] d_out, st_d_out;
-    wire       d_oe, st_d_oe, phi0, st_phi0, rdy, st_rdy, csync, st_csync;
+    wire       d_oe, st_d_oe, phi0, st_phi0, rdy, st_rdy, csync, st_csync, blk, st_blk;
     wire [2:0] lum, st_lum;
     wire [1:0] col, st_col;
     wire       aud0, aud1, st_aud0, st_aud1;
 
     tia_board #(.OSC_MULT (OSC_MULT), .HUE_TURN (HUE_TURN), .AUDIO_STEREO (0)) dut (
-        .clk (clk), .locked (locked), .a (a), .cs0_n (cs0_n), .cs3_n (cs3_n), .rw (rw),
+        .clk (clk), .locked (locked), .a (a), .cs_n (cs_n), .rw (rw),
         .d_in (d_in), .d_out (d_out), .d_oe (d_oe), .phi0 (phi0), .rdy (rdy), .trig (trig),
-        .csync (csync), .lum (lum), .col (col), .aud0 (aud0), .aud1 (aud1));
+        .csync (csync), .blk (blk), .lum (lum), .col (col), .aud0 (aud0), .aud1 (aud1));
 
     tia_board #(.OSC_MULT (OSC_MULT), .HUE_TURN (HUE_TURN), .AUDIO_STEREO (1)) dut_st (
-        .clk (clk), .locked (locked), .a (a), .cs0_n (cs0_n), .cs3_n (cs3_n), .rw (rw),
+        .clk (clk), .locked (locked), .a (a), .cs_n (cs_n), .rw (rw),
         .d_in (d_in), .d_out (st_d_out), .d_oe (st_d_oe), .phi0 (st_phi0), .rdy (st_rdy),
-        .trig (trig), .csync (st_csync), .lum (st_lum), .col (st_col),
+        .trig (trig), .csync (st_csync), .blk (st_blk), .lum (st_lum), .col (st_col),
         .aud0 (st_aud0), .aud1 (st_aud1));
 
     always #1 clk = ~clk;
 
     // ------------------------------------------------------------ statistics
-    integer m_clk0, m_clk2, m_ph0, m_rdy, m_sync, m_lum, m_dhi, m_dlo, n_reads;
+    integer m_clk0, m_clk2, m_ph0, m_rdy, m_sync, m_blk, m_lum, m_dhi, m_dlo, n_reads;
     integer m_leak, m_phase, m_burst, n_edges, n_colour;
     integer m_mono, m_stereo, m_overlap, n_frames;
     integer warm, warm_after, k;
@@ -235,7 +235,7 @@ module tb_board;
         $display("loaded %0d records from %0s", nrec, trace_path);
         warm = first_line_start(warm_after);
 
-        m_clk0 = 0; m_clk2 = 0; m_ph0 = 0; m_rdy = 0; m_sync = 0; m_lum = 0;
+        m_clk0 = 0; m_clk2 = 0; m_ph0 = 0; m_rdy = 0; m_sync = 0; m_blk = 0; m_lum = 0;
         m_dhi = 0; m_dlo = 0; n_reads = 0;
         m_leak = 0; m_phase = 0; m_burst = 0; n_edges = 0; n_colour = 0;
         m_mono = 0; m_stereo = 0; m_overlap = 0; n_frames = 0;
@@ -256,8 +256,7 @@ module tb_board;
 
             #0.1;
             rw    = t_rw[k];
-            cs0_n = t_cs0[k];
-            cs3_n = t_cs3[k];
+            cs_n  = t_cs0[k] | t_cs3[k];
             a     = t_ab[k];
             d_in  = t_db[k];
             trig  = t_inpt[k][5:4];
@@ -268,6 +267,7 @@ module tb_board;
                 if (phi0  !== t_ph0[k])   m_ph0  = m_ph0  + 1;
                 if (rdy   !== ~t_rdy[k])  m_rdy  = m_rdy  + 1;
                 if (csync !== ~t_sync[k]) m_sync = m_sync + 1;
+                if (blk   !== ~t_blk[k])  m_blk  = m_blk  + 1;
                 if (lum   !== t_lum[k])   m_lum  = m_lum  + 1;
 
                 // Where the die drives D7/D6, the board must drive the same,
@@ -289,6 +289,7 @@ module tb_board;
         $display("    phi0 pin           %0d", m_ph0);
         $display("    rdy pin            %0d", m_rdy);
         $display("    csync pin          %0d", m_sync);
+        $display("    blk pin            %0d", m_blk);
         $display("    lum pins           %0d", m_lum);
         $display("    D7/D6 on reads     %0d   (of %0d records driven)", m_dhi, n_reads);
         $display("    D5..D0 on reads    %0d", m_dlo);
@@ -297,7 +298,7 @@ module tb_board;
         $display("    sound mono         %0d   (of %0d frames)", m_mono, n_frames);
         $display("    sound stereo       %0d   overlaps %0d", m_stereo, m_overlap);
 
-        if (m_clk0 == 0 && m_clk2 == 0 && m_ph0 == 0 && m_rdy == 0 && m_sync == 0 &&
+        if (m_clk0 == 0 && m_clk2 == 0 && m_ph0 == 0 && m_rdy == 0 && m_sync == 0 && m_blk == 0 &&
             m_lum == 0 && m_dhi == 0 && m_dlo == 0 && m_leak == 0 && m_phase == 0 &&
             m_burst == 0 && m_mono == 0 && m_stereo == 0 && m_overlap == 0 &&
             (n_colour == 0 || n_edges > 0))

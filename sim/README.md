@@ -244,9 +244,9 @@ a constant offset, a pixel too wide, a copy missing.
 ### The board around the core
 
 `tb_board.v` replays a console-wired trace into `rtl/tia_board.v` instead —
-the logic between the core and rev A's pins — and checks what the board
+the logic between the core and the board's pins — and checks what the board
 drives: the colour clock counted out of the PLL clock and CLK2 rebuilt from
-Φ0, record for record against the trace; Φ0, RDY, sync and luma on the pins;
+Φ0, record for record against the trace; Φ0, RDY, sync, BLK and luma on the pins;
 D7/D6 wherever the die drove them, with A5-A0 beneath; the chroma waveform's
 phase for every hue, measured against the burst's; and the pulse widths on
 both sound pins, for both settings of `AUDIO_STEREO` at once.
@@ -518,6 +518,4 @@ die's own divider and counters, not just its pads
 - One die revision. There are at least twelve NTSC TIA revisions with
   observable differences, and Sim2600's netlist is the 10444D.
 - The board wrapper has been simulated, synthesised with Yosys
-  (`fpga/check_synth.py`) and built with Gowin EDA, but not run on hardware,
-  and rev A's video and sound pins cannot reproduce the TIA's levels — see
-  *Pads and levels* in the project README.
+  (`fpga/check_synth.py`) and built with Gowin EDA, but not run on hardware.

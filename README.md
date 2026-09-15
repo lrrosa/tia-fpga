@@ -3,9 +3,9 @@
 An FPGA replacement for the **Television Interface Adaptor (TIA)** — the custom
 `C010444` / `C010444D` (NTSC) video and sound chip of the Atari 2600.
 
-Revision **A** is the digital interface board between a Sipeed Tang Nano 9K
+Revision **B** is the digital interface board between a Sipeed Tang Nano 9K
 module and the TIA's DIP-40 socket, for use with a real 6507 (on a breadboard or
-in an actual 2600).
+in an actual 2600). Revision A, the first study, was never built.
 
 | Front | Back |
 |:---:|:---:|
@@ -49,19 +49,17 @@ This revision solves (2) and leaves (1) for later.
 | U2 | 74LVC245A | D0–D7 bidirectional bus. A side = FPGA, B side = TIA |
 | U3 | 74LVC541A | A0–A5 and R/W into the FPGA; Φ2 buffered to a spare pad |
 | U4 | 74LVC541A | /CS0, /CS3, triggers I4/I5 and the 3.579545 MHz crystal clock |
-| U5 | 74LVC1G32 | `/OE` for the 245: `/CS0 OR /CS3` |
-| R1–R9 | — | CX-2600A luma + chroma network. **Leave unpopulated in a real 2600** |
+| U5 | 74LVC1G32 | `/CS0 OR /CS3`: `/OE` for the 245, and the FPGA's chip select |
+| U6–U9 | 74LVC2G07 | Open-drain drivers for SYNC, LUM0–2, COL, BLK, AUD0 and AUD1 |
 
-Video and audio signals (`F_CSYNC`, `F_LUM0..2`, `F_COL`, `F_AU0`, `F_AU1`) run
-straight from the FPGA to the socket pins — no level translator in the path,
-because they feed resistor networks rather than logic inputs. That turned out
-to be only half the story: see *Pads and levels* below.
+The video and sound pads — SYNC, LUM0–2, COL, BLK, AUD0 and AUD1 — each go
+through one channel of U6–U9. On the die every one of them is a pull-down
+transistor and nothing more; the buffers make the board's pins the same, open
+drain and 5 V tolerant, so the console's own pull-ups set every level. See
+*Pads and levels* below.
 
-Pin 6 (`BLK`) and pin 10 (`DEL`) are marked no-connect. `DEL` is the colour
-trim pot, which has no function in a replacement. `BLK` is only unused on
-revisions 14 and 15 of the 2600A; the original 2600 and later 2600As wire it
-into the colour network, and rev A has no pin left for it — see *Pads and
-levels*.
+Pin 10 (`DEL`) is marked no-connect: it is the colour trim pot, which has no
+function in a replacement.
 
 Neither of the 245's control lines comes from the FPGA. The A side faces the
 FPGA, so `DIR` can be driven straight from the buffered R/W (`DIR`=1, a read,
@@ -86,7 +84,9 @@ Verified against both revisions of the official Sipeed board schematic (3672 and
 (SD card, RGB LCD, SPI LCD); they are free to reuse as long as you do not fit
 those.
 
-**Rev A uses all 29 with nothing spare.** A fully featured TIA needs about 36.
+**Rev B uses all 29 with nothing spare.** A fully featured TIA needs about 36.
+`BLK` has its pin because the FPGA reads `/CS0 OR /CS3` from U5, which makes it
+for the 245 anyway, instead of taking the two selects separately.
 
 **Chroma is fitted.** `F_COL` took the pin that used to carry Φ2, and that trade
 is deliberate rather than grudging: the FPGA generates Φ0 itself, so it knows
@@ -103,7 +103,7 @@ Two ways to get the remaining pins back:
 
 1. **Recover J6/2–9** (8 pins) with a local 1.8 V LDO and a fourth buffer powered
    at 1.8 V. LVC parts run down to 1.65 V and their inputs stay 5 V tolerant, so
-   this works — it just adds a rail. This is the cheapest rev B fix.
+   this works — it just adds a rail. This is the cheapest way to the paddles.
 2. **Drop the module and put a bare FPGA on the board.** A part in a TQFP-100
    gives ~78 I/O against the module's 29, which ends the pin shortage outright,
    removes U5, brings Φ2 back and makes the paddles possible — and collapses a
@@ -117,7 +117,7 @@ compromise in this design traces back to that.
 
 ## The board
 
-Rev A is a 2-layer, **70 × 32 mm** board — roughly the Tang Nano's own footprint.
+Rev B is a 2-layer, **70 × 32 mm** board — roughly the Tang Nano's own footprint.
 In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart, ringed by
 resistor networks and the cartridge slot, so the board cannot spread sideways.
 All four connector rows are **concentric**, and the two sets face opposite ways:
@@ -130,53 +130,59 @@ All four connector rows are **concentric**, and the two sets face opposite ways:
 | 26.16 | J4 — Tang Nano row B | F.Cu | socket, **up** |
 
 The two pitches coexist because everything lands on the 2.54 mm grid. SMD logic
-sits on the front in the 15.24 mm channel between the DIP rows; passives go in
-the outer margins.
+sits on the front in the 15.24 mm channel between the DIP rows. The open-drain
+drivers and their capacitors sit in the top margin, right above the TIA pins
+they drive, and the channel's decoupling in the bottom margin.
 
 | | |
 |---|---|
 | Size | 70 × 32 mm, 2 layers |
-| Components | 24 — SOIC/SOT-23 logic, 0805 passives, through-hole connectors |
-| Routing | 601 segments, 31 vias, 1.68 m of copper |
-| Ground | B.Cu pour, 1075 mm² filled |
+| Components | 23 — SOIC/SOT-23 logic, 0805 capacitors, through-hole connectors |
+| Routing | 557 segments, 29 vias, 1.29 m of copper |
+| Ground | B.Cu pour, 1275 mm² filled |
 | Track / clearance | 0.18 mm / 0.13 mm |
-| **DRC** | **0 clearance, 0 unconnected, 0 shorts** |
+| **DRC** | **0 violations, 0 unconnected pads** |
 
 ### Pin assignment is solved, not listed
 
 Which signal sits on which header position is free — any GPIO can carry any
-signal — so it is chosen to put each FPGA pin next to the TIA pin it serves.
-Solving that as an assignment problem (Hungarian, over the 29 usable positions)
-took the summed |x_header − x_TIA| from **737 mm to 127 mm**, with several
-signals landing at exactly the same x as their target.
+signal — so it is chosen to put each FPGA pin as close as it can be to the pad
+its net really reaches: the buffer or gate between it and the TIA socket, not
+the socket pin beyond it. Solved as an assignment problem (Hungarian, over the
+29 usable positions, Manhattan distance to those pads), the whole set comes to
+378 mm. `F_OSC` is held to J6/1, the right PLL's own input, which costs 17 mm of
+that and keeps the colour clock off the FPGA's general routing.
 
-The buffers are then ordered left to right by the centroid of what they carry:
-**U1, U4, U3, U2**. Together those two changes cut the board's copper by about a
-quarter and a third of its vias:
+Rev A measured the distance to the TIA pin itself, which left out the detour
+through the buffers: its data and chip-select lines crossed the board twice.
+The buffers stay ordered left to right by the centroid of what they carry,
+**U1, U4, U3, U2**, and against rev A the board lost almost a quarter of its
+copper while gaining four chips:
 
-| | before | after |
+| | rev A | rev B |
 |---|---|---|
-| Segments | 758 | **601** |
-| Vias | 47 | **31** |
-| Copper | 2.19 m | **1.68 m** |
+| Segments | 601 | **557** |
+| Vias | 31 | **29** |
+| Copper | 1.68 m | **1.29 m** |
 
 `fpga/tia_fpga.cst` carries the result. Do not reshuffle those `IO_LOC` lines
 casually — the layout depends on them.
 
-Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4;
-all 111 connections in 11 s. The channel leaves only ~1.1 mm between the header
-pads and the SOIC pads, so the geometry is what decides whether it routes at
-all: it took 0.13 mm clearance and 0.18 mm track to close. The ground pour is
-added **after** routing — Freerouting reads a pour as an obstacle and goes
-effectively single-layer if one is present.
+Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4:
+all 118 nets in under 10 s but one ground connection, which two vias and a short
+front track close by hand. The channel leaves only ~1.1 mm between the header
+pads and the SOIC pads, so the geometry decides whether it routes at all: it
+takes 0.13 mm clearance and 0.18 mm track. The ground pour is added **after**
+routing — Freerouting reads a pour as an obstacle and goes effectively
+single-layer if one is present.
 
 Files: `tia-fpga.kicad_pcb`, renders in `docs/`, fabrication output in `gerbers/`.
 
 ### Ordering a board
 
-`tia-fpga-rev-a-gerbers.zip` is ready to upload to any PCB house as-is — Gerber
-X2 plus Excellon drill, files at the root of the archive, with
-`FABRICATION-NOTES.txt` alongside them. Nothing in it needs more than standard
+The files in `gerbers/` are ready for any PCB house as they are — Gerber X2
+plus Excellon drill, with `FABRICATION-NOTES.txt` alongside them; zip them with
+the files at the root of the archive. Nothing in it needs more than standard
 low-cost capability:
 
 | | |
@@ -190,7 +196,8 @@ Two assembly points that are easy to get wrong:
 
 - **J2/J3 mount on the BACK, pins facing DOWN**, and want **round machined
   pins** — square header pins damage a DIP socket.
-- **Leave R1–R9 unpopulated** in a real 2600.
+- **U6–U9 and C7–C10 carry their designators on the back silkscreen**, right
+  behind each part: the top margin has no room for them on the front.
 
 ### ⚠ Verify before ordering a board
 
@@ -213,23 +220,10 @@ connector adds roughly 5 mm on top.
 socket, and there is nothing to screw into inside a 2600. Adding holes only
 forced the board larger, so they were dropped.
 
-**Do not populate R1–R9 when the board goes into a real 2600.** That resistor
-network is a copy of the console's own luma/chroma ladder, for standalone and
-breadboard use. A second one in parallel with the console's would shift every
-level. In a real machine the board just drives the socket pins and the 2600's
-existing video path does the rest.
-
 ### Known limitations
 
-- Two DRC notes remain, both checked by hand and both benign: one silkscreen
-  mark crossing copper, and one courtyard overlap between U5 and J1 where the
-  actual copper clears by **1.24 mm** — KiCad's courtyard is assembly margin,
-  not a clash.
 - The four paddle inputs still do not fit — see the pin budget above.
 - No ground pour on F.Cu; only B.Cu is poured.
-- The video and sound pins do not reproduce the TIA's levels, and pin 6
-  (`BLK`) is left open, which makes the colour burst too strong on the
-  original 2600 and on 2600As from rev 16 — see *Pads and levels*.
 
 ### Pads and levels
 
@@ -252,62 +246,45 @@ PAL consoles use a different TIA (C011903): one sound pad, AUD on pin 13 with
 its own 1 kΩ pull-up, while pins 12 and 8 carry the PAL signals. This board is
 for the NTSC chip.
 
-That has four consequences for rev A:
+Rev B follows the die:
 
-- **Levels.** The FPGA drives these pins push-pull at 3.3 V. That keeps its
-  pins inside their ratings — the pull-ups push current back into the 3.3 V
-  rail, about 1.7 mA from the 1 kΩ on the sound pins and under 5 mA in all,
-  and nothing climbs above 3.3 V — but "high" becomes 3.3 V rather than the
-  5 V the pull-up would give. On the original 2600 that only matters for
-  colour and sound, since its CD4050 runs from about 3.6 V, reads 3.3 V as a
-  solid high and sets the luma levels itself; on a 2600A it shifts the luma
-  levels as well. Letting the pins
-  float instead would give the right levels and put 5 V on 3.3 V inputs.
-  **Rev B should put a 74LVC07A** — open-drain outputs, 5 V tolerant — between
-  the FPGA and these socket pins; the RTL already treats them as open-drain
-  pad levels and would not change.
-- **The two sound pins are joined.** On an unmodified 2600 a trace ties AUD0
-  and AUD1 together. Two push-pull pins driving different waveforms into that
-  trace would short against each other, so by default `tia_board.v` puts the
-  *same* pulse-width mix of both channels on both pins. For a console modified
-  for stereo, `AUDIO_STEREO = 1` gives each pin its own channel, in
+- **Open drain, 5 V tolerant.** Each of those pads goes through one channel of
+  a 74LVC2G07 (U6–U9) powered at 3.3 V. The FPGA drives the channel's input:
+  0 pulls the socket pin low, 1 lets it go, and the console's pull-up takes the
+  line wherever it took the TIA's — 5 V on a 2600A's luma lines, the CD4050's
+  input on an original 2600, the colour and sound nodes through their 1 kΩ.
+  Nothing on the socket side reaches the FPGA's pins.
+- **BLK is driven.** It pulls low through the whole blanking interval. On the
+  original 2600 (through 680 Ω) and the 2600A from rev 16 (820 Ω) it drags the
+  colour node down with it: against the 1 kΩ pull-up that node only reaches
+  about 2 V while blanking, so the burst — the only colour sent then — gets
+  well under half the swing of the picture's colour, and a TV sets its colour
+  gain by the burst. On revs 14 and 15 of the 2600A the pin is not connected,
+  and nothing changes.
+- **The two sound pins are joined** by a trace on an unmodified 2600, which
+  open drain makes harmless either way. By default `tia_board.v` still puts
+  the same pulse-width mix of both channels on both pins; for a console
+  modified for stereo, `AUDIO_STEREO = 1` gives each pin its own channel, in
   non-overlapping halves of the pulse frame so the two still add correctly
-  wherever they meet through open-drain buffers.
-- **Pin 6 is open.** `BLK` pulls down for the whole blanking interval, and on
-  the original 2600 (through 680 Ω) and the 2600A from rev 16 (820 Ω) it drags
-  the colour node down with it: against the 1 kΩ pull-up that node only
-  reaches about 2 V while blanking, instead of 5 V. The only colour sent in
-  blanking is the burst, so those consoles give the burst well under half the
-  swing of the picture's colour. With pin 6 open the burst gets the full
-  swing, and a TV that sets its colour gain from the burst turns the picture's
-  colour down to match — paler colours. On revs 14 and 15 of the 2600A `BLK`
-  is not connected, so there it makes no difference. Rev B should give `BLK`
-  a pin, open-drain like the others. On rev A, `tia_board.v` could weaken the
-  burst instead by narrowing its pulses, since the colour network is
-  AC-coupled; that is not done or tested.
-- **The standalone network is wrong.** R1–R8 copy Atari's CX-2600A service
-  drawing of 1982 — 27, 56, 27 and 110 kΩ into the video sum, and a 3.3 kΩ
-  resistor on each line — but R5–R8 go to ground, where every drawing has
-  them as pull-ups to +5 V. The 2600A boards themselves (revs 14 to 16) use
-  24 and 47 kΩ where that drawing has 27 and 56, for SYNC and LUM1. R9 feeds
-  COL straight into the sum through 9.1 kΩ, where every drawing AC-couples it
-  (1 kΩ pull-up, 47 pF, a second 1 kΩ pull-up, then 6.8 kΩ and 22 pF). This
-  only affects breadboard use — in a console R1–R9 stay unfitted — but rev B
-  should copy one board revision's network whole, `BLK` resistor included.
+  wherever they meet.
+- **No video network on the board.** Rev A carried a copy of the console's
+  resistor network, for use outside a console. With open-drain pads it would
+  have needed all of it — pull-ups, summing resistors, the colour coupling and
+  BLK's resistor — so rev B leaves it off. To take video from the socket pins
+  on a breadboard, build the 2600A rev 16 column of the table above.
 
 ## Two ways to use this
 
 **Reviving a dead console.** Pull the failed TIA, drop this in its socket, and
 keep the 2600's own RF modulator or composite mod. Chroma, luma, sync and audio
-come out on the same socket pins the original chip used, so the console's video
-path is untouched — with the differences in level, and the open `BLK` pin,
-described under *Pads and levels*. Leave R1–R9 unpopulated.
+come out on the same socket pins the original chip used, open drain as the
+chip's are, so the console's video path is untouched.
 
-**As a development target.** Plug it into a breadboard next to a real 6507 and
-take colour video out of the Tang Nano's HDMI connector instead — that costs no
-header pins, because the HDMI pins are dedicated differential pairs on the
-module. Useful while the RTL is still being brought up against the composite
-output.
+**As a development target.** Plug it into a breadboard next to a real 6507.
+The Tang Nano's HDMI connector would cost no header pins — its pins are
+dedicated differential pairs on the module — but the RTL has no TMDS encoder
+yet, so for now the picture comes from the socket pins, through a network like
+the console's.
 
 ## The RTL
 
@@ -345,7 +322,7 @@ no rule had covered: HMOVE pulses in the visible line merge into the object
 clocks and show on the pads half a colour clock early. The core now matches
 both sets on every pin of every trace.
 
-**The board.** `rtl/tia_board.v` is everything between the core and rev A's
+**The board.** `rtl/tia_board.v` is everything between the core and the board's
 pins: the core's clock from a PLL locked to the console's crystal, Φ2 rebuilt
 from the Φ0 the board makes itself, the data bus, chroma as that clock shifted
 in phase by hue, and sound as pulse width. `fpga/tia_fpga_top.v` adds the Gowin
@@ -377,9 +354,12 @@ machine it is plugged into.
 
 ## Status
 
-- [x] Rev A schematic — passes KiCad 10 ERC with 0 violations
+- [x] Rev B schematic — passes KiCad 10 ERC with 0 violations
 - [x] FPGA pin assignment (`fpga/tia_fpga.cst`)
-- [x] PCB layout — rev A routed, ground pour, mounting holes, DRC clean
+- [x] PCB layout — rev B routed, ground pour, DRC clean (0 violations, 0
+      unconnected pads)
+- [x] Open-drain video and sound pads and `BLK` on pin 6 — U6–U9, with
+      `sim/tb_board.v` checking `BLK` against the die
 - [x] Sim2600 test harness — traces, replay testbench, test cartridges
 - [x] TIA RTL — matches the die on a real game and on every test cartridge
 - [x] Audio -- read off the die's netlist; both channels match on every trace
@@ -392,15 +372,14 @@ machine it is plugged into.
       6507's Φ1; `sim/patches/sim2600-phi2.patch` fixes that and
       `sim/traces/phi2/` holds the re-recorded set
 - [x] Synthesis check: Yosys `synth_gowin` with no warnings — the core is
-      514 flip-flops and 692 LUTs, the whole board top 624 and 708, under
+      514 flip-flops and 740 LUTs, the whole board top 622 and 705, under
       10 per cent of the GW1NR-9 (`fpga/check_synth.py`)
 - [x] Gowin EDA build (V1.9.11.03 Education): bitstream, no setup or hold
-      violations at the slow corner, 65.8 MHz Fmax against the 57.27 MHz
+      violations at the slow corner, 67.1 MHz Fmax against the 57.27 MHz
       clock (`fpga/build_gowin.tcl`)
 - [x] Stretched players reset mid-copy, Cosmic Ark and HMOVE pulses in the
       visible line, with the console's wiring — every trace matches
 - [ ] Paddle circuit (still needs pins, see above)
-- [ ] `BLK` on pin 6 (also needs a pin; see *Pads and levels*)
 - [x] Composite video path wired (chroma pin fitted; the RTL still has to
       synthesise the 15 subcarrier phases)
 

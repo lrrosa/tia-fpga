@@ -50,6 +50,7 @@ module tia_hcount (
     output wire       cntd,           // pulse: centre, second half of the PF
     output wire       cnt_early,      // one colour clock before cntd
     output wire       rhb_next,       // level: the coming H@2 releases HBLANK
+    output wire       shb_next,       // level: the coming H@2, or RSYNC, starts HBLANK
     output wire       cnt_next,       // level: the coming H@2 is the centre
     output wire       aud_a,          // audio phase A, two pulses per line
     output wire       aud_b           // audio phase B, two pulses per line
@@ -117,6 +118,9 @@ module tia_hcount (
     // clock before the playfield's second half begins.
     assign cnt_early = early_ce & (q == `TIA_HC_CNT);
     assign rhb_next  = at_rhb | at_lrhb;
+    // An RSYNC restart turns HBLANK on as well, at the half clock of
+    // rsync_go -- which, on a colour clock edge, is wherever rs_wait is 1.
+    assign shb_next  = at_shb | (rs_wait == 3'd1);
     assign cnt_next  = (q == `TIA_HC_CNT);
 
     // The audio clocks: two ticks a line, two phases a tick, all on the sync

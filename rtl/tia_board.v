@@ -1,4 +1,4 @@
-// tia_board.v -- the TIA core as it sits on the rev A board.
+// tia_board.v -- the TIA core as it sits on the board.
 //
 // Copyright 2026 Leonardo Roman da Rosa
 // SPDX-License-Identifier: CERN-OHL-S-2.0
@@ -16,15 +16,19 @@
 // not matter -- the television locks to the burst this board sends, not to
 // the crystal.
 //
-// Rev A has no pin for PHI2 -- it went to chroma -- so it is rebuilt from
+// The board has no pin for PHI2 -- it went to chroma -- so it is rebuilt from
 // PHI0, which the board makes itself. On the console PHI2 is the 6507's copy
 // of PHI0, a few tens of nanoseconds late; see the PHI2 section for how the
 // two uses of it are timed.
 //
-// PADS. The die drives SYNC, the three luminance lines, colour and both sound
-// channels through pull-down transistors only, and the console supplies the
-// pull-ups. Every video and sound output here is therefore a pad level: 1 for
-// released, 0 for pulled low.
+// PADS. The die drives SYNC, the three luminance lines, colour, BLK and both
+// sound channels through pull-down transistors only, and the console supplies
+// the pull-ups. Every video and sound output here is therefore a pad level: 1
+// for released, 0 for pulled low. On the board each of these pins drives an
+// open-drain buffer, so the console's own pull-ups set every level, as they do
+// for the chip. BLK pulls low through blanking; on the consoles that wire it
+// into the colour network, that is what keeps the burst smaller than the
+// picture's colour.
 //
 // SOUND. Each channel's pad is a four-transistor current DAC, which a logic
 // pin cannot be, so volume comes back as pulse width: a channel at 0..15 is
@@ -55,10 +59,9 @@ module tia_board #(
     input  wire       clk,         // OSC_MULT times the console's colour clock
     input  wire       locked,      // PLL lock; nothing runs without it
 
-    // ---------------------------------------------- 6507 side, via U2/U3/U4
+    // ------------------------------------------- 6507 side, via U2/U3/U4/U5
     input  wire [5:0] a,           // F_A0..F_A5
-    input  wire       cs0_n,       // F_CS0_N, from A12
-    input  wire       cs3_n,       // F_CS3_N, from A7
+    input  wire       cs_n,        // F_CS_N: /CS0 OR /CS3, as U5 makes it for U2
     input  wire       rw,          // F_RW, 1 = the 6507 is reading
     input  wire [7:0] d_in,        // F_D0..F_D7 as received
     output wire [7:0] d_out,
@@ -69,6 +72,7 @@ module tia_board #(
 
     // ----------------------- video and sound pads: 1 = released, 0 = pulled low
     output reg        csync,       // F_CSYNC
+    output reg        blk,         // F_BLK
     output reg  [2:0] lum,         // F_LUM0..F_LUM2
     output reg  [1:0] col,         // F_COL in the first and second half of each clock
     output reg        aud0,        // F_AU0
@@ -119,13 +123,13 @@ module tia_board #(
     // Everything from the 6507 is resampled twice before the core sees it.
     // The core only acts on the bus as PHI2 falls, when it has been still for
     // hundreds of nanoseconds, so two clocks of latency cost nothing.
-    reg [18:0] bus_1, bus_s;
+    reg [17:0] bus_1, bus_s;
     always @(posedge clk) begin
-        bus_1 <= {trig, rw, cs3_n, cs0_n, d_in, a};
+        bus_1 <= {trig, rw, cs_n, d_in, a};
         bus_s <= bus_1;
     end
     wire [5:0] a_s    = bus_s[5:0];
-    wire [1:0] trig_s = bus_s[18:17];
+    wire [1:0] trig_s = bus_s[17:16];
 
     // ================================================================= PHI2
     // PHI2 is needed at two different moments.
@@ -147,9 +151,9 @@ module tia_board #(
     always @(posedge clk) ph0_dly <= {ph0_dly[PHI2_DELAY-1:0], core_ph0};
     wire phi2_early = ph0_dly[PHI2_DELAY-1];
 
-    reg [16:0] bus_core;
+    reg [15:0] bus_core;
     always @(posedge clk)
-        if (phi2_early) bus_core <= bus_s[16:0];
+        if (phi2_early) bus_core <= bus_s[15:0];
 
     wire osc_edge = (osc_ph == OSC_MULT - 1) | (osc_ph == OSC_MULT / 2 - 1);
     reg  clk2_core;
@@ -159,13 +163,13 @@ module tia_board #(
     end
 
     // ================================================================= core
-    wire       core_rdy_low, core_sync_low, core_cburst;
+    wire       core_rdy_low, core_sync_low, core_cburst, core_blank;
     wire [2:0] core_lum;
     wire [3:0] core_col, core_au0, core_au1;
     wire [7:0] core_db;
 
-    // No paddle circuit fits on rev A. The four paddle inputs read as they do
-    // with nothing plugged in: the timing capacitor never charges.
+    // No paddle circuit fits on the board. The four paddle inputs read as they
+    // do with nothing plugged in: the timing capacitor never charges.
     tia u_tia (
         .clk      (clk),
         .rst_n    (rst_n),
@@ -179,14 +183,14 @@ module tia_board #(
         .cs0_n    (bus_core[14]),
         .cs1      (1'b1),
         .cs2_n    (1'b0),
-        .cs3_n    (bus_core[15]),
-        .rw       (bus_core[16]),
+        .cs3_n    (1'b0),
+        .rw       (bus_core[15]),
         .rdy_low  (core_rdy_low),
         .inpt     ({trig_s, 4'b0000}),
         .sync_low (core_sync_low),
         .lum      (core_lum),
         .col      (core_col),
-        .blank    (),
+        .blank    (core_blank),
         .cburst   (core_cburst),
         .au0      (core_au0),
         .au1      (core_au1)
@@ -211,6 +215,7 @@ module tia_board #(
         rdy   <= ~core_rdy_low;
         csync <= ~core_sync_low;
         lum   <= core_lum;
+        blk   <= ~core_blank;
     end
 
     // =============================================================== chroma

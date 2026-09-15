@@ -1,4 +1,4 @@
-// tia_fpga_top.v -- rev A top level, Sipeed Tang Nano 9K (GW1NR-LV9QN88PC6/I5).
+// tia_fpga_top.v -- top level, Sipeed Tang Nano 9K (GW1NR-LV9QN88PC6/I5).
 //
 // Copyright 2026 Leonardo Roman da Rosa
 // SPDX-License-Identifier: CERN-OHL-S-2.0
@@ -16,8 +16,7 @@ module tia_fpga_top #(
     input  wire F_OSC,             // 3.579545 MHz from the console, via U4
 
     input  wire F_A0, F_A1, F_A2, F_A3, F_A4, F_A5,
-    input  wire F_CS0_N,
-    input  wire F_CS3_N,
+    input  wire F_CS_N,            // /CS0 OR /CS3, from U5
     input  wire F_RW,
     inout  wire F_D0, F_D1, F_D2, F_D3, F_D4, F_D5, F_D6, F_D7,
 
@@ -26,6 +25,7 @@ module tia_fpga_top #(
     input  wire F_I4, F_I5,
 
     output wire F_CSYNC,
+    output wire F_BLK,
     output wire F_LUM0, F_LUM1, F_LUM2,
     output wire F_COL,
     output wire F_AU0, F_AU1
@@ -91,8 +91,7 @@ module tia_fpga_top #(
         .clk    (clk),
         .locked (locked),
         .a      ({F_A5, F_A4, F_A3, F_A2, F_A1, F_A0}),
-        .cs0_n  (F_CS0_N),
-        .cs3_n  (F_CS3_N),
+        .cs_n   (F_CS_N),
         .rw     (F_RW),
         .d_in   (d_in),
         .d_out  (d_out),
@@ -101,6 +100,7 @@ module tia_fpga_top #(
         .rdy    (F_RDY),
         .trig   ({F_I5, F_I4}),
         .csync  (F_CSYNC),
+        .blk    (F_BLK),
         .lum    ({F_LUM2, F_LUM1, F_LUM0}),
         .col    (col),
         .aud0   (F_AU0),

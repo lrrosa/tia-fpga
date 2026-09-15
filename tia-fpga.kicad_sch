@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "TIA-FPGA - digital interface")
-		(date "2026-09-11")
-		(rev "A")
+		(date "2026-09-14")
+		(rev "B")
 		(company "Leonardo Roman da Rosa - CERN-OHL-S-2.0")
 	)
 	(lib_symbols
@@ -3972,6 +3972,288 @@
 			)
 		)
 		)
+		(symbol "74xGxx:74LVC2G07"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at 0 7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "74LVC2G07"
+				(at 2.54 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Dual Buffer, Open Drain, Low-Voltage CMOS"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Dual Gate Buffer Open Drain LVC CMOS"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SG-* SOT*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "74LVC2G07_1_1"
+				(polyline
+					(pts
+						(xy -7.62 6.35) (xy -7.62 -6.35) (xy 5.08 0) (xy -7.62 6.35)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy -2.54 0) (xy -1.27 -1.27) (xy 0 0) (xy -1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -15.24 0 0)
+					(length 7.62)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at 12.7 0 180)
+					(length 7.62)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74LVC2G07_2_1"
+				(polyline
+					(pts
+						(xy -7.62 6.35) (xy -7.62 -6.35) (xy 5.08 0) (xy -7.62 6.35)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy -2.54 0) (xy -1.27 -1.27) (xy 0 0) (xy -1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -15.24 0 0)
+					(length 7.62)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at 12.7 0 180)
+					(length 7.62)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74LVC2G07_3_0"
+				(rectangle
+					(start -5.08 -5.08)
+					(end 5.08 5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "74LVC2G07_3_1"
+				(pin power_in line
+					(at 0 -10.16 90)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 10.16 270)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "TIA-FPGA  -  FPGA replacement for the Atari 2600 Television Interface Adaptor (C010444)"
 		(exclude_from_sim no)
@@ -3985,7 +4267,7 @@
 		)
 		(uuid "fd9f14b2-f6aa-42b2-817c-59c73659d591")
 	)
-	(text "Rev A - digital interface only. Chroma and paddles do not fit the pin budget; see the notes."
+	(text "Rev B - digital interface with open-drain video and sound pads. The paddles do not fit the pin budget."
 		(exclude_from_sim no)
 		(at 20.00 21.00 0)
 		(effects
@@ -4030,7 +4312,7 @@
 		)
 		(uuid "43b77880-4aa9-47c5-8655-bcf63d045eee")
 	)
-	(text "8 are HDMI differential pairs, 3 are power. Rev A uses all 29, with none spare."
+	(text "8 are HDMI differential pairs, 3 are power. Rev B uses all 29, with none spare."
 		(exclude_from_sim no)
 		(at 20.00 43.00 0)
 		(effects
@@ -4199,7 +4481,7 @@
 		)
 		(uuid "fcf87520-c392-4b1a-bdfe-9ab001142215")
 	)
-	(label "F_CSYNC"
+	(label "F_CS_N"
 		(at 36.83 74.93 0)
 		(effects
 			(font
@@ -4239,7 +4521,7 @@
 		)
 		(uuid "43191426-995d-465b-8fa8-444c7641b402")
 	)
-	(label "F_OSC"
+	(label "F_LUM1"
 		(at 36.83 80.01 0)
 		(effects
 			(font
@@ -4259,7 +4541,7 @@
 		)
 		(uuid "bc312951-6382-4b98-94d4-9a12fb75233c")
 	)
-	(label "F_LUM2"
+	(label "F_CSYNC"
 		(at 36.83 82.55 0)
 		(effects
 			(font
@@ -4299,7 +4581,7 @@
 		)
 		(uuid "6f58e740-2899-431a-a044-9409234a51b9")
 	)
-	(label "F_COL"
+	(label "F_LUM2"
 		(at 36.83 87.63 0)
 		(effects
 			(font
@@ -4319,7 +4601,7 @@
 		)
 		(uuid "7ac54155-191b-4b81-8d8e-0f8ec5a74bc6")
 	)
-	(label "F_I5"
+	(label "F_BLK"
 		(at 36.83 90.17 0)
 		(effects
 			(font
@@ -4339,7 +4621,7 @@
 		)
 		(uuid "34bda178-d648-4e43-a722-d79430f54cda")
 	)
-	(label "F_D7"
+	(label "F_I5"
 		(at 36.83 92.71 0)
 		(effects
 			(font
@@ -4359,7 +4641,7 @@
 		)
 		(uuid "6308b8e0-7123-47ce-ac95-85a4cb5e727e")
 	)
-	(label "F_D6"
+	(label "F_LUM0"
 		(at 36.83 95.25 0)
 		(effects
 			(font
@@ -4379,7 +4661,7 @@
 		)
 		(uuid "8a78215a-7292-4579-a0c5-5a2ca342da6d")
 	)
-	(label "F_A0"
+	(label "F_COL"
 		(at 36.83 97.79 0)
 		(effects
 			(font
@@ -4399,7 +4681,7 @@
 		)
 		(uuid "2fadd258-c351-4eae-9dca-585e9d3fac8f")
 	)
-	(label "F_A1"
+	(label "F_A0"
 		(at 36.83 100.33 0)
 		(effects
 			(font
@@ -4479,7 +4761,7 @@
 		)
 		(uuid "61760ff7-b7a2-4012-b70a-c81d6912791c")
 	)
-	(label "F_D0"
+	(label "F_AU0"
 		(at 36.83 110.49 0)
 		(effects
 			(font
@@ -4499,7 +4781,7 @@
 		)
 		(uuid "d083594f-cb08-45ba-b79a-0514ff095843")
 	)
-	(label "F_A5"
+	(label "F_RW"
 		(at 36.83 113.03 0)
 		(effects
 			(font
@@ -4519,7 +4801,7 @@
 		)
 		(uuid "20dd3b86-6678-4554-abf8-15bd148043ff")
 	)
-	(label "F_D2"
+	(label "F_D1"
 		(at 36.83 115.57 0)
 		(effects
 			(font
@@ -4539,7 +4821,7 @@
 		)
 		(uuid "58fdb3d3-a535-404c-ab1b-e53c61666286")
 	)
-	(label "F_RW"
+	(label "F_D2"
 		(at 36.83 118.11 0)
 		(effects
 			(font
@@ -4559,7 +4841,7 @@
 		)
 		(uuid "1144c7de-488d-40ca-bf28-3ea9c0666484")
 	)
-	(label "F_D4"
+	(label "F_D5"
 		(at 36.83 120.65 0)
 		(effects
 			(font
@@ -4579,7 +4861,7 @@
 		)
 		(uuid "cd8a430e-13d1-4b57-95db-ade9d6c02e52")
 	)
-	(label "F_AU0"
+	(label "F_AU1"
 		(at 36.83 123.19 0)
 		(effects
 			(font
@@ -4599,7 +4881,7 @@
 		)
 		(uuid "5a109f86-7363-4006-8fba-5bba9ebd7a53")
 	)
-	(label "F_CS3_N"
+	(label "F_A5"
 		(at 36.83 125.73 0)
 		(effects
 			(font
@@ -4755,7 +5037,7 @@
 		)
 		(uuid "4cedccd7-63e6-4f72-91aa-bf07723c56f9")
 	)
-	(label "F_LUM1"
+	(label "F_OSC"
 		(at 82.55 72.39 0)
 		(effects
 			(font
@@ -4807,7 +5089,7 @@
 		)
 		(uuid "d4ec2156-e066-4d82-bac0-b089f42a9dc8")
 	)
-	(label "F_LUM0"
+	(label "F_D0"
 		(at 82.55 95.25 0)
 		(effects
 			(font
@@ -4827,7 +5109,7 @@
 		)
 		(uuid "9815c7ee-0826-4c58-9dc2-6c2487e0ba22")
 	)
-	(label "F_AU1"
+	(label "F_A1"
 		(at 82.55 97.79 0)
 		(effects
 			(font
@@ -4875,7 +5157,7 @@
 		)
 		(uuid "2cf74e41-d5c5-4998-8356-fae554a5b394")
 	)
-	(label "F_D1"
+	(label "F_D3"
 		(at 82.55 118.11 0)
 		(effects
 			(font
@@ -4895,7 +5177,7 @@
 		)
 		(uuid "f91d15fb-e65e-49ec-a6c8-4858587fb34a")
 	)
-	(label "F_D3"
+	(label "F_D4"
 		(at 82.55 120.65 0)
 		(effects
 			(font
@@ -4915,7 +5197,7 @@
 		)
 		(uuid "c237a810-087f-49fc-b301-aadb407ea426")
 	)
-	(label "F_CS0_N"
+	(label "F_D6"
 		(at 82.55 123.19 0)
 		(effects
 			(font
@@ -4935,7 +5217,7 @@
 		)
 		(uuid "a7ad5e14-4e88-49eb-9a32-9bfb4d5f1cd9")
 	)
-	(label "F_D5"
+	(label "F_D7"
 		(at 82.55 125.73 0)
 		(effects
 			(font
@@ -4996,7 +5278,7 @@
 		)
 		(uuid "243ae25e-78b3-4871-80b2-1f38461191cc")
 	)
-	(text "1.8 V-powered buffer. Recovering those 8 pins is the rev B fix."
+	(text "1.8 V-powered buffer. Recovering those 8 pins is the way to the paddles."
 		(exclude_from_sim no)
 		(at 20.00 145.50 0)
 		(effects
@@ -6196,7 +6478,7 @@
 		)
 		(uuid "c16223d8-3ec7-4b9a-926d-562bca831f24")
 	)
-	(label "DBUS_OE_N"
+	(label "F_CS_N"
 		(at 149.86 198.12 0)
 		(effects
 			(font
@@ -6226,7 +6508,7 @@
 		)
 		(uuid "54691706-97da-4fb7-8646-3daed15840ed")
 	)
-	(text "U5  /OE = /CS0 OR /CS3. The 245 drives the bus only while the TIA is"
+	(text "U5  /OE = /CS0 OR /CS3: the 245 drives the bus only while the TIA is selected."
 		(exclude_from_sim no)
 		(at 228.00 150.00 0)
 		(effects
@@ -6237,7 +6519,7 @@
 		)
 		(uuid "f91eeb4c-300b-4495-8605-975669687949")
 	)
-	(text "selected, so it never fights the ROM or the RIOT on a CPU read."
+	(text "The FPGA reads the same net, F_CS_N, which frees the pin BLK uses."
 		(exclude_from_sim no)
 		(at 228.00 153.50 0)
 		(effects
@@ -6389,7 +6671,7 @@
 		)
 		(uuid "677981c7-e8a6-419c-b101-31f11bc80781")
 	)
-	(label "DBUS_OE_N"
+	(label "F_CS_N"
 		(at 265.43 170.18 0)
 		(effects
 			(font
@@ -7589,7 +7871,7 @@
 		)
 		(uuid "19a34736-da60-4c21-af34-891f40d7c773")
 	)
-	(label "F_CSYNC"
+	(label "TIA_CSYNC"
 		(at 347.98 74.93 0)
 		(effects
 			(font
@@ -7649,7 +7931,7 @@
 		)
 		(uuid "b1373da3-a6d7-49a9-a671-9fae32c60c0f")
 	)
-	(label "F_LUM1"
+	(label "TIA_LUM1"
 		(at 347.98 82.55 0)
 		(effects
 			(font
@@ -7658,10 +7940,6 @@
 			(justify right bottom)
 		)
 		(uuid "0687f1fc-de32-4003-869b-418601c09bec")
-	)
-	(no_connect
-		(at 350.52 85.09)
-		(uuid "a838c58b-fdfd-4ded-9ddc-24ac90971b99")
 	)
 	(wire
 		(pts
@@ -7673,7 +7951,7 @@
 		)
 		(uuid "dc9b35e9-bc45-4b71-9d40-1c6a393347c3")
 	)
-	(label "F_LUM2"
+	(label "TIA_LUM2"
 		(at 347.98 87.63 0)
 		(effects
 			(font
@@ -7693,7 +7971,7 @@
 		)
 		(uuid "b731c5ec-2e7d-4ce7-ad37-44ba230ce2a3")
 	)
-	(label "F_LUM0"
+	(label "TIA_LUM0"
 		(at 347.98 90.17 0)
 		(effects
 			(font
@@ -7713,7 +7991,7 @@
 		)
 		(uuid "0a33c7ca-dff0-4161-a695-442f083f0d6c")
 	)
-	(label "F_COL"
+	(label "TIA_COL"
 		(at 347.98 92.71 0)
 		(effects
 			(font
@@ -7757,7 +8035,7 @@
 		)
 		(uuid "30032b0e-59c8-4354-b058-4e7c804817ff")
 	)
-	(label "F_AU1"
+	(label "TIA_AU1"
 		(at 347.98 100.33 0)
 		(effects
 			(font
@@ -7777,7 +8055,7 @@
 		)
 		(uuid "d0ad8770-099b-4522-ab1b-6d158579c36d")
 	)
-	(label "F_AU0"
+	(label "TIA_AU0"
 		(at 347.98 102.87 0)
 		(effects
 			(font
@@ -8379,7 +8657,7 @@
 		(at 389.89 120.65)
 		(uuid "15699612-ad31-4dc1-b053-c9629a01f573")
 	)
-	(text "Pin 9 (COL, chroma) and pins 37-40 (paddles) left open:"
+	(text "Pins 37-40 (paddles) and pin 10 (DEL, the colour trim) are left open:"
 		(exclude_from_sim no)
 		(at 335.00 133.00 0)
 		(effects
@@ -8390,7 +8668,7 @@
 		)
 		(uuid "b0d80b88-6b3e-4fdc-971d-218f151b057c")
 	)
-	(text "no FPGA pin is left for them on a Tang Nano 9K. See README."
+	(text "no FPGA pin is left for the paddles, and DEL has no use here."
 		(exclude_from_sim no)
 		(at 335.00 136.50 0)
 		(effects
@@ -8401,7 +8679,7 @@
 		)
 		(uuid "32703c8e-d761-4330-abde-1b00f6936d3e")
 	)
-	(text "VIDEO OUTPUT - CX-2600A resistor network (STANDALONE USE ONLY)"
+	(text "VIDEO AND SOUND PADS - U6-U9, 74LVC2G07: open drain, 5 V tolerant"
 		(exclude_from_sim no)
 		(at 300.00 164.00 0)
 		(effects
@@ -8413,7 +8691,7 @@
 		)
 		(uuid "96018689-53f7-41d2-b0e0-8ad05ff0908b")
 	)
-	(text "4:2:1 luma weighting, plus R9 for chroma. Do NOT populate when the board"
+	(text "On the die SYNC, LUM0-2, COL, BLK and both sound pads only ever pull down,"
 		(exclude_from_sim no)
 		(at 300.00 168.00 0)
 		(effects
@@ -8424,7 +8702,7 @@
 		)
 		(uuid "a31b0d5a-db57-4901-9331-c34f0d0c4247")
 	)
-	(text "goes into a real 2600: the console already has this network, and a second"
+	(text "so here the console's own pull-ups set every level, as they do for the TIA."
 		(exclude_from_sim no)
 		(at 300.00 171.50 0)
 		(effects
@@ -8435,7 +8713,7 @@
 		)
 		(uuid "5708a928-85e5-4aba-bbcd-9fd4a9017d43")
 	)
-	(text "one in parallel would shift every level. Drive the socket pins and stop."
+	(text "BLK pulls low through blanking; the 2600 and the 2600A from rev 16 feed it to the colour network."
 		(exclude_from_sim no)
 		(at 300.00 175.00 0)
 		(effects
@@ -8445,924 +8723,6 @@
 			(justify left)
 		)
 		(uuid "34f76ad6-012a-4059-be8f-e7fda7220900")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 330.20 187.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7929e953-9ada-45be-bc3d-de3dbe08a0a1")
-		(property "Reference" "R1"
-			(at 332.72 181.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "27k"
-			(at 332.72 183.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 330.20 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 330.20 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "0b78f611-a5f7-4514-8315-ba60bb154e6f")
-		)
-		(pin "2"
-			(uuid "80441d2c-51a4-41ac-9df5-aa193c858712")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 330.20 184.15) (xy 330.20 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f56e88ce-1a0d-414d-aabf-a1bcee95ee46")
-	)
-	(label "F_CSYNC"
-		(at 330.20 181.61 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "131001cd-e5eb-4ced-9c35-321d3e4043c2")
-	)
-	(wire
-		(pts
-			(xy 330.20 191.77) (xy 330.20 194.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ae5d7f1b-50fa-4278-95a2-de99f489f93b")
-	)
-	(label "VIDEO_SUM"
-		(at 330.20 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "5a764b50-7367-486f-ac93-f88c210ab51f")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 351.79 187.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "18d37807-d5ae-4d72-ada4-a167598ccb79")
-		(property "Reference" "R2"
-			(at 354.31 181.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "56k"
-			(at 354.31 183.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 351.79 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 351.79 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "6d8c29f9-635e-4eb4-94bb-8de76d3969b8")
-		)
-		(pin "2"
-			(uuid "f7678881-f98a-4927-b47c-9d509fb69742")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 351.79 184.15) (xy 351.79 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c243f9a3-b788-4a56-a578-6850e8b78ae9")
-	)
-	(label "F_LUM1"
-		(at 351.79 181.61 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "8f65398a-ff40-4c74-8829-ec8d47b3d914")
-	)
-	(wire
-		(pts
-			(xy 351.79 191.77) (xy 351.79 194.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "076d1c8c-60d3-4379-a910-21ded2406087")
-	)
-	(label "VIDEO_SUM"
-		(at 351.79 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "eb68a13e-bbba-4e57-96be-78db92d73bea")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 373.38 187.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "9f25e6b0-91bd-4eda-a209-1ebfb1d8d386")
-		(property "Reference" "R3"
-			(at 375.90 181.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "27k"
-			(at 375.90 183.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 373.38 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 373.38 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "efb8fe70-be78-4828-81ac-a7fdfec7332a")
-		)
-		(pin "2"
-			(uuid "c8f89c86-ab38-4a90-af23-e6c085996e7c")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 373.38 184.15) (xy 373.38 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a5fc2f9a-6605-4fcb-bbcb-bc4e2a60e762")
-	)
-	(label "F_LUM2"
-		(at 373.38 181.61 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "4d5cea4b-6efe-4806-83f7-1d38a19186e9")
-	)
-	(wire
-		(pts
-			(xy 373.38 191.77) (xy 373.38 194.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ddbf84bb-9927-439d-8dbb-15099378d0ed")
-	)
-	(label "VIDEO_SUM"
-		(at 373.38 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "808a132b-c1e5-4229-9c1f-d0c657e036da")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 396.24 187.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "23577677-68cf-42e3-b6a5-987a700b190b")
-		(property "Reference" "R4"
-			(at 398.76 181.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "110k"
-			(at 398.76 183.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 396.24 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 396.24 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "d79843b8-05c8-4d34-a370-2dc374e7fca2")
-		)
-		(pin "2"
-			(uuid "a9c1a08c-92f9-4964-8454-7cc6133eed14")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 396.24 184.15) (xy 396.24 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e9105e05-a096-4be2-80f5-0905410d8eb4")
-	)
-	(label "F_LUM0"
-		(at 396.24 181.61 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "6baa3e8f-c47a-4dcc-b655-90083d0ad909")
-	)
-	(wire
-		(pts
-			(xy 396.24 191.77) (xy 396.24 194.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "51c2f124-437a-490b-81ad-40c269a024c7")
-	)
-	(label "VIDEO_SUM"
-		(at 396.24 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "6c538e7c-c72d-4fb1-ae61-8ae6de7863b4")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 330.20 213.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "01acc98d-04d0-4d67-8128-64c26d0aebf8")
-		(property "Reference" "R5"
-			(at 332.72 206.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "3k3"
-			(at 332.72 208.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 330.20 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 330.20 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "b8d986fc-1011-42b6-b3f6-5507cadfa228")
-		)
-		(pin "2"
-			(uuid "0f5442b5-1904-40e1-b003-e073ff559713")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 330.20 209.55) (xy 330.20 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "817c84c7-66e4-4621-8540-4922482ead20")
-	)
-	(label "F_CSYNC"
-		(at 330.20 207.01 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a5ab9e72-6fb3-48a8-b8ef-6b203d8055b6")
-	)
-	(wire
-		(pts
-			(xy 330.20 217.17) (xy 330.20 219.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "08f64187-a32d-42d5-a425-c6149749f7be")
-	)
-	(label "GND"
-		(at 330.20 219.71 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "e342042b-2ad1-4114-b212-93cee8f5c2ce")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 351.79 213.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "90c875c0-6d4b-4057-ba54-021c1432b8c1")
-		(property "Reference" "R6"
-			(at 354.31 206.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "3k3"
-			(at 354.31 208.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 351.79 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 351.79 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "34e7ab16-159b-4005-a3eb-495946473515")
-		)
-		(pin "2"
-			(uuid "093ee2b4-48ae-4b99-ac03-fc338e3e8645")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 351.79 209.55) (xy 351.79 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "38b8b5a1-d9fa-4d6a-a461-c7dda9c1caa3")
-	)
-	(label "F_LUM1"
-		(at 351.79 207.01 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "567863ce-6392-43f3-b93a-d80df955c64c")
-	)
-	(wire
-		(pts
-			(xy 351.79 217.17) (xy 351.79 219.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a6cf8d7a-84ab-46ed-8ae8-d3ca2f31d007")
-	)
-	(label "GND"
-		(at 351.79 219.71 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "7c05223a-b5ca-45b6-874d-1596f947ca1e")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 373.38 213.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "12ee4296-4c33-49db-8118-308d6e32bf0e")
-		(property "Reference" "R7"
-			(at 375.90 206.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "3k3"
-			(at 375.90 208.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 373.38 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 373.38 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "ae657553-6408-450c-a15f-d55feaa00a9f")
-		)
-		(pin "2"
-			(uuid "a8106549-e7b9-4fa8-9f6d-83644a32b85a")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 373.38 209.55) (xy 373.38 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d65ec072-66b1-4816-b97d-bfce6c7fbade")
-	)
-	(label "F_LUM2"
-		(at 373.38 207.01 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "beaa2379-d5ce-4d1b-ae5b-130ba6eb0182")
-	)
-	(wire
-		(pts
-			(xy 373.38 217.17) (xy 373.38 219.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dd8183d3-c644-4393-9adc-124485c1cf67")
-	)
-	(label "GND"
-		(at 373.38 219.71 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "50c0e9f1-5454-4705-a6fd-3ae95d94924c")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 396.24 213.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e8890a9f-48b9-44bc-842c-1b8f85faaceb")
-		(property "Reference" "R8"
-			(at 398.76 206.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "3k3"
-			(at 398.76 208.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 396.24 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 396.24 213.36 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "fbaad595-09a5-4c8d-ab1b-f4bb60331adb")
-		)
-		(pin "2"
-			(uuid "f10ee857-fd8c-43a1-97d5-df7fde026b6e")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 396.24 209.55) (xy 396.24 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a5dc2b77-22e0-4d39-84dc-3066de36a2ed")
-	)
-	(label "F_LUM0"
-		(at 396.24 207.01 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a6606d22-52e9-4636-a81b-75273b76f898")
-	)
-	(wire
-		(pts
-			(xy 396.24 217.17) (xy 396.24 219.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2aa5d3be-fc6e-43f7-8c74-85081e83e0e9")
-	)
-	(label "GND"
-		(at 396.24 219.71 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "de130291-a63c-410c-82fa-2ee496a03ee6")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 417.83 187.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a6db0cde-93c3-4ffc-8765-edf60d96eaba")
-		(property "Reference" "R9"
-			(at 420.35 181.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "9k1"
-			(at 420.35 183.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 417.83 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 417.83 187.96 0)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "1"
-			(uuid "15a50de2-dc50-4b94-b7c1-c5f7d762b10d")
-		)
-		(pin "2"
-			(uuid "3a7bfa07-c190-4769-8812-d83e94f5f285")
-		)
-		(instances
-			(project "tia-fpga"
-				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "R9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 417.83 184.15) (xy 417.83 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1432dc06-95ca-4ac0-8eab-dfd0f025008d")
-	)
-	(label "F_COL"
-		(at 417.83 181.61 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f2bc2cb2-2c5b-4679-b7b1-4ca557904567")
-	)
-	(wire
-		(pts
-			(xy 417.83 191.77) (xy 417.83 194.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e49bf26c-31eb-46b7-8507-80a8fcbdc4b6")
-	)
-	(label "VIDEO_SUM"
-		(at 417.83 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "e625e583-f3a2-4d27-9e97-d80bf7518d9a")
 	)
 	(text "POWER AND DECOUPLING"
 		(exclude_from_sim no)
@@ -10485,7 +9845,7 @@
 		)
 		(uuid "ddb1a35f-6f66-4cbc-bf88-0839e41d4db0")
 	)
-	(text "COLOUR VIDEO - via the Tang Nano's HDMI connector"
+	(text "HDMI - not used by this design"
 		(exclude_from_sim no)
 		(at 228.00 105.00 0)
 		(effects
@@ -10497,7 +9857,7 @@
 		)
 		(uuid "a0d26f80-9186-47d1-9886-4a22e7d9add1")
 	)
-	(text "The 7-bit colour value never leaves the FPGA: an internal"
+	(text "The Tang Nano's HDMI pins are dedicated differential pairs"
 		(exclude_from_sim no)
 		(at 228.00 109.50 0)
 		(effects
@@ -10508,7 +9868,7 @@
 		)
 		(uuid "a4737a4c-7d62-423d-9db4-4ef2345165eb")
 	)
-	(text "TMDS encoder drives the HDMI pins, which are dedicated"
+	(text "outside the 29-pin budget. A TMDS encoder in the FPGA could"
 		(exclude_from_sim no)
 		(at 228.00 112.80 0)
 		(effects
@@ -10519,7 +9879,7 @@
 		)
 		(uuid "11299752-dcdc-487e-83b0-b948b0d63b62")
 	)
-	(text "differential pairs on the module and were never part of"
+	(text "send colour out through them at no pin cost; the RTL has"
 		(exclude_from_sim no)
 		(at 228.00 116.10 0)
 		(effects
@@ -10530,7 +9890,7 @@
 		)
 		(uuid "0dd37d90-20e8-46b9-a8a0-da9612986da0")
 	)
-	(text "the 29-pin GPIO budget. Colour costs zero header pins."
+	(text "none yet."
 		(exclude_from_sim no)
 		(at 228.00 119.40 0)
 		(effects
@@ -10595,6 +9955,1658 @@
 			(justify left)
 		)
 		(uuid "fef349e6-b6c6-44fe-946c-db981fc2a9a9")
+	)
+	(wire
+		(pts
+			(xy 350.52 85.09) (xy 347.98 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "38ba7d89-c03d-4a79-a155-6eb3cc26beb5")
+	)
+	(label "TIA_BLK"
+		(at 347.98 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c4a95aee-9686-4241-883c-55042ae964e8")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 322.58 184.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9d94f856-aa44-4ed1-bcc1-57629ae3dc28")
+		(property "Reference" "U6"
+			(at 314.96 177.80 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 314.96 179.70 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 322.58 184.15 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 322.58 184.15 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "a5a85525-09d0-461a-b2c6-5ea7331d0f3b")
+		)
+		(pin "6"
+			(uuid "914b04b4-fc6c-45b9-a474-73dee3160fb8")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 307.34 184.15) (xy 304.80 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efce4f57-7dac-491f-951b-7d2ecec3cd40")
+	)
+	(label "F_CSYNC"
+		(at 304.80 184.15 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "48d5a7da-80c4-4eab-b653-82eccf53ca99")
+	)
+	(wire
+		(pts
+			(xy 335.28 184.15) (xy 337.82 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bfd7d3da-d7ab-43aa-a5b6-22d6857bd367")
+	)
+	(label "TIA_CSYNC"
+		(at 337.82 184.15 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "cb9136f6-6c6c-46ec-8631-993b401bb869")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 322.58 196.85 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2e8e7d38-c013-4ca1-9e10-fb739d3cb706")
+		(property "Reference" "U6"
+			(at 314.96 190.50 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 314.96 192.40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 322.58 196.85 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 322.58 196.85 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "3"
+			(uuid "cca767ff-ba42-464f-8a20-47f75b476ad8")
+		)
+		(pin "4"
+			(uuid "3fd4c0bc-41af-48bd-bce7-bb500f489834")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U6")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 307.34 196.85) (xy 304.80 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c3f620d-8027-42e1-8fb4-b327ba3405f5")
+	)
+	(label "F_LUM1"
+		(at 304.80 196.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "f92a7772-32e3-489f-bdb2-ee80a838fa22")
+	)
+	(wire
+		(pts
+			(xy 335.28 196.85) (xy 337.82 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8bf29900-ce40-4c8a-aa22-c29fc59096a8")
+	)
+	(label "TIA_LUM1"
+		(at 337.82 196.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "68eb6a6e-6f9f-4c06-bac6-e7f90825e4ec")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 322.58 209.55 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "07e4fef9-b7eb-4753-b3c8-80c8d72a5a9e")
+		(property "Reference" "U7"
+			(at 314.96 203.20 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 314.96 205.10 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 322.58 209.55 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 322.58 209.55 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "13edccf0-59fe-4a8e-927b-217745b6ed46")
+		)
+		(pin "6"
+			(uuid "94951714-4960-44c7-a7e8-0c838f36e520")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 307.34 209.55) (xy 304.80 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47d2351f-3b60-4734-a9cc-80ebacde2494")
+	)
+	(label "F_BLK"
+		(at 304.80 209.55 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "826778d0-dc59-4788-bce3-00d6b9296397")
+	)
+	(wire
+		(pts
+			(xy 335.28 209.55) (xy 337.82 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bea5c841-6212-48dc-bf7f-783f62b89463")
+	)
+	(label "TIA_BLK"
+		(at 337.82 209.55 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "42ccd1d6-f6ce-4042-bfef-f07ccec0f65b")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 322.58 222.25 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e8623dd4-dd23-40f3-a566-3ef3733bd278")
+		(property "Reference" "U7"
+			(at 314.96 215.90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 314.96 217.80 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 322.58 222.25 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 322.58 222.25 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "3"
+			(uuid "b397f627-e44f-4635-af94-38c33a326032")
+		)
+		(pin "4"
+			(uuid "b371ccf9-2288-4eb8-b77e-9c88097846c2")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U7")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 307.34 222.25) (xy 304.80 222.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94294ef3-3201-4536-9acf-b9cd76e22e3e")
+	)
+	(label "F_LUM2"
+		(at 304.80 222.25 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "521c0f93-ea1c-4baa-8cd6-256a69fd8077")
+	)
+	(wire
+		(pts
+			(xy 335.28 222.25) (xy 337.82 222.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "186f192e-f7cc-4571-8f87-32cd6de98b3a")
+	)
+	(label "TIA_LUM2"
+		(at 337.82 222.25 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ff4545c7-1712-4d80-9bd1-113f1d6b219e")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 378.46 184.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4ddd897c-5a6c-4671-96a0-8127704e1c2a")
+		(property "Reference" "U8"
+			(at 370.84 177.80 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 370.84 179.70 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 378.46 184.15 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 378.46 184.15 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "f4b1b839-7055-4a6c-ac0b-2966ee13a727")
+		)
+		(pin "6"
+			(uuid "3ac4956d-0099-4dc1-9323-1a401eaffb21")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 363.22 184.15) (xy 360.68 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a6dd037-86f8-4db7-a3c5-66951a07c03b")
+	)
+	(label "F_LUM0"
+		(at 360.68 184.15 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "4e486fb2-9343-48be-9474-5044880aad6d")
+	)
+	(wire
+		(pts
+			(xy 391.16 184.15) (xy 393.70 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ecaeb065-0b05-4ab9-a287-dbf69bd53645")
+	)
+	(label "TIA_LUM0"
+		(at 393.70 184.15 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5d32644e-63d5-4385-869f-b67878487880")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 378.46 196.85 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "536acbb2-4bde-40b6-ad68-03a4ff263f3d")
+		(property "Reference" "U8"
+			(at 370.84 190.50 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 370.84 192.40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 378.46 196.85 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 378.46 196.85 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "3"
+			(uuid "fec54fdc-57c1-41b8-82ea-01a02cce7fa3")
+		)
+		(pin "4"
+			(uuid "eee29ef4-5789-43d6-afd4-6c176c77f14f")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U8")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 363.22 196.85) (xy 360.68 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "826df2f2-d5a1-45af-ad49-bb2fc78071e4")
+	)
+	(label "F_COL"
+		(at 360.68 196.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "db33b796-2573-41d6-a4d3-03f47a6d8752")
+	)
+	(wire
+		(pts
+			(xy 391.16 196.85) (xy 393.70 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb738fa0-d601-488a-a5d4-8c97938efce8")
+	)
+	(label "TIA_COL"
+		(at 393.70 196.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8088f1cb-4d4b-4889-8298-ef303d07715c")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 378.46 209.55 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a645996b-7f7d-4cf2-a9cd-dbf3f5d22815")
+		(property "Reference" "U9"
+			(at 370.84 203.20 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 370.84 205.10 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 378.46 209.55 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 378.46 209.55 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "870d5c7f-dbb6-4b13-8917-b8163d7862a4")
+		)
+		(pin "6"
+			(uuid "e8e96e88-b905-4c1f-8dfe-799c34942446")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 363.22 209.55) (xy 360.68 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f128c0ba-8b04-42c2-8a55-dd0eab847e75")
+	)
+	(label "F_AU1"
+		(at 360.68 209.55 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0cedf4e6-45f1-4a70-8192-7654694f3a0d")
+	)
+	(wire
+		(pts
+			(xy 391.16 209.55) (xy 393.70 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e9972a62-8ce7-4ad8-8693-8313e83165e8")
+	)
+	(label "TIA_AU1"
+		(at 393.70 209.55 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "98907e3f-579d-4c40-a174-94640fd7427e")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 378.46 222.25 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0d5338de-cde7-4449-b53d-bfc857418740")
+		(property "Reference" "U9"
+			(at 370.84 215.90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 370.84 217.80 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 378.46 222.25 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 378.46 222.25 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "3"
+			(uuid "0fb82adb-407e-47d9-af32-22822dcd3cbd")
+		)
+		(pin "4"
+			(uuid "187e08b7-9d5d-4258-af22-e0590e3f535a")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U9")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 363.22 222.25) (xy 360.68 222.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4c78aa9b-816a-4653-ad91-e743c2468bd6")
+	)
+	(label "F_AU0"
+		(at 360.68 222.25 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d0fec27c-147e-44e2-af90-f0870058edd3")
+	)
+	(wire
+		(pts
+			(xy 391.16 222.25) (xy 393.70 222.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7aadc1de-7575-4c0e-9c78-613c494d4979")
+	)
+	(label "TIA_AU0"
+		(at 393.70 222.25 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "01174732-1776-4e7b-9918-d96ebcd544ba")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 236.22 55.88 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e42d617f-ee22-4f7a-9569-53f158ca38cd")
+		(property "Reference" "U6"
+			(at 238.76 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 238.76 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 236.22 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "2"
+			(uuid "41719c50-c51e-47af-aad4-b505c9d58d6a")
+		)
+		(pin "5"
+			(uuid "1b7dbb29-b9f3-488d-b9cc-9c41bd43caf1")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U6")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 236.22 45.72) (xy 236.22 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83b80304-d018-47e1-b1d3-12abd67da5dc")
+	)
+	(label "+3V3"
+		(at 236.22 43.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b2d88087-b949-4a58-8e93-025bf2954b26")
+	)
+	(wire
+		(pts
+			(xy 236.22 66.04) (xy 236.22 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3d328e7e-6f4f-45d7-9f90-96911d92160c")
+	)
+	(label "GND"
+		(at 236.22 68.58 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d68acc61-7a50-4e6a-88dc-a254296455c9")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 243.84 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f36099a2-e555-453d-b53c-8baffd5f52e2")
+		(property "Reference" "C7"
+			(at 247.37 50.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 247.37 52.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 243.84 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 243.84 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "862cab36-e4f9-443d-8dcf-5bcff9762fb9")
+		)
+		(pin "2"
+			(uuid "0e8f8afe-4c54-45a7-b830-2fa4a32faa5f")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 52.07) (xy 243.84 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a0a2a0b-afef-430d-98ed-ab2794595ed8")
+	)
+	(label "+3V3"
+		(at 243.84 49.53 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ad8b2b82-9a8e-4dbf-80ae-94d00ab306fa")
+	)
+	(wire
+		(pts
+			(xy 243.84 59.69) (xy 243.84 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9752ead9-0990-4411-b781-328f03c84f25")
+	)
+	(label "GND"
+		(at 243.84 62.23 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d1ee95f1-93dc-45ec-9722-da604cda4cef")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 256.54 55.88 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d486a761-6738-4864-af65-8c36fd3c773a")
+		(property "Reference" "U7"
+			(at 259.08 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 259.08 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 256.54 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 256.54 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "2"
+			(uuid "80b9041c-85fd-429a-a0a6-c6daa8fd722b")
+		)
+		(pin "5"
+			(uuid "81f0f3b0-e65e-42e8-b997-856b9824dc5d")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U7")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 256.54 45.72) (xy 256.54 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1c9a773-ff4f-4fd7-a33e-76f7c95e9577")
+	)
+	(label "+3V3"
+		(at 256.54 43.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "27585677-3a65-4161-bb7a-9c11a602cae5")
+	)
+	(wire
+		(pts
+			(xy 256.54 66.04) (xy 256.54 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dceb282a-0c0a-4ca7-b037-635d99ca8d15")
+	)
+	(label "GND"
+		(at 256.54 68.58 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5792ae3e-41d6-45f8-a373-20414437e5c7")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 264.16 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c1b3b5da-9758-481a-b894-ea2dcf389e64")
+		(property "Reference" "C8"
+			(at 267.69 50.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 267.69 52.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 264.16 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 264.16 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "c1316bd6-5813-4b5a-9865-cbe629f5a24c")
+		)
+		(pin "2"
+			(uuid "ebc1a612-2754-45a9-8902-93179d731bcb")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 264.16 52.07) (xy 264.16 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c959d588-4f99-4bdc-b661-b90f9c527d68")
+	)
+	(label "+3V3"
+		(at 264.16 49.53 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8aff3e4f-1974-4a29-a562-0e2c6ea7df57")
+	)
+	(wire
+		(pts
+			(xy 264.16 59.69) (xy 264.16 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5fd9e55-39ac-4964-92c1-94eb1a72906a")
+	)
+	(label "GND"
+		(at 264.16 62.23 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d34d5079-21a5-4cc0-92e9-6bd295846e39")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 276.86 55.88 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a142462a-be0b-4570-8439-686e2dfedc61")
+		(property "Reference" "U8"
+			(at 279.40 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 279.40 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 276.86 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 276.86 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "2"
+			(uuid "0879d8a1-07a1-4951-a391-b981966451d7")
+		)
+		(pin "5"
+			(uuid "ff78b99d-63c6-426b-96ba-f3912de2209f")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U8")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 276.86 45.72) (xy 276.86 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "40b43962-4919-4aaf-8298-1aeaaf113c23")
+	)
+	(label "+3V3"
+		(at 276.86 43.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d04004c2-1efd-46c2-81d0-ff6d50881863")
+	)
+	(wire
+		(pts
+			(xy 276.86 66.04) (xy 276.86 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31116bf5-0b73-41b4-8849-d60e22d1d7e3")
+	)
+	(label "GND"
+		(at 276.86 68.58 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "28981493-9b0a-4600-9823-71eb2292432c")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 284.48 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "29c78344-9e6f-41ba-9dc6-4478c75c2111")
+		(property "Reference" "C9"
+			(at 288.01 50.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 288.01 52.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 284.48 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 284.48 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "8f25e051-0c52-4093-951f-020c7067b5fc")
+		)
+		(pin "2"
+			(uuid "a26c6432-5c9b-46a8-9920-698ce8233f65")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 284.48 52.07) (xy 284.48 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a554d43f-9a02-4710-a68f-23ec38fc5c67")
+	)
+	(label "+3V3"
+		(at 284.48 49.53 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "106121eb-3ed9-4393-b2f4-61644a563c09")
+	)
+	(wire
+		(pts
+			(xy 284.48 59.69) (xy 284.48 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11849d38-bf7f-4011-9cc3-69289fdd3d25")
+	)
+	(label "GND"
+		(at 284.48 62.23 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "256c323a-2df6-4f6a-b957-1562c89c8951")
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC2G07")
+		(at 297.18 55.88 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4c831c30-c0ca-4e24-9ef8-16483a1b44d6")
+		(property "Reference" "U9"
+			(at 299.72 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74LVC2G07"
+			(at 299.72 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 297.18 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 297.18 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "2"
+			(uuid "1a54234e-5c76-45f2-bf84-70452f354a6f")
+		)
+		(pin "5"
+			(uuid "7adecf15-6bb0-4ba4-bbf6-fe006aa6f395")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "U9")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 297.18 45.72) (xy 297.18 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e28a8be-68e9-44c7-97fd-ba100b83286d")
+	)
+	(label "+3V3"
+		(at 297.18 43.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b8dfc958-cba7-4a33-9604-347079e8f094")
+	)
+	(wire
+		(pts
+			(xy 297.18 66.04) (xy 297.18 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af07521f-93bd-418b-bee3-a045f1cca103")
+	)
+	(label "GND"
+		(at 297.18 68.58 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "f8e17c09-46cc-418c-a5ca-02da87af838e")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 304.80 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "73343f8e-b685-4529-b277-1a0d263c9514")
+		(property "Reference" "C10"
+			(at 308.33 50.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 308.33 52.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 304.80 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 304.80 55.88 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "be43b28d-7b26-477e-ba9b-4c5030c4c378")
+		)
+		(pin "2"
+			(uuid "9f722cfb-ad1f-49eb-a10f-b854806f5423")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 304.80 52.07) (xy 304.80 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d89e5a7-86d7-4dc1-b69d-a20b8a24d41f")
+	)
+	(label "+3V3"
+		(at 304.80 49.53 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "87805698-8340-4502-bf4e-45420898f9c6")
+	)
+	(wire
+		(pts
+			(xy 304.80 59.69) (xy 304.80 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96e2beee-3220-4522-a3e2-c1d10adae1fe")
+	)
+	(label "GND"
+		(at 304.80 62.23 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "14acc441-2593-4bfa-9b7c-8b0c72011d01")
 	)
 	(sheet_instances
 		(path "/"
