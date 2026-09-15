@@ -6,7 +6,7 @@ https://github.com/lrrosa/tia-fpga
 Copyright 2026 Leonardo Roman da Rosa - CERN-OHL-S-2.0
 
 BOARD
-  Size              70.0 x 32.0 mm (rectangular, no cutouts, no mounting holes)
+  Size              70.0 x 34.54 mm (rectangular, no cutouts, no mounting holes)
   Layers            2 (F.Cu / B.Cu)
   Thickness         1.6 mm FR4 (standard)
   Copper            1 oz / 35 um
@@ -39,7 +39,12 @@ ASSEMBLY NOTE (not the fab's problem, but it matters)
   TIA's DIP-40 socket. J1 and J4 are sockets on the FRONT, facing UP. Use ROUND
   MACHINED pins for J2/J3: square header pins damage a DIP socket.
 
-  U6-U9 (SOT-23-6) and C7-C10 sit in the top margin of the front. Their
+  The Tang Nano 9K goes in component side UP with its USB-C end on the left,
+  pin 1 of both its rows at that end. J1 takes the module's J6 row (the one
+  with 5V, GND and 3V3) and J4 takes J5. The rows are 22.86 mm apart, from
+  Sipeed's own dimension drawing.
+
+  U6-U9 (SOT-23-6), C7-C10 and D1 sit in the top margin of the front. Their
   designators are on the BACK silkscreen, right behind each part: there is no
   room for them beside the parts.
 

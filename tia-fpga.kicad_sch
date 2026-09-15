@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "TIA-FPGA - digital interface")
-		(date "2026-09-14")
+		(date "2026-09-15")
 		(rev "B")
 		(company "Leonardo Roman da Rosa - CERN-OHL-S-2.0")
 	)
@@ -4254,6 +4254,172 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:D_Schottky"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "D_Schottky"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Schottky diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode Schottky"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "D_Schottky_0_1"
+				(polyline
+					(pts
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "D_Schottky_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "TIA-FPGA  -  FPGA replacement for the Atari 2600 Television Interface Adaptor (C010444)"
 		(exclude_from_sim no)
@@ -4332,7 +4498,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b1e7c00f-dce9-41ba-aadb-aedb483b80ff")
-		(property "Reference" "J1"
+		(property "Reference" "J4"
 			(at 43.18 66.88 0)
 			(effects
 				(font
@@ -4445,7 +4611,7 @@
 		(instances
 			(project "tia-fpga"
 				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "J1")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -4521,7 +4687,7 @@
 		)
 		(uuid "43191426-995d-465b-8fa8-444c7641b402")
 	)
-	(label "F_LUM1"
+	(label "F_CSYNC"
 		(at 36.83 80.01 0)
 		(effects
 			(font
@@ -4541,7 +4707,7 @@
 		)
 		(uuid "bc312951-6382-4b98-94d4-9a12fb75233c")
 	)
-	(label "F_CSYNC"
+	(label "F_LUM1"
 		(at 36.83 82.55 0)
 		(effects
 			(font
@@ -4561,7 +4727,7 @@
 		)
 		(uuid "c9e82c44-57de-42d4-bad3-3c703d1b7cfe")
 	)
-	(label "F_I4"
+	(label "F_LUM2"
 		(at 36.83 85.09 0)
 		(effects
 			(font
@@ -4581,7 +4747,7 @@
 		)
 		(uuid "6f58e740-2899-431a-a044-9409234a51b9")
 	)
-	(label "F_LUM2"
+	(label "F_BLK"
 		(at 36.83 87.63 0)
 		(effects
 			(font
@@ -4601,7 +4767,7 @@
 		)
 		(uuid "7ac54155-191b-4b81-8d8e-0f8ec5a74bc6")
 	)
-	(label "F_BLK"
+	(label "F_I4"
 		(at 36.83 90.17 0)
 		(effects
 			(font
@@ -4641,7 +4807,7 @@
 		)
 		(uuid "6308b8e0-7123-47ce-ac95-85a4cb5e727e")
 	)
-	(label "F_LUM0"
+	(label "F_A3"
 		(at 36.83 95.25 0)
 		(effects
 			(font
@@ -4661,7 +4827,7 @@
 		)
 		(uuid "8a78215a-7292-4579-a0c5-5a2ca342da6d")
 	)
-	(label "F_COL"
+	(label "F_A0"
 		(at 36.83 97.79 0)
 		(effects
 			(font
@@ -4681,7 +4847,7 @@
 		)
 		(uuid "2fadd258-c351-4eae-9dca-585e9d3fac8f")
 	)
-	(label "F_A0"
+	(label "F_A1"
 		(at 36.83 100.33 0)
 		(effects
 			(font
@@ -4721,7 +4887,7 @@
 		)
 		(uuid "63b8a55b-fb54-4d6b-b059-0bb748b753b5")
 	)
-	(label "F_A3"
+	(label "F_A4"
 		(at 36.83 105.41 0)
 		(effects
 			(font
@@ -4741,7 +4907,7 @@
 		)
 		(uuid "13439419-1a12-476a-a0f9-837da66af8a7")
 	)
-	(label "F_A4"
+	(label "F_RW"
 		(at 36.83 107.95 0)
 		(effects
 			(font
@@ -4761,7 +4927,7 @@
 		)
 		(uuid "61760ff7-b7a2-4012-b70a-c81d6912791c")
 	)
-	(label "F_AU0"
+	(label "F_D1"
 		(at 36.83 110.49 0)
 		(effects
 			(font
@@ -4781,7 +4947,7 @@
 		)
 		(uuid "d083594f-cb08-45ba-b79a-0514ff095843")
 	)
-	(label "F_RW"
+	(label "F_D0"
 		(at 36.83 113.03 0)
 		(effects
 			(font
@@ -4801,7 +4967,7 @@
 		)
 		(uuid "20dd3b86-6678-4554-abf8-15bd148043ff")
 	)
-	(label "F_D1"
+	(label "F_D2"
 		(at 36.83 115.57 0)
 		(effects
 			(font
@@ -4821,7 +4987,7 @@
 		)
 		(uuid "58fdb3d3-a535-404c-ab1b-e53c61666286")
 	)
-	(label "F_D2"
+	(label "F_D3"
 		(at 36.83 118.11 0)
 		(effects
 			(font
@@ -4861,7 +5027,7 @@
 		)
 		(uuid "cd8a430e-13d1-4b57-95db-ade9d6c02e52")
 	)
-	(label "F_AU1"
+	(label "F_D7"
 		(at 36.83 123.19 0)
 		(effects
 			(font
@@ -4881,7 +5047,7 @@
 		)
 		(uuid "5a109f86-7363-4006-8fba-5bba9ebd7a53")
 	)
-	(label "F_A5"
+	(label "F_D6"
 		(at 36.83 125.73 0)
 		(effects
 			(font
@@ -4908,7 +5074,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9812a85f-9cf9-4dea-bd4a-66965d12d826")
-		(property "Reference" "J4"
+		(property "Reference" "J1"
 			(at 88.90 66.88 0)
 			(effects
 				(font
@@ -5021,7 +5187,7 @@
 		(instances
 			(project "tia-fpga"
 				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
-					(reference "J4")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -5089,7 +5255,7 @@
 		)
 		(uuid "d4ec2156-e066-4d82-bac0-b089f42a9dc8")
 	)
-	(label "F_D0"
+	(label "F_COL"
 		(at 82.55 95.25 0)
 		(effects
 			(font
@@ -5109,7 +5275,7 @@
 		)
 		(uuid "9815c7ee-0826-4c58-9dc2-6c2487e0ba22")
 	)
-	(label "F_A1"
+	(label "F_LUM0"
 		(at 82.55 97.79 0)
 		(effects
 			(font
@@ -5143,10 +5309,6 @@
 		(at 85.09 113.03)
 		(uuid "408ffbca-3f29-4f5c-84f9-1d214483e4fd")
 	)
-	(no_connect
-		(at 85.09 115.57)
-		(uuid "16394295-f67f-42ae-ba8b-3b37fbc629e1")
-	)
 	(wire
 		(pts
 			(xy 85.09 118.11) (xy 82.55 118.11)
@@ -5157,7 +5319,7 @@
 		)
 		(uuid "2cf74e41-d5c5-4998-8356-fae554a5b394")
 	)
-	(label "F_D3"
+	(label "F_AU1"
 		(at 82.55 118.11 0)
 		(effects
 			(font
@@ -5177,7 +5339,7 @@
 		)
 		(uuid "f91d15fb-e65e-49ec-a6c8-4858587fb34a")
 	)
-	(label "F_D4"
+	(label "F_AU0"
 		(at 82.55 120.65 0)
 		(effects
 			(font
@@ -5197,7 +5359,7 @@
 		)
 		(uuid "c237a810-087f-49fc-b301-aadb407ea426")
 	)
-	(label "F_D6"
+	(label "F_A5"
 		(at 82.55 123.19 0)
 		(effects
 			(font
@@ -5217,7 +5379,7 @@
 		)
 		(uuid "a7ad5e14-4e88-49eb-9a32-9bfb4d5f1cd9")
 	)
-	(label "F_D7"
+	(label "F_D4"
 		(at 82.55 125.73 0)
 		(effects
 			(font
@@ -5267,7 +5429,7 @@
 		)
 		(uuid "ed343a12-9e4c-4261-a631-f484094cb0f4")
 	)
-	(text "J4/2-9 are BANK3 at 1.8 V - unusable at 3.3 V without a local LDO and a"
+	(text "J1/2-9 are BANK3 at 1.8 V - unusable at 3.3 V without a local LDO and a"
 		(exclude_from_sim no)
 		(at 20.00 142.00 0)
 		(effects
@@ -5289,7 +5451,7 @@
 		)
 		(uuid "dfdfeb49-2008-42c1-b380-75cb5fcca48a")
 	)
-	(text "J4/18 (+5 V from the Tang Nano) left open on purpose: this board is fed"
+	(text "J1/18 is the module's 5 V input, fed from the TIA socket through D1, so"
 		(exclude_from_sim no)
 		(at 20.00 150.00 0)
 		(effects
@@ -5300,7 +5462,7 @@
 		)
 		(uuid "41a06942-8641-4a64-99d7-146ae2fabc02")
 	)
-	(text "from the breadboard rail, so tying both would put two sources on one net."
+	(text "the console powers the Tang Nano and its USB cannot feed the console back."
 		(exclude_from_sim no)
 		(at 20.00 153.50 0)
 		(effects
@@ -5311,7 +5473,7 @@
 		)
 		(uuid "9ed1dfdf-5885-47eb-9aec-0f947b964c7b")
 	)
-	(text "Power the Tang Nano over USB. +3V3 is taken from J4/24."
+	(text "+3V3 comes back from the module on J1/24 and powers U2-U9."
 		(exclude_from_sim no)
 		(at 20.00 157.00 0)
 		(effects
@@ -8736,7 +8898,7 @@
 		)
 		(uuid "9e43dc1a-f35d-436b-a7b5-93fc27da660b")
 	)
-	(text "+3V3 comes from the Tang Nano (J4/24). +5 V comes from the breadboard rail."
+	(text "+3V3 comes from the Tang Nano (J1/24). +5 V comes from the TIA socket, pin 20."
 		(exclude_from_sim no)
 		(at 20.00 200.00 0)
 		(effects
@@ -9912,7 +10074,7 @@
 		)
 		(uuid "8b903da4-c78e-4a8b-bea2-c7e822c34261")
 	)
-	(text "RULE: leave J1/23-24 and J4/12-17 open - they carry the"
+	(text "RULE: leave J4/23-24 and J1/12-17 open - they carry the"
 		(exclude_from_sim no)
 		(at 228.00 127.60 0)
 		(effects
@@ -11607,6 +11769,128 @@
 			(justify right bottom)
 		)
 		(uuid "14acc441-2593-4bfa-9b7c-8b0c72011d01")
+	)
+	(wire
+		(pts
+			(xy 85.09 115.57) (xy 82.55 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "750a7070-51f0-4b03-b841-1438deab3a7b")
+	)
+	(label "TN_5V"
+		(at 82.55 115.57 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b8daca43-a8b5-4621-901e-2e0898e20088")
+	)
+	(symbol
+		(lib_id "Device:D_Schottky")
+		(at 110.49 115.57 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "247b503b-c7e4-48ca-9a32-668eb41f49f0")
+		(property "Reference" "D1"
+			(at 109.22 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MBR0540"
+			(at 109.22 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123"
+			(at 110.49 115.57 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110.49 115.57 0)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "b9fd0f5c-299c-43c5-841a-4b03691cacf4")
+		)
+		(pin "2"
+			(uuid "4beb8a5e-12fe-41b9-bd87-5726258c552e")
+		)
+		(instances
+			(project "tia-fpga"
+				(path "/b310daf3-ae03-4c4a-85d5-0b0546462b61"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 115.57) (xy 104.14 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "208b32b7-0c4a-4ace-9c1e-488aa6b5e201")
+	)
+	(label "TN_5V"
+		(at 104.14 115.57 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ea4dff01-2bb2-4542-97b9-4bf84d68e58a")
+	)
+	(wire
+		(pts
+			(xy 114.30 115.57) (xy 116.84 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17ddbd38-fecc-45f7-b083-e6d46163cade")
+	)
+	(label "+5V"
+		(at 116.84 115.57 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "40ada74d-d0a3-46a2-a34f-3187dac12e12")
 	)
 	(sheet_instances
 		(path "/"

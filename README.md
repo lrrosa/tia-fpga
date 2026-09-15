@@ -12,10 +12,10 @@ in an actual 2600). Revision A, the first study, was never built.
 | ![Front of the board](docs/pcb-3d-top.png) | ![Back of the board](docs/pcb-3d-bottom.png) |
 | Tang Nano sockets face **up**; the logic sits in the channel between the rows | The TIA's DIP-40 pins face **down** into the socket, over the ground pour |
 
-70 × 32 mm, two layers. The four connector rows are concentric on the 2.54 mm
-grid — that is what keeps the board down to roughly the Tang Nano's own
-footprint, which it has to be: in a real 2600 the TIA, the 6507 and the RIOT sit
-millimetres apart.
+70 × 34.54 mm, two layers. Every row lands on the 2.54 mm grid — the DIP-40's
+15.24 mm and the Tang Nano's 22.86 mm — which keeps the board down to roughly
+the module's own footprint, as it has to be: in a real 2600 the TIA, the 6507
+and the RIOT sit millimetres apart.
 
 ---
 
@@ -43,8 +43,9 @@ This revision solves (2) and leaves (1) for later.
 
 | Ref | Part | Function |
 |-----|------|----------|
-| J1, J4 | 1x24 headers | Sipeed Tang Nano 9K module (GW1NR-LV9QN88PC6/I5) |
+| J1, J4 | 1x24 sockets | Sipeed Tang Nano 9K module (GW1NR-LV9QN88PC6/I5): J1 takes its **J6** row, J4 its **J5** |
 | J2, J3 | 1x20 SIP strips | Plug into the DIP-40 socket in place of the C010444 |
+| D1 | MBR0540 | Feeds the module's 5 V pin from the socket, and blocks its USB from feeding the console |
 | **U1** | **74AHCT125** | **Φ0 and RDY buffer, powered from +5 V.** The critical part |
 | U2 | 74LVC245A | D0–D7 bidirectional bus. A side = FPGA, B side = TIA |
 | U3 | 74LVC541A | A0–A5 and R/W into the FPGA; Φ2 buffered to a spare pad |
@@ -77,7 +78,7 @@ The Tang Nano 9K's headers are 2×24, but **only 29 of those 48 pins are usable
 | J6 pins 1, 10, 11, 19–22 | 7 | 3.3 V — usable |
 | J6 pins 2–9 | 8 | **BANK3 at 1.8 V — not usable at 3.3 V** |
 | J5 23–24, J6 12–17 | 8 | HDMI differential pairs — not GPIO |
-| J6 18, 23, 24 | 3 | +5V, GND, +3V3 |
+| J6 18, 23, 24 | 3 | +5V (fed through D1), GND, +3V3 |
 
 Verified against both revisions of the official Sipeed board schematic (3672 and
 3674), which agree exactly. Many of the 29 are shared with onboard peripherals
@@ -117,29 +118,31 @@ compromise in this design traces back to that.
 
 ## The board
 
-Rev B is a 2-layer, **70 × 32 mm** board — roughly the Tang Nano's own footprint.
-In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart, ringed by
-resistor networks and the cartridge slot, so the board cannot spread sideways.
-All four connector rows are **concentric**, and the two sets face opposite ways:
+Rev B is a 2-layer, **70 × 34.54 mm** board — roughly the Tang Nano's own
+footprint. In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart,
+ringed by resistor networks and the cartridge slot, so the board cannot spread
+sideways. The two sets of rows face opposite ways:
 
 | y (mm) | Row | Side | Faces |
 |---|---|---|---|
-| 5.84 | J1 — Tang Nano row A | F.Cu | socket, **up** |
+| 5.84 | J1 — Tang Nano **J6** | F.Cu | socket, **up** |
 | 8.38 | J2 — TIA pins 1–20 | **B.Cu** | pins, **down** into the socket |
 | 23.62 | J3 — TIA pins 21–40 | **B.Cu** | pins, **down** |
-| 26.16 | J4 — Tang Nano row B | F.Cu | socket, **up** |
+| 28.70 | J4 — Tang Nano **J5** | F.Cu | socket, **up** |
 
-The two pitches coexist because everything lands on the 2.54 mm grid. SMD logic
-sits on the front in the 15.24 mm channel between the DIP rows. The open-drain
-drivers and their capacitors sit in the top margin, right above the TIA pins
-they drive, and the channel's decoupling in the bottom margin.
+Both pitches land on the 2.54 mm grid: the DIP-40 rows 15.24 mm apart, the Tang
+Nano's 22.86 mm. Which socket takes which module row is not free — see
+[Which row is which](#which-row-is-which). SMD logic sits on the front in the
+15.24 mm channel between the DIP rows. The open-drain drivers and their
+capacitors sit in the top margin, right above the TIA pins they drive, with D1
+beside them, and the channel's decoupling in the bottom margin.
 
 | | |
 |---|---|
-| Size | 70 × 32 mm, 2 layers |
-| Components | 23 — SOIC/SOT-23 logic, 0805 capacitors, through-hole connectors |
-| Routing | 557 segments, 29 vias, 1.29 m of copper |
-| Ground | B.Cu pour, 1275 mm² filled |
+| Size | 70 × 34.54 mm, 2 layers |
+| Components | 24 — SOIC/SOT-23 logic, 0805 capacitors, one diode, through-hole connectors |
+| Routing | 561 segments, 37 vias, 1.52 m of copper |
+| Ground | B.Cu pour, 1391 mm² filled |
 | Track / clearance | 0.18 mm / 0.13 mm |
 | **DRC** | **0 violations, 0 unconnected pads** |
 
@@ -150,31 +153,37 @@ signal — so it is chosen to put each FPGA pin as close as it can be to the pad
 its net really reaches: the buffer or gate between it and the TIA socket, not
 the socket pin beyond it. Solved as an assignment problem (Hungarian, over the
 29 usable positions, Manhattan distance to those pads), the whole set comes to
-378 mm. `F_OSC` is held to J6/1, the right PLL's own input, which costs 17 mm of
-that and keeps the colour clock off the FPGA's general routing.
+571 mm. `F_OSC` is held to J6/1, the right PLL's own input, which costs 25.6 mm
+of that and keeps the colour clock off the FPGA's general routing.
+
+The sum is what the module's own geometry allows: J5 carries 22 of the 29
+signals and sits on the row *away* from the TIA's pins 1–20, so most of the bus
+crosses the channel whatever the assignment does. Solving it still beats the
+alternative — the same signals laid out by hand come to 685 mm.
 
 Rev A measured the distance to the TIA pin itself, which left out the detour
 through the buffers: its data and chip-select lines crossed the board twice.
 The buffers stay ordered left to right by the centroid of what they carry,
-**U1, U4, U3, U2**, and against rev A the board lost almost a quarter of its
-copper while gaining four chips:
+**U1, U4, U3, U2**, and against rev A the board saves copper while gaining five
+parts:
 
 | | rev A | rev B |
 |---|---|---|
-| Segments | 601 | **557** |
-| Vias | 31 | **29** |
-| Copper | 1.68 m | **1.29 m** |
+| Segments | 601 | **561** |
+| Vias | 31 | **37** |
+| Copper | 1.68 m | **1.52 m** |
 
 `fpga/tia_fpga.cst` carries the result. Do not reshuffle those `IO_LOC` lines
 casually — the layout depends on them.
 
 Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4:
-all 118 nets in under 10 s but one ground connection, which two vias and a short
-front track close by hand. The channel leaves only ~1.1 mm between the header
-pads and the SOIC pads, so the geometry decides whether it routes at all: it
-takes 0.13 mm clearance and 0.18 mm track. The ground pour is added **after**
-routing — Freerouting reads a pour as an obstacle and goes effectively
-single-layer if one is present.
+all 120 nets in under 11 s but two ground branches, each closed by hand with a
+single via dropped on the track itself, where it passes over the main island of
+the pour. The channel leaves only ~1.1 mm between the header pads and the SOIC
+pads, so the geometry decides whether it routes at all: it takes 0.13 mm
+clearance and 0.18 mm track. The ground pour is added **after** routing —
+Freerouting reads a pour as an obstacle and goes effectively single-layer if one
+is present.
 
 Files: `tia-fpga.kicad_pcb`, renders in `docs/`, fabrication output in `gerbers/`.
 
@@ -187,26 +196,36 @@ low-cost capability:
 
 | | |
 |---|---|
-| Size / layers | 70 × 32 mm, 2 layers, 1.6 mm FR4 |
+| Size / layers | 70 × 34.54 mm, 2 layers, 1.6 mm FR4 |
 | Min track / clearance | 0.18 mm / 0.13 mm |
 | Drills | 0.30 mm (vias), 1.00 mm (connectors) |
 
 `docs/bom-production.csv` is the parts list with suggested orderable numbers.
-Two assembly points that are easy to get wrong:
+Three assembly points that are easy to get wrong:
 
 - **J2/J3 mount on the BACK, pins facing DOWN**, and want **round machined
   pins** — square header pins damage a DIP socket.
-- **U6–U9 and C7–C10 carry their designators on the back silkscreen**, right
-  behind each part: the top margin has no room for them on the front.
+- **U6–U9, C7–C10 and D1 carry their designators on the back silkscreen**,
+  right behind each part: the top margin has no room for them on the front.
+- **The module goes in component side up, USB-C end to the left** — see below.
 
-### ⚠ Verify before ordering a board
+### Which row is which
 
-**The Tang Nano 9K header row spacing is an assumption.** Sipeed documents the
-module as 70.0 × 26.0 mm with 2.54 mm pitch but does not publish the distance
-between the two 24-pin rows. This layout uses **20.32 mm** (8 × 2.54), the only
-value that leaves sensible pad-to-edge clearance on a 26 mm wide board — but it
-is deduced, not measured. **Put a caliper on your own module first.** If it is
-wrong, only J1 and J4 move.
+The Tang Nano's two rows are **22.86 mm** apart (9 × 2.54), from Sipeed's own
+dimension drawing, `Tang_Nano_9K_3672_size`. Pin 1 of both rows is at the USB-C
+end, 2.55 mm from that edge; the HDMI connector is at the other end and
+overhangs this board by about 3 mm.
+
+Looking down at the module with the USB-C end on the left, **J6 is the upper
+row and J5 the lower one**, so J1 takes J6 and J4 takes J5. Three things say so
+and agree: the pin numbers silkscreened on the module's underside, the QN88's
+own pin order on the top-side photo in Sipeed's datasheet, and third-party
+carrier boards for the module. On your own board, look for **63** beside pin 1
+of one row and **38** beside pin 1 of the other: 63 is J6/1, which this board
+wires to `F_OSC`.
+
+Rev A and the first cut of rev B had both of these wrong — 20.32 mm, and the
+rows the other way round. Nothing was ever fabricated from them.
 
 The DIP-40 row spacing (15.24 mm) is fixed by the package and is not a guess.
 
@@ -375,13 +394,19 @@ machine it is plugged into.
       514 flip-flops and 740 LUTs, the whole board top 622 and 705, under
       10 per cent of the GW1NR-9 (`fpga/check_synth.py`)
 - [x] Gowin EDA build (V1.9.11.03 Education): bitstream, no setup or hold
-      violations at the slow corner, 67.1 MHz Fmax against the 57.27 MHz
+      violations at the slow corner, 60.4 MHz Fmax against the 57.27 MHz
       clock (`fpga/build_gowin.tcl`)
 - [x] Stretched players reset mid-copy, Cosmic Ark and HMOVE pulses in the
       visible line, with the console's wiring — every trace matches
 - [ ] Paddle circuit (still needs pins, see above)
-- [x] Composite video path wired (chroma pin fitted; the RTL still has to
-      synthesise the 15 subcarrier phases)
+- [x] Composite video path wired — the chroma pin is fitted and `tia_board.v`
+      synthesises the 15 subcarrier phases, as the colour clock shifted in
+      phase by hue through an ODDR (`HUE_TURN`). Never yet seen on a television
+- [x] Tang Nano interface checked against Sipeed's own dimension drawing: rows
+      22.86 mm apart, J6 on J1, and the module fed from the socket through D1
+- [x] Boot time — the bitstream loads at 31.25 MHz (`-loading_rate 250/8` in
+      `fpga/build_gowin.tcl`), about 8 ms, against the 17–58 ms the console
+      takes to release the 6507's reset. Still to be measured on hardware
 
 ## Opening the project
 
@@ -414,11 +439,16 @@ kicad-cli sch erc tia-fpga.kicad_sch -o erc.rpt --severity-error --severity-warn
    HBLANK, and the core matches the die on all of them.
 4. ~~**Board wrapper and synthesis**~~ -- done: `rtl/tia_board.v`,
    `fpga/tia_fpga_top.v`, `fpga/tia_fpga.sdc`, `fpga/build_gowin.tcl`.
-5. **Run it on the Tang Nano over HDMI** before touching real hardware. This
-   separates bugs in the TIA from bugs in your bench wiring.
+5. **Run it on the Tang Nano alone** before touching real hardware, to separate
+   bugs in the TIA from bugs in your bench wiring. Nothing here does that yet:
+   the module would need the rest of the console beside the core -- a 6502, the
+   RIOT and a cartridge image -- or a player that replays the recorded bus
+   writes in `sim/traces/`, and either way a TMDS encoder and line doubling to
+   put the picture on HDMI.
 6. **This board** -- TIA-only, with a real 6507.
 7. Paddles.
-8. Composite colour: synthesising the 15 subcarrier phases.
+8. Composite colour: the phases are generated; what is left is a television to
+   check the hues and the burst level against.
 
 ## Timing quirks that matter
 
