@@ -7098,6 +7098,42 @@
 		(layer "Edge.Cuts")
 		(uuid "be72d387-f2f5-4e7a-a247-5f57732764a5")
 	)
+	(gr_text "github.com/lrrosa/tia-fpga"
+		(at 30.8 20.54 0)
+		(layer "B.SilkS")
+		(uuid "e652241e-e772-454b-89f8-4f933717d40f")
+		(effects
+			(font
+				(size 1.3 1.3)
+				(thickness 0.2)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "LRRosa 2026"
+		(at 30.8 14 0)
+		(layer "B.SilkS")
+		(uuid "e473e18c-32dc-4e86-b72d-572f898abe91")
+		(effects
+			(font
+				(size 1.4 1.4)
+				(thickness 0.2)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "CERN-OHL-S v2"
+		(at 30.8 17.27 0)
+		(layer "B.SilkS")
+		(uuid "d56c9a86-6738-4519-8b38-d953b2eb2f9b")
+		(effects
+			(font
+				(size 1.4 1.4)
+				(thickness 0.2)
+			)
+			(justify mirror)
+		)
+	)
 	(segment
 		(start 16.625 12.3327)
 		(end 15.014 10.7217)

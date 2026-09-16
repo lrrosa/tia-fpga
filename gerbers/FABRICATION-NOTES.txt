@@ -48,5 +48,9 @@ ASSEMBLY NOTE (not the fab's problem, but it matters)
   designators are on the BACK silkscreen, right behind each part: there is no
   room for them beside the parts.
 
+  The back silkscreen also carries the licence (CERN-OHL-S v2), the author and
+  the project's address, between the two rows of TIA pins. CERN-OHL-S v2 asks
+  for that notice to travel with the board, so please keep it.
+
 DRC
   Verified with KiCad 10.0.4: 0 violations, 0 unconnected pads.
