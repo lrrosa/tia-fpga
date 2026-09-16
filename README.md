@@ -213,6 +213,9 @@ Three assembly points that are easy to get wrong:
 - **The back silkscreen carries the licence notice** — `CERN-OHL-S v2`,
   `LRRosa 2026` and `github.com/lrrosa/tia-fpga`, between the two rows of TIA
   pins. The licence asks for it to travel with the board; keep it on a respin.
+- **Pin 1 of the TIA is at the half-moon end.** The back carries that half moon,
+  keyed like the chip's own package, and the numbers 1, 20, 21 and 40 beside the
+  corner pads; the front repeats 1 and 40.
 
 ### Which row is which
 

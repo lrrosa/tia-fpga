@@ -52,5 +52,9 @@ ASSEMBLY NOTE (not the fab's problem, but it matters)
   the project's address, between the two rows of TIA pins. CERN-OHL-S v2 asks
   for that notice to travel with the board, so please keep it.
 
+  ORIENTATION: the back carries a half moon at the end where the TIA's pin 1
+  and pin 40 sit, the way the chip's own package is keyed, plus the pin numbers
+  1, 20, 21 and 40 beside the corner pads. The front repeats 1 and 40.
+
 DRC
   Verified with KiCad 10.0.4: 0 violations, 0 unconnected pads.
