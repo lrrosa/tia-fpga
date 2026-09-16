@@ -12,10 +12,10 @@ in an actual 2600). Revision A, the first study, was never built.
 | ![Front of the board](docs/pcb-3d-top.png) | ![Back of the board](docs/pcb-3d-bottom.png) |
 | Tang Nano sockets face **up**; the logic sits in the channel between the rows | The TIA's DIP-40 pins face **down** into the socket, over the ground pour |
 
-70 × 34.54 mm, two layers. Every row lands on the 2.54 mm grid — the DIP-40's
-15.24 mm and the Tang Nano's 22.86 mm — which keeps the board down to roughly
-the module's own footprint, as it has to be: in a real 2600 the TIA, the 6507
-and the RIOT sit millimetres apart.
+61.6 × 34.54 mm, two layers. Every row lands on the 2.54 mm grid — the
+DIP-40's 15.24 mm and the Tang Nano's 22.86 mm — and the board is a little
+shorter than the module it carries, as it has to be: in a real 2600 the TIA,
+the 6507 and the RIOT sit millimetres apart.
 
 ---
 
@@ -118,20 +118,21 @@ compromise in this design traces back to that.
 
 ## The board
 
-Rev B is a 2-layer, **70 × 34.54 mm** board — roughly the Tang Nano's own
-footprint. In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart,
+Rev B is a 2-layer, **61.6 × 34.54 mm** board — shorter than the Tang Nano it
+carries. In a real 2600 the TIA, the 6507 and the RIOT sit millimetres apart,
 ringed by resistor networks and the cartridge slot, so the board cannot spread
 sideways. The two sets of rows face opposite ways:
 
 | y (mm) | Row | Side | Faces |
 |---|---|---|---|
 | 5.84 | J1 — Tang Nano **J6** | F.Cu | socket, **up** |
-| 8.38 | J2 — TIA pins 1–20 | **B.Cu** | pins, **down** into the socket |
-| 23.62 | J3 — TIA pins 21–40 | **B.Cu** | pins, **down** |
+| 9.65 | J2 — TIA pins 1–20 | **B.Cu** | pins, **down** into the socket |
+| 24.89 | J3 — TIA pins 21–40 | **B.Cu** | pins, **down** |
 | 28.70 | J4 — Tang Nano **J5** | F.Cu | socket, **up** |
 
 Both pitches land on the 2.54 mm grid: the DIP-40 rows 15.24 mm apart, the Tang
-Nano's 22.86 mm. Which socket takes which module row is not free — see
+Nano's 22.86 mm, and the DIP pair centred between the sockets — 3.81 mm of gap
+on each side. Which socket takes which module row is not free — see
 [Which row is which](#which-row-is-which). SMD logic sits on the front in the
 15.24 mm channel between the DIP rows. The open-drain drivers and their
 capacitors sit in the top margin, right above the TIA pins they drive, with D1
@@ -139,10 +140,10 @@ beside them, and the channel's decoupling in the bottom margin.
 
 | | |
 |---|---|
-| Size | 70 × 34.54 mm, 2 layers |
+| Size | 61.6 × 34.54 mm, 2 layers |
 | Components | 24 — SOIC/SOT-23 logic, 0805 capacitors, one diode, through-hole connectors |
-| Routing | 561 segments, 37 vias, 1.52 m of copper |
-| Ground | B.Cu pour, 1391 mm² filled |
+| Routing | 534 segments, 39 vias, 1.48 m of copper |
+| Ground | B.Cu pour, 759 mm² in two islands, tied together by track |
 | Track / clearance | 0.18 mm / 0.13 mm |
 | **DRC** | **0 violations, 0 unconnected pads** |
 
@@ -169,17 +170,18 @@ parts:
 
 | | rev A | rev B |
 |---|---|---|
-| Segments | 601 | **561** |
-| Vias | 31 | **37** |
-| Copper | 1.68 m | **1.52 m** |
+| Segments | 601 | **534** |
+| Vias | 31 | **39** |
+| Copper | 1.68 m | **1.48 m** |
 
 `fpga/tia_fpga.cst` carries the result. Do not reshuffle those `IO_LOC` lines
 casually — the layout depends on them.
 
 Autorouted with [Freerouting](https://github.com/freerouting/freerouting) 2.2.4:
-all 120 nets in under 11 s but two ground branches, each closed by hand with a
-single via dropped on the track itself, where it passes over the main island of
-the pour. The channel leaves only ~1.1 mm between the header pads and the SOIC
+all 120 nets in about 12 s but three ground connections. Two are closed with a
+via dropped on the branch's own track where it passes over the pour, and the
+last two capacitors are tied to their neighbours along the free lane that runs
+just inside the top edge. The channel leaves only ~1.1 mm between the header pads and the SOIC
 pads, so the geometry decides whether it routes at all: it takes 0.13 mm
 clearance and 0.18 mm track. The ground pour is added **after** routing —
 Freerouting reads a pour as an obstacle and goes effectively single-layer if one
@@ -196,7 +198,7 @@ low-cost capability:
 
 | | |
 |---|---|
-| Size / layers | 70 × 34.54 mm, 2 layers, 1.6 mm FR4 |
+| Size / layers | 61.6 × 34.54 mm, 2 layers, 1.6 mm FR4 |
 | Min track / clearance | 0.18 mm / 0.13 mm |
 | Drills | 0.30 mm (vias), 1.00 mm (connectors) |
 
@@ -205,7 +207,7 @@ Three assembly points that are easy to get wrong:
 
 - **J2/J3 mount on the BACK, pins facing DOWN**, and want **round machined
   pins** — square header pins damage a DIP socket.
-- **U6–U9, C7–C10 and D1 carry their designators on the back silkscreen**,
+- **U5–U9, C7–C10 and D1 carry their designators on the back silkscreen**,
   right behind each part: the top margin has no room for them on the front.
 - **The module goes in component side up, USB-C end to the left** — see below.
 
@@ -214,7 +216,8 @@ Three assembly points that are easy to get wrong:
 The Tang Nano's two rows are **22.86 mm** apart (9 × 2.54), from Sipeed's own
 dimension drawing, `Tang_Nano_9K_3672_size`. Pin 1 of both rows is at the USB-C
 end, 2.55 mm from that edge; the HDMI connector is at the other end and
-overhangs this board by about 3 mm.
+overhangs this board by about 7.5 mm, with a millimetre of module sticking out
+at the USB end as well. Both hang in free air, 20 mm above the console.
 
 Looking down at the module with the USB-C end on the left, **J6 is the upper
 row and J5 the lower one**, so J1 takes J6 and J4 takes J5. Three things say so
